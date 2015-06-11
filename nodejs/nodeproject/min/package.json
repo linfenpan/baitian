@@ -1,0 +1,12 @@
+{
+  "name": "简单的文件压缩",
+  "version": "1.0.0",
+  "private": true,
+  "author": "da宗熊",
+  "email": "1071093121@qq.com",
+  "dependencies": {
+    "html-minifier": "~0.6.9",
+    "uglify-js": "~2.4.16",
+    "yuicompressor": "~2.4.8"
+  }
+}

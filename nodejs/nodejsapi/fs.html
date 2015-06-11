@@ -1,0 +1,2007 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>File System Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/fs.html">
+</head>
+<body class="alt apidoc" id="api-section-fs">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="fs.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#fs_file_system_3888">File System</a><ul>
+<li><a href="#fs_fs_rename_oldpath_newpath_callback_3888">fs.rename(oldPath, newPath, callback)</a></li>
+<li><a href="#fs_fs_renamesync_oldpath_newpath_3888">fs.renameSync(oldPath, newPath)</a></li>
+<li><a href="#fs_fs_ftruncate_fd_len_callback_3888">fs.ftruncate(fd, len, callback)</a></li>
+<li><a href="#fs_fs_ftruncatesync_fd_len_3888">fs.ftruncateSync(fd, len)</a></li>
+<li><a href="#fs_fs_truncate_path_len_callback_3888">fs.truncate(path, len, callback)</a></li>
+<li><a href="#fs_fs_truncatesync_path_len_3888">fs.truncateSync(path, len)</a></li>
+<li><a href="#fs_fs_chownsync_path_uid_gid_3888">fs.chownSync(path, uid, gid)</a></li>
+<li><a href="#fs_fs_fchown_fd_uid_gid_callback_3888">fs.fchown(fd, uid, gid, callback)</a></li>
+<li><a href="#fs_fs_fchownsync_fd_uid_gid_3888">fs.fchownSync(fd, uid, gid)</a></li>
+<li><a href="#fs_fs_lchown_path_uid_gid_callback_3888">fs.lchown(path, uid, gid, callback)</a></li>
+<li><a href="#fs_fs_lchownsync_path_uid_gid_3888">fs.lchownSync(path, uid, gid)</a></li>
+<li><a href="#fs_fs_chmod_path_mode_callback_3888">fs.chmod(path, mode, callback)</a></li>
+<li><a href="#fs_fs_chmodsync_path_mode_3888">fs.chmodSync(path, mode)</a></li>
+<li><a href="#fs_fs_fchmod_fd_mode_callback_3888">fs.fchmod(fd, mode, callback)</a></li>
+<li><a href="#fs_fs_fchmodsync_fd_mode_3888">fs.fchmodSync(fd, mode)</a></li>
+<li><a href="#fs_fs_lchmod_path_mode_callback_3888">fs.lchmod(path, mode, callback)</a></li>
+<li><a href="#fs_fs_lchmodsync_path_mode_3888">fs.lchmodSync(path, mode)</a></li>
+<li><a href="#fs_fs_stat_path_callback_3888">fs.stat(path, callback)</a></li>
+<li><a href="#fs_fs_lstat_path_callback_3888">fs.lstat(path, callback)</a></li>
+<li><a href="#fs_fs_fstat_fd_callback_3888">fs.fstat(fd, callback)</a></li>
+<li><a href="#fs_fs_statsync_path_3888">fs.statSync(path)</a></li>
+<li><a href="#fs_fs_lstatsync_path_3888">fs.lstatSync(path)</a></li>
+<li><a href="#fs_fs_fstatsync_fd_3888">fs.fstatSync(fd)</a></li>
+<li><a href="#fs_fs_link_srcpath_dstpath_callback_3888">fs.link(srcpath, dstpath, callback)</a></li>
+<li><a href="#fs_fs_linksync_srcpath_dstpath_3888">fs.linkSync(srcpath, dstpath)</a></li>
+<li><a href="#fs_fs_symlink_srcpath_dstpath_type_callback_3888">fs.symlink(srcpath, dstpath, [type], callback)</a></li>
+<li><a href="#fs_fs_symlinksync_srcpath_dstpath_type_3888">fs.symlinkSync(srcpath, dstpath, [type])</a></li>
+<li><a href="#fs_fs_readlink_path_callback_3888">fs.readlink(path, callback)</a></li>
+<li><a href="#fs_fs_readlinksync_path_3888">fs.readlinkSync(path)</a></li>
+<li><a href="#fs_fs_realpath_path_cache_callback_3888">fs.realpath(path, [cache], callback)</a></li>
+<li><a href="#fs_fs_realpathsync_path_cache_3888">fs.realpathSync(path, [cache])</a></li>
+<li><a href="#fs_fs_unlink_path_callback_3888">fs.unlink(path, callback)</a></li>
+<li><a href="#fs_fs_unlinksync_path_3888">fs.unlinkSync(path)</a></li>
+<li><a href="#fs_fs_rmdir_path_callback_3888">fs.rmdir(path, callback)</a></li>
+<li><a href="#fs_fs_rmdirsync_path_3888">fs.rmdirSync(path)</a></li>
+<li><a href="#fs_fs_mkdir_path_mode_callback_3888">fs.mkdir(path, [mode], callback)</a></li>
+<li><a href="#fs_fs_mkdirsync_path_mode_3888">fs.mkdirSync(path, [mode])</a></li>
+<li><a href="#fs_fs_readdir_path_callback_3888">fs.readdir(path, callback)</a></li>
+<li><a href="#fs_fs_readdirsync_path_3888">fs.readdirSync(path)</a></li>
+<li><a href="#fs_fs_close_fd_callback_3888">fs.close(fd, callback)</a></li>
+<li><a href="#fs_fs_closesync_fd_3888">fs.closeSync(fd)</a></li>
+<li><a href="#fs_fs_open_path_flags_mode_callback_3888">fs.open(path, flags, [mode], callback)</a></li>
+<li><a href="#fs_fs_opensync_path_flags_mode_3888">fs.openSync(path, flags, [mode])</a></li>
+<li><a href="#fs_fs_utimes_path_atime_mtime_callback_3888">fs.utimes(path, atime, mtime, callback)</a></li>
+<li><a href="#fs_fs_utimessync_path_atime_mtime_3888">fs.utimesSync(path, atime, mtime)</a></li>
+<li><a href="#fs_fs_futimes_fd_atime_mtime_callback_3888">fs.futimes(fd, atime, mtime, callback)</a></li>
+<li><a href="#fs_fs_futimessync_fd_atime_mtime_3888">fs.futimesSync(fd, atime, mtime)</a></li>
+<li><a href="#fs_fs_fsync_fd_callback_3888">fs.fsync(fd, callback)</a></li>
+<li><a href="#fs_fs_fsyncsync_fd_3888">fs.fsyncSync(fd)</a></li>
+<li><a href="#fs_fs_write_fd_buffer_offset_length_position_callback_3888">fs.write(fd, buffer, offset, length[, position], callback)</a></li>
+<li><a href="#fs_fs_write_fd_data_position_encoding_callback_3888">fs.write(fd, data[, position[, encoding]], callback)</a></li>
+<li><a href="#fs_fs_writesync_fd_buffer_offset_length_position_3888">fs.writeSync(fd, buffer, offset, length[, position])</a></li>
+<li><a href="#fs_fs_writesync_fd_data_position_encoding_3888">fs.writeSync(fd, data[, position[, encoding]])</a></li>
+<li><a href="#fs_fs_read_fd_buffer_offset_length_position_callback_3888">fs.read(fd, buffer, offset, length, position, callback)</a></li>
+<li><a href="#fs_fs_readsync_fd_buffer_offset_length_position_3888">fs.readSync(fd, buffer, offset, length, position)</a></li>
+<li><a href="#fs_fs_readfile_filename_options_callback_3888">fs.readFile(filename, [options], callback)</a></li>
+<li><a href="#fs_fs_readfilesync_filename_options_3888">fs.readFileSync(filename, [options])</a></li>
+<li><a href="#fs_fs_writefile_filename_data_options_callback_3888">fs.writeFile(filename, data, [options], callback)</a></li>
+<li><a href="#fs_fs_writefilesync_filename_data_options_3888">fs.writeFileSync(filename, data, [options])</a></li>
+<li><a href="#fs_fs_appendfile_filename_data_options_callback_3888">fs.appendFile(filename, data, [options], callback)</a></li>
+<li><a href="#fs_fs_appendfilesync_filename_data_options_3888">fs.appendFileSync(filename, data, [options])</a></li>
+<li><a href="#fs_fs_watchfile_filename_options_listener_3888">fs.watchFile(filename, [options], listener)</a></li>
+<li><a href="#fs_fs_unwatchfile_filename_listener_3888">fs.unwatchFile(filename, [listener])</a></li>
+<li><a href="#fs_fs_watch_filename_options_listener_3888">fs.watch(filename, [options], [listener])</a><ul>
+<li><a href="#fs_11664">注意事项</a><ul>
+<li><a href="#fs_11665">可用性</a></li>
+<li><a href="#fs_11666">文件名参数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#fs_fs_exists_path_callback_3888">fs.exists(path, callback)</a></li>
+<li><a href="#fs_fs_existssync_path_3888">fs.existsSync(path)</a></li>
+<li><a href="#fs_class_fs_stats_3888">Class: fs.Stats</a><ul>
+<li><a href="#fs_stat_time_values_3888">Stat Time Values</a></li>
+</ul>
+</li>
+<li><a href="#fs_fs_createreadstream_path_options_3888">fs.createReadStream(path, [options])</a></li>
+<li><a href="#fs_class_fs_readstream_3888">Class: fs.ReadStream</a><ul>
+<li><a href="#fs_open_7776">事件: &apos;open&apos;</a></li>
+</ul>
+</li>
+<li><a href="#fs_fs_createwritestream_path_options_3888">fs.createWriteStream(path, [options])</a></li>
+<li><a href="#fs_class_fs_writestream_3888">Class: fs.WriteStream</a><ul>
+<li><a href="#fs_open_7777">事件: &apos;open&apos;</a></li>
+<li><a href="#fs_file_byteswritten_3888">file.bytesWritten</a></li>
+</ul>
+</li>
+<li><a href="#fs_class_fs_fswatcher_3888">Class: fs.FSWatcher</a><ul>
+<li><a href="#fs_watcher_close_3888">watcher.close()</a></li>
+<li><a href="#fs_change_3888">事件: &apos;change&apos;</a></li>
+<li><a href="#fs_error_3888">事件: &apos;error&apos;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="383365af4859ecb16a618d78b5380dcd">
+
+<h1>File System<span><a href="#fs_file_system_3888" id="fs_file_system_3888">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<!--name=fs-->
+
+<div class="translate-section" data-hash="a959beadee2543d33a339fb2b6adee77">
+
+<p>文件系统模块是一个简单包装的标准 POSIX 文件 I/O 操作方法集。您可以通过调用<code>require(&apos;fs&apos;)</code>来获取该模块。文件系统模块中的所有方法均有异步和同步版本。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="744c870c2e4118b9ba8cc3b275c0de0c">
+
+<p>文件系统模块中的异步方法需要一个完成时的回调函数作为最后一个传入形参。
+回调函数的构成由您调用的异步方法所决定，通常情况下回调函数的第一个形参为返回的错误信息。
+如果异步操作执行正确并返回，该错误形参则为<code>null</code>或者<code>undefined</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="01a7efa5dd1801f3d8ad40624826f1b2">
+
+<p>如果您使用的是同步版本的操作方法，则一旦出现错误，会以通常的抛出错误的形式返回错误。
+你可以用<code>try</code>和<code>catch</code>等语句来拦截错误并使程序继续进行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9b25422186be06ea81ece9d4e13c67ce">
+
+<p>这里是一个异步版本的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0a55bbb96e5f406d374057de37447ed2">
+
+<pre><code>fs.unlink(&apos;/tmp/hello&apos;, function (err) {
+  if (err) throw err;
+  console.log(&apos;successfully deleted /tmp/hello&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="50e7a7acd0381b23249c2d1d95793e0a">
+
+<p>这是同步版本的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c9cdb0944cf222d71542dafb0606e67c">
+
+<pre><code>fs.unlinkSync(&apos;/tmp/hello&apos;)
+console.log(&apos;successfully deleted /tmp/hello&apos;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="56dd1eb95416f521403ed6cc3457b68a">
+
+<p>当使用异步版本时不能保证执行顺序,因此下面这个例子很容易出错:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="557880bd680c218e4a3215376e19d56c">
+
+<pre><code>fs.rename(&apos;/tmp/hello&apos;, &apos;/tmp/world&apos;, function (err) {
+  if (err) throw err;
+  console.log(&apos;renamed complete&apos;);
+});
+fs.stat(&apos;/tmp/world&apos;, function (err, stats) {
+  if (err) throw err;
+  console.log(&apos;stats: &apos; + JSON.stringify(stats));
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d59c8b09ddc59ead5a12723248df8c4b">
+
+<p><code>fs.stat</code>有可能在<code>fs.rename</code>前执行.要等到正确的执行顺序应该用下面的方法:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="708c77b5d12454a965716a93869cdf4b">
+
+<pre><code>fs.rename(&apos;/tmp/hello&apos;, &apos;/tmp/world&apos;, function (err) {
+  if (err) throw err;
+  fs.stat(&apos;/tmp/world&apos;, function (err, stats) {
+    if (err) throw err;
+    console.log(&apos;stats: &apos; + JSON.stringify(stats));
+  });
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f24079a9833bffec59e0fb619f09216d">
+
+<p>在繁重的任务中,<em>强烈推荐</em>使用这些函数的异步版本.同步版本会阻塞进程,直到完成处理,也就是说会暂停所有的连接.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e50d6dc51409af3b53cb8909fb9cf1ba">
+
+<p>可以使用文件名的相对路径, 但是记住这个路径是相对于<code>process.cwd()</code>的.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3bd191edd75018c25ad9d0bd7cca10cc">
+
+<p>大部分的文件系统(fs)函数可以忽略回调函数(callback)这个参数.如果忽略它,将会由一个默认回调函数(callback)来重新抛出(rethrow)错误.要获得原调用点的堆栈跟踪(trace)信息,需要在环境变量里设置NODE_DEBUG.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="381590b65905dc9c380f5ef68334310f">
+
+<pre><code>$ env NODE_DEBUG=fs node script.js
+fs.js:66
+        throw err;
+              ^
+Error: EISDIR, read
+    at rethrow (fs.js:61:21)
+    at maybeCallback (fs.js:79:42)
+    at Object.fs.readFile (fs.js:153:18)
+    at bad (/path/to/script.js:2:17)
+    at Object.&lt;anonymous&gt; (/path/to/script.js:5:1)
+    &lt;etc.&gt;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6e50891cedf0ef76c9304cbbe9d949b8">
+
+<h2>fs.rename(oldPath, newPath, callback)<span><a href="#fs_fs_rename_oldpath_newpath_callback_3888" id="fs_fs_rename_oldpath_newpath_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ff39f9181db50273ea4f476b7c20e80c">
+
+<p>异步版本的rename函数(2).完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="909ed3c51c97b89781b6443ee86d5122">
+
+<h2>fs.renameSync(oldPath, newPath)<span><a href="#fs_fs_renamesync_oldpath_newpath_3888" id="fs_fs_renamesync_oldpath_newpath_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="dd470f0dd6c800145327ef61c67ed116">
+
+<p>同步版本的rename(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f96026cfcbd330b57245a9cdaf0822f3">
+
+<h2>fs.ftruncate(fd, len, callback)<span><a href="#fs_fs_ftruncate_fd_len_callback_3888" id="fs_fs_ftruncate_fd_len_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b4790249b0bc10ced4aea4be82f1ce29">
+
+<p>异步版本的ftruncate(2). 完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d93b05b4dceac9d850f7a7692749e198">
+
+<h2>fs.ftruncateSync(fd, len)<span><a href="#fs_fs_ftruncatesync_fd_len_3888" id="fs_fs_ftruncatesync_fd_len_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="274f71968f1b551f2141794410778b51">
+
+<p>同步版本的ftruncate(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d394e37747801d907c572497c15cb30d">
+
+<h2>fs.truncate(path, len, callback)<span><a href="#fs_fs_truncate_path_len_callback_3888" id="fs_fs_truncate_path_len_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="11476ee2e375f0ab61f5c0f843ceb47c">
+
+<p>异步版本的truncate(2). 完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4485ae6759e75c47f29e4cb5c61e548f">
+
+<h2>fs.truncateSync(path, len)<span><a href="#fs_fs_truncatesync_path_len_3888" id="fs_fs_truncatesync_path_len_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1078e39b3710fa86aedb71a4fc88f6b2">
+
+<p>同步版本的truncate(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9aef7d7a9c8526390cf935a12ef617c6">
+
+<p>异步版本的chown.完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="83ecff3ba3531f969ec58182e04b09e9">
+
+<p>异步版本的chown(2).完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d34245fa6df4f8127461a3a911751984">
+
+<h2>fs.chownSync(path, uid, gid)<span><a href="#fs_fs_chownsync_path_uid_gid_3888" id="fs_fs_chownsync_path_uid_gid_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="6bf4fb92e72f9af5258bee0a82e05ce8">
+
+<p>同步版本的chown(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7566b3dc2a320a1b88507599f0110ccb">
+
+<h2>fs.fchown(fd, uid, gid, callback)<span><a href="#fs_fs_fchown_fd_uid_gid_callback_3888" id="fs_fs_fchown_fd_uid_gid_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ab5337df0a5b153daf43585b8db4572a">
+
+<p>异步版本的fchown(2)。回调函数的参数除了出现错误时有一个错误对象外，没有其它参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bc1136fedd85682c741f2c50e3f3b515">
+
+<h2>fs.fchownSync(fd, uid, gid)<span><a href="#fs_fs_fchownsync_fd_uid_gid_3888" id="fs_fs_fchownsync_fd_uid_gid_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="709974425882dea11f80b5e02f6472a9">
+
+<p>同步版本的fchown(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a5071753cf05bd9855f503755109af5d">
+
+<h2>fs.lchown(path, uid, gid, callback)<span><a href="#fs_fs_lchown_path_uid_gid_callback_3888" id="fs_fs_lchown_path_uid_gid_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="cf339124585eec0514a61f3bb9d84a0d">
+
+<p>异步版的lchown(2)。完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4687a5e6a917b732748b52918aeea6ed">
+
+<h2>fs.lchownSync(path, uid, gid)<span><a href="#fs_fs_lchownsync_path_uid_gid_3888" id="fs_fs_lchownsync_path_uid_gid_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="3488d582b31d1d2d6b7c281f5acf0a07">
+
+<p>同步版本的lchown(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="83bdf9cb81a110a3e3b7c1f3545733aa">
+
+<h2>fs.chmod(path, mode, callback)<span><a href="#fs_fs_chmod_path_mode_callback_3888" id="fs_fs_chmod_path_mode_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="08442eaaf80395924979234384b5ecbd">
+
+<p>异步版的 chmod(2). 完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3f78753ba16283f659cc9bebcfd0ea7d">
+
+<h2>fs.chmodSync(path, mode)<span><a href="#fs_fs_chmodsync_path_mode_3888" id="fs_fs_chmodsync_path_mode_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4be0609ddcc218e345886317e88cfc95">
+
+<p>同步版的 chmod(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fed460df3f52ef64e6867479a798d450">
+
+<h2>fs.fchmod(fd, mode, callback)<span><a href="#fs_fs_fchmod_fd_mode_callback_3888" id="fs_fs_fchmod_fd_mode_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="bd6ff8da3d5a3939e6fb7d193c84f0b5">
+
+<p>异步版的 fchmod(2). 完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="11958d6a0453b2d404ddec445ed89b95">
+
+<h2>fs.fchmodSync(fd, mode)<span><a href="#fs_fs_fchmodsync_fd_mode_3888" id="fs_fs_fchmodsync_fd_mode_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="034a641492cf799e51ad76e0174a6b01">
+
+<p>同步版的 fchmod(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c845cab9215cba3e52659932bc71efe3">
+
+<h2>fs.lchmod(path, mode, callback)<span><a href="#fs_fs_lchmod_path_mode_callback_3888" id="fs_fs_lchmod_path_mode_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="e0938a9a3fbbe6299e49277d35eb5865">
+
+<p>异步版的 lchmod(2). 完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cf1e0118919c3dd604a3e9313820f5d5">
+
+<p>仅在 Mac OS X 系统下可用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2399a22992a5bf89b23c9b618f54c06a">
+
+<h2>fs.lchmodSync(path, mode)<span><a href="#fs_fs_lchmodsync_path_mode_3888" id="fs_fs_lchmodsync_path_mode_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="0e0c3ab73ad4421c0a37f75fbb72dad5">
+
+<p>同步版的 lchmod(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="36c4a6c0a3860cec65b157a278013787">
+
+<h2>fs.stat(path, callback)<span><a href="#fs_fs_stat_path_callback_3888" id="fs_fs_stat_path_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d415e973dd809f058002013d745160d0">
+
+<p>异步版的 stat(2). 回调函数（callback） 接收两个参数： <code>(err, stats)</code> ，其中
+<code>stats</code> 是一个 <a href="#fs_class_fs_stats">fs.Stats</a> 对象。 详情请参考 <a href="#fs_class_fs_stats">fs.Stats</a>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e112706f246c61cdb3a01acb9a814b34">
+
+<h2>fs.lstat(path, callback)<span><a href="#fs_fs_lstat_path_callback_3888" id="fs_fs_lstat_path_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="c247b10ab44dcb4192a318dc3ac8829d">
+
+<p>异步版的 lstat(2). 回调函数（callback）接收两个参数： <code>(err, stats)</code> 其中
+<code>stats</code> 是一个 <code>fs.Stats</code> 对象。 <code>lstat()</code> 与 <code>stat()</code> 相同，区别在于：
+若 <code>path</code> 是一个符号链接时（symbolic link）,读取的是该符号链接本身，而不是它所
+链接到的文件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0c3667ff6058481de1165f37590fd033">
+
+<h2>fs.fstat(fd, callback)<span><a href="#fs_fs_fstat_fd_callback_3888" id="fs_fs_fstat_fd_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="92cfc0b93d6f7f10a739ef574a747628">
+
+<p>异步版的 fstat(2). 回调函数（callback）接收两个参数： <code>(err, stats)</code> 其中
+<code>stats</code> 是一个 <code>fs.Stats</code> 对象。 <code>fstat()</code> 与 <code>stat()</code> 相同，区别在于：
+要读取的文件（译者注：即第一个参数）是一个文件描述符（file descriptor） <code>fd</code> 。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b66264138f112c971ffb58b831a8b80a">
+
+<h2>fs.statSync(path)<span><a href="#fs_fs_statsync_path_3888" id="fs_fs_statsync_path_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="231d480327c1687555b6335979cc49b3">
+
+<p>同步版的 stat(2). 返回一个 <code>fs.Stats</code> 实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0f935158b1453dba51bdce8fbc7b868e">
+
+<h2>fs.lstatSync(path)<span><a href="#fs_fs_lstatsync_path_3888" id="fs_fs_lstatsync_path_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7f4f5aacf7970306de288d43593f8c65">
+
+<p>同步版的 lstat(2). 返回一个 <code>fs.Stats</code> 实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="576c48a22c223e4f7466869c9c51b5af">
+
+<h2>fs.fstatSync(fd)<span><a href="#fs_fs_fstatsync_fd_3888" id="fs_fs_fstatsync_fd_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="df4693a38530dbc3daf52d065c4f4492">
+
+<p>同步版的 fstat(2). 返回一个 <code>fs.Stats</code> 实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6aa36119ee4a3b526b7f3dea75450712">
+
+<h2>fs.link(srcpath, dstpath, callback)<span><a href="#fs_fs_link_srcpath_dstpath_callback_3888" id="fs_fs_link_srcpath_dstpath_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="04ea0282730bbd9841d7f05e203ee90a">
+
+<p>异步版的 link(2). 完成时的回调函数（callback）只接受一个参数：可能出现的异常信息。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d9673193e1d20ad8d743de554b7c547c">
+
+<h2>fs.linkSync(srcpath, dstpath)<span><a href="#fs_fs_linksync_srcpath_dstpath_3888" id="fs_fs_linksync_srcpath_dstpath_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b38b1be73704f4e03c951bd2a9dbc0de">
+
+<p>同步版的 link(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5e78065e44a30258fc2961bbd3a82bcb">
+
+<h2>fs.symlink(srcpath, dstpath, [type], callback)<span><a href="#fs_fs_symlink_srcpath_dstpath_type_callback_3888" id="fs_fs_symlink_srcpath_dstpath_type_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="749f20e17eab5c86916105f29119f1e0">
+
+<p>异步版的 symlink(2). 完成时的回调函数（callback）只接受一个参数：可能出现的异常信息。
+<code>type</code> 可以是 <code>&apos;dir&apos;</code>, <code>&apos;file&apos;</code>, 或者<code>&apos;junction&apos;</code> (默认是 <code>&apos;file&apos;</code>)，此参数仅用于
+Windows 系统（其他系统平台会被忽略）。
+注意： Windows 系统要求目标路径（译者注：即 <code>dstpath</code> 参数）必须是一个绝对路径，当使用
+<code>&apos;junction&apos;</code> 时，<code>dstpath</code> 参数会自动转换为绝对路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="64c8d27e5408c74e4313c684da25ab91">
+
+<h2>fs.symlinkSync(srcpath, dstpath, [type])<span><a href="#fs_fs_symlinksync_srcpath_dstpath_type_3888" id="fs_fs_symlinksync_srcpath_dstpath_type_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d40e247044e891a56c046cb22dd72e96">
+
+<p>同步版的 symlink(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="13df0ad87ff923b36d3ab14f4ea145f3">
+
+<h2>fs.readlink(path, callback)<span><a href="#fs_fs_readlink_path_callback_3888" id="fs_fs_readlink_path_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ea0d181108312c5707e2b16ad51095ca">
+
+<p>异步版的 readlink(2). 回调函数（callback）接收两个参数： <code>(err,
+linkString)</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fbe9d58ae7e18db0b9e8ffa56ac5637a">
+
+<h2>fs.readlinkSync(path)<span><a href="#fs_fs_readlinksync_path_3888" id="fs_fs_readlinksync_path_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ac3b488215d0b1a5fa6593b3874a73e0">
+
+<p>同步版的 readlink(2). 返回符号链接（symbolic link）的字符串值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2fd2306dbc910db39fc47afaf539ff8a">
+
+<h2>fs.realpath(path, [cache], callback)<span><a href="#fs_fs_realpath_path_cache_callback_3888" id="fs_fs_realpath_path_cache_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7db8d5ad90f26fc03e076e3ff31b56fd">
+
+<p>异步版的 realpath(2). 回调函数（callback）接收两个参数： <code>(err,
+resolvedPath)</code>. May use <code>process.cwd</code> to resolve relative paths. <code>cache</code> is an
+object literal of mapped paths that can be used to force a specific path
+resolution or avoid additional <code>fs.stat</code> calls for known real paths.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="02e562a383dcd248f86fba882b8aca2e">
+
+<pre><code>var cache = {&apos;/etc&apos;:&apos;/private/etc&apos;};
+fs.realpath(&apos;/etc/passwd&apos;, cache, function (err, resolvedPath) {
+  if (err) throw err;
+  console.log(resolvedPath);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0bbf47951065d3f25e27c1a2dd029ddb">
+
+<h2>fs.realpathSync(path, [cache])<span><a href="#fs_fs_realpathsync_path_cache_3888" id="fs_fs_realpathsync_path_cache_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="054dac77c765ff1de03ffd9a2a645d05">
+
+<p>realpath(2) 的同步版本。返回解析出的路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="65e50adefb1003767c728c33324383be">
+
+<h2>fs.unlink(path, callback)<span><a href="#fs_fs_unlink_path_callback_3888" id="fs_fs_unlink_path_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="99d1ba2dfc93cdf91f4f658d67feaa4f">
+
+<p>异步版的 unlink(2). 完成时的回调函数（callback）只接受一个参数：可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ce418ac963ded61433761b493a0bd2b2">
+
+<h2>fs.unlinkSync(path)<span><a href="#fs_fs_unlinksync_path_3888" id="fs_fs_unlinksync_path_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="dfe74f8273efd2d567839b42046bf73d">
+
+<p>同步版的 unlink(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1cee23c84b93db8780fc9da5c0affe16">
+
+<h2>fs.rmdir(path, callback)<span><a href="#fs_fs_rmdir_path_callback_3888" id="fs_fs_rmdir_path_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7f6b295c75e4c574f6d827ec56b46530">
+
+<p>异步版的 rmdir(2). 异步版的 link(2). 完成时的回调函数（callback）只接受一个参数：可能出现的异常信息。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="403273a64a085af8038526014b660ae3">
+
+<h2>fs.rmdirSync(path)<span><a href="#fs_fs_rmdirsync_path_3888" id="fs_fs_rmdirsync_path_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="f97b61bbc01b23b3595ed1c934872fbc">
+
+<p>同步版的 rmdir(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="85e49bb2871adeca571be97a4d85307a">
+
+<h2>fs.mkdir(path, [mode], callback)<span><a href="#fs_fs_mkdir_path_mode_callback_3888" id="fs_fs_mkdir_path_mode_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="31c463871112fcae6dd7bac622b65e60">
+
+<p>异步版的 mkdir(2)。 异步版的 link(2). 完成时的回调函数（callback）只接受一个参数：可能出现的异常信息。文件 <code>mode</code> 默认为 <code>0777</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="451e96f2d8730f4f755333ef4c483835">
+
+<h2>fs.mkdirSync(path, [mode])<span><a href="#fs_fs_mkdirsync_path_mode_3888" id="fs_fs_mkdirsync_path_mode_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="88fe2d9d81df655ac9de80f133dcc52a">
+
+<p>同步版的 mkdir(2)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="10bf1c3479956140e5d6f2bb9217057a">
+
+<h2>fs.readdir(path, callback)<span><a href="#fs_fs_readdir_path_callback_3888" id="fs_fs_readdir_path_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="c1947f4eb6cb451bae482223231e7864">
+
+<p>异步版的 readdir(3)。 读取 path 路径所在目录的内容。 回调函数 (callback) 接受两个参数 <code>(err, files)</code> 其中 <code>files</code> 是一个存储目录中所包含的文件名称的数组，数组中不包括 <code>&apos;.&apos;</code> 和 <code>&apos;..&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8687701fc69b07ba79a845b535f0585f">
+
+<h2>fs.readdirSync(path)<span><a href="#fs_fs_readdirsync_path_3888" id="fs_fs_readdirsync_path_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="425e8657e6325d67397b8312a25ec348">
+
+<p>同步版的 readdir(3). 返回文件名数组，其中不包括 <code>&apos;.&apos;</code> 和 <code>&apos;..&apos;</code> 目录.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bde3b013e0e2656283f8b99607080f7d">
+
+<h2>fs.close(fd, callback)<span><a href="#fs_fs_close_fd_callback_3888" id="fs_fs_close_fd_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="3616e0cc7dc0c1e0e45af68d09902c45">
+
+<p>异步版 close(2).  完成时的回调函数(callback)只接受一个参数:可能出现的异常信息.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="865aef8257635404a68c544a9d6265a2">
+
+<h2>fs.closeSync(fd)<span><a href="#fs_fs_closesync_fd_3888" id="fs_fs_closesync_fd_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="62a945a8af1a184d2aa37adcef711d8f">
+
+<p>同步版的 close(2).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="33123c73871dd5f3756c2f2a65f40935">
+
+<h2>fs.open(path, flags, [mode], callback)<span><a href="#fs_fs_open_path_flags_mode_callback_3888" id="fs_fs_open_path_flags_mode_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1c8695d02a9374ca77bad2f34831c845">
+
+<p>异步版的文件打开. 详见 open(2). <code>flags</code> 可以是:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="da1f62854b5b2c4e68dd37ea1ba43ac7">
+
+<ul>
+<li><code>&apos;r&apos;</code>  - 以【只读】的方式打开文件. 当文件不存在时产生异常.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="adc4c3b527bf81e7dfad2c02a25a49a8">
+
+<ul>
+<li><code>&apos;r+&apos;</code> - 以【读写】的方式打开文件. 当文件不存在时产生异常.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9960af8abaf317a1b64f1a8cb1e61881">
+
+<ul>
+<li><code>&apos;rs&apos;</code> - 同步模式下，以【只读】的方式打开文件. 指令绕过操作系统的本地文件系统缓存.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d3821442d33e5d2ad91fcb6a507772e9">
+
+<p>该功能主要用于打开 NFS 挂载的文件, 因为它可以让你跳过默认使用的过时本地缓存. 但这实际上非常影响 I/O 操作的性能, 因此除非你确实有这样的需求, 否则请不要使用该标志.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1e063779669638e5877184fe5eec175a">
+
+<p> 注意: 这并不意味着 <code>fs.open()</code> 变成了一个同步阻塞的请求. 如果你想要一个同步阻塞的请求你应该使用 <code>fs.openSync()</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8d6d05ae74955bd06503e01108fd1cef">
+
+<ul>
+<li><code>&apos;rs+&apos;</code> - 同步模式下, 以【读写】的方式打开文件. 请谨慎使用该方式, 详细请查看 <code>&apos;rs&apos;</code> 的注释.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="02b3005e3c7cafe44f1e3dd6b17270a3">
+
+<ul>
+<li><code>&apos;w&apos;</code> - 以【只写】的形式打开文件. 文件会被创建 (如果文件不存在) 或者覆盖 (如果存在).</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0d68bc929a295f73241a63eed0852bec">
+
+<ul>
+<li><code>&apos;wx&apos;</code> - 类似 <code>&apos;w&apos;</code> 区别是如果文件存在则操作会失败.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="42fc1c11dbd858a389ef188d701cc8f6">
+
+<ul>
+<li><code>&apos;w+&apos;</code> - 以【读写】的方式打开文件. 文件会被创建 (如果文件不存在) 或者覆盖 (如果存在).</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="672229ee60952a35071709b83d303307">
+
+<ul>
+<li><code>&apos;wx+&apos;</code> - 类似 <code>&apos;w+&apos;</code> 区别是如果文件存在则操作会失败.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="4c2126b126848cc93f44098362567030">
+
+<ul>
+<li><code>&apos;a&apos;</code> - 以【附加】的形式打开文件，即新写入的数据会附加在原来的文件内容之后. 如果文件不存在则会默认创建.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="54e870727828ed53ea7a889111cf4c08">
+
+<ul>
+<li><code>&apos;ax&apos;</code> - 类似 <code>&apos;a&apos;</code> 区别是如果文件存在则操作会失败.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="fc053dd289e87eae9edb570f808d50f7">
+
+<ul>
+<li><code>&apos;a+&apos;</code> - 以【读取】和【附加】的形式打开文件. 如果文件不存在则会默认创建.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="64527090a302dc16069dc8d573ec5100">
+
+<ul>
+<li><code>&apos;ax+&apos;</code> - 类似 <code>&apos;a+&apos;</code> 区别是如果文件存在则操作会失败.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c88963fabde6b148d6c927a2da5c2447">
+
+<p>参数 <code>mode</code> 用于设置文件模式 (permission and sticky bits), 不过前提是这个文件是已存在的. 默认情况下是 <code>0666</code>, 有可读和可写权限.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="980f52fc4a6737fa7098987b84873fde">
+
+<p>该 callback 接收两个参数 <code>(err, fd)</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e012f81b840ba46245e97e81221e4fb3">
+
+<p>排除 (exclusive) 标识 <code>&apos;x&apos;</code> （对应 open(2) 的 <code>O_EXCL</code> 标识） 保证 <code>path</code> 是一个新建的文件。
+POSIX 操作系统上，即使 <code>path</code> 是一个指向不存在位置的符号链接，也会被认定为文件存在。
+排除标识在网络文件系统不能确定是否有效。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="009634a22ba1753758cfb9e25d47c417">
+
+<p>在 Linux 上，无法对以追加 (append) 模式打开的文件进行指定位置的写入操作。
+内核会忽略位置参数并且总是将数据追加到文件尾部。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8e3aae7712ad7c2e919d94ba08ae13ad">
+
+<h2>fs.openSync(path, flags, [mode])<span><a href="#fs_fs_opensync_path_flags_mode_3888" id="fs_fs_opensync_path_flags_mode_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="0bf55bb9b27da52b39a00991d16f7935">
+
+<p><code>fs.open()</code> 的同步版.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="24f897a280e831127d5457e69c81264e">
+
+<h2>fs.utimes(path, atime, mtime, callback)<span><a href="#fs_fs_utimes_path_atime_mtime_callback_3888" id="fs_fs_utimes_path_atime_mtime_callback_3888">#</a></span></h2>
+<h2>fs.utimesSync(path, atime, mtime)<span><a href="#fs_fs_utimessync_path_atime_mtime_3888" id="fs_fs_utimessync_path_atime_mtime_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d2b0da3da66f8f494bed74a55bcf5a40">
+
+<p>更改 path 所指向的文件的时间戳。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b3d52245b2067b2a16213bb54dda013e">
+
+<h2>fs.futimes(fd, atime, mtime, callback)<span><a href="#fs_fs_futimes_fd_atime_mtime_callback_3888" id="fs_fs_futimes_fd_atime_mtime_callback_3888">#</a></span></h2>
+<h2>fs.futimesSync(fd, atime, mtime)<span><a href="#fs_fs_futimessync_fd_atime_mtime_3888" id="fs_fs_futimessync_fd_atime_mtime_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="046b276d49607bd1adc309dcdc79bca2">
+
+<p>更改文件描述符 (file discriptor) 所指向的文件的时间戳。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="471b8b12b63b54e5853c87e32f1c3b06">
+
+<h2>fs.fsync(fd, callback)<span><a href="#fs_fs_fsync_fd_callback_3888" id="fs_fs_fsync_fd_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7698d651fe7a5bc2f424b1789f11f2da">
+
+<p>异步版本的 fsync(2)。回调函数仅含有一个异常 (exception) 参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b3162abe36b33b145b71cf780ef3a795">
+
+<h2>fs.fsyncSync(fd)<span><a href="#fs_fs_fsyncsync_fd_3888" id="fs_fs_fsyncsync_fd_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d261a414a2d2115a826e2188f67e1ed6">
+
+<p>fsync(2) 的同步版本。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1cc427b5817af02af5454bb968ee0b69">
+
+<h2>fs.write(fd, buffer, offset, length[, position], callback)<span><a href="#fs_fs_write_fd_buffer_offset_length_position_callback_3888" id="fs_fs_write_fd_buffer_offset_length_position_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1448ec274126a3aabfb875d542cbd50a">
+
+<p>通过文件标识<code>fd</code>，向指定的文件中写入<code>buffer</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="23623939f6d3a8ca1ed1413e0533e308">
+
+<p><code>offset</code> 和<code>length</code> 可以确定从哪个位置开始写入buffer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="db1489a3bfa6ad72a24d9119e95ccfc7">
+
+<p><code>position</code> 是参考当前文档光标的位置，然后从该处写入数据。如果<code>typeof position !== &apos;number&apos;</code>，那么数据会从当前文档位置写入，请看pwrite(2)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c8a3e267422330d1ead3a68b892be933">
+
+<p>回调中会给出三个参数 <code>(err, written, buffer)</code>，<code>written</code> 说明从<code>buffer</code>写入的字节数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8340c818ed316cbc01dc24531055ddee">
+
+<p>注意，<code>fs.write</code>多次地在同一个文件中使用而没有等待回调是不安全的。在这种情况下，强烈推荐使用<code>fs.createWriteStream</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="009634a22ba1753758cfb9e25d47c417">
+
+<p>在 Linux 上，无法对以追加 (append) 模式打开的文件进行指定位置的写入操作。
+内核会忽略位置参数并且总是将数据追加到文件尾部。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="73bac0cc8a3cb4ad3163fb0fd9e86d68">
+
+<h2>fs.write(fd, data[, position[, encoding]], callback)<span><a href="#fs_fs_write_fd_data_position_encoding_callback_3888" id="fs_fs_write_fd_data_position_encoding_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="593f99a8726a669445140f75fe25c3ee">
+
+<p>把<code>data</code>写入到文档中通过指定的<code>fd</code>,如果<code>data</code>不是buffer对象的实例则会把值强制转化成一个字符串。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="56d79b289bb7d16181fdabfc60af909b">
+
+<p><code>position</code> 是参考当前文档光标的位置，然后从该处写入数据。如果<code>typeof position !== &apos;number&apos;</code>，那么数据会从当前文档位置写入，请看pwrite(2)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3b17372e761235df363c0d2928a1bff3">
+
+<p><code>encoding</code> 是预期得到一个字符串编码
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5dcfca58fd1e32216e6f13e1d02f3f2f">
+
+<p>回调会得到这些参数 <code>(err, written, string)</code>，<code>written</code>表明传入的<code>string</code>需要写入的字符串长度。注意字节的写入跟字符串写入是不一样的。请看<a href="buffer.html#buffer_class_method_buffer_bytelength_string_encoding">Buffer.byteLength</a>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="778dad350a2693faf1e7bf62e5d089cd">
+
+<p>与写入<code>buffer</code>不同，必须写入完整的字符串，截取字符串不是符合规定的。这是因为返回的字节的位移跟字符串的位移是不一样的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8340c818ed316cbc01dc24531055ddee">
+
+<p>注意，<code>fs.write</code>多次地在同一个文件中使用而没有等待回调是不安全的。在这种情况下，强烈推荐使用<code>fs.createWriteStream</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="009634a22ba1753758cfb9e25d47c417">
+
+<p>在 Linux 上，无法对以追加 (append) 模式打开的文件进行指定位置的写入操作。
+内核会忽略位置参数并且总是将数据追加到文件尾部。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0c29113de3a8ad459c966b12d2c0ac93">
+
+<h2>fs.writeSync(fd, buffer, offset, length[, position])<span><a href="#fs_fs_writesync_fd_buffer_offset_length_position_3888" id="fs_fs_writesync_fd_buffer_offset_length_position_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="985aed5517e5a09afaa0af11d95fd700">
+
+<h2>fs.writeSync(fd, data[, position[, encoding]])<span><a href="#fs_fs_writesync_fd_data_position_encoding_3888" id="fs_fs_writesync_fd_data_position_encoding_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="729e18aa49f6e324175eab821b867d81">
+
+<p>同步版本的<code>fs.write()</code>。返回写入的字节数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="261dfe6f0ed88d17b2c1f0f6e64fef6e">
+
+<h2>fs.read(fd, buffer, offset, length, position, callback)<span><a href="#fs_fs_read_fd_buffer_offset_length_position_callback_3888" id="fs_fs_read_fd_buffer_offset_length_position_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="65c4061a9e558f92ec8b8a9bb4f4e482">
+
+<p>从指定的文档标识符<code>fd</code>读取文件数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b5d826d136c02a1141184b492b557062">
+
+<p><code>buffer</code> 是缓冲区，数据将会写入这里。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="02f983f450f966340b82ae594476e892">
+
+<p><code>offset</code> 是开始向缓冲区 <code>buffer</code> 写入的偏移量。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d1ab5881ccbdb0205f083a67338e83ef">
+
+<p><code>length</code> 是一个整形值，指定了读取的字节数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b5d4a4a18c203682f7fff7b84ed5c16d">
+
+<p><code>position</code> 是一个整形值，指定了从哪里开始读取文件，如果<code>position</code>为<code>null</code>，将会从文件当前的位置读取数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4d0c436d4116e32fe771ed9b74136a34">
+
+<p>回调函数给定了三个参数， <code>(err, bytesRead, buffer)</code>， 分别为错误，读取的字节和缓冲区。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7355edbc502c2ee40376d0ac48107b14">
+
+<h2>fs.readSync(fd, buffer, offset, length, position)<span><a href="#fs_fs_readsync_fd_buffer_offset_length_position_3888" id="fs_fs_readsync_fd_buffer_offset_length_position_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="5404c3c638e44d893f742d944c32b778">
+
+<p> <code>fs.read</code> 函数的同步版本。 返回<code>bytesRead</code>的个数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2481c1c19ca81d38a6db54006a9e962">
+
+<h2>fs.readFile(filename, [options], callback)<span><a href="#fs_fs_readfile_filename_options_callback_3888" id="fs_fs_readfile_filename_options_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="c808213781a0fb3c77591df6c5641a3b">
+
+<ul>
+<li><code>filename</code> {String}</li>
+<li><code>options</code> {Object}<ul>
+<li><code>encoding</code> {String | Null} default = <code>null</code></li>
+<li><code>flag</code> {String} default = <code>&apos;r&apos;</code></li>
+</ul>
+</li>
+<li><code>callback</code> {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c2130110fbc20f4d1260eba487781ab1">
+
+<p>异步读取一个文件的全部内容。举例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c789d9960336b3ed1b6a29d7055c815c">
+
+<pre><code>fs.readFile(&apos;/etc/passwd&apos;, function (err, data) {
+  if (err) throw err;
+  console.log(data);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e9dc5c71de45efd0046bcc9444180978">
+
+<p>回调函数传递了两个参数 <code>(err, data)</code>,  <code>data</code> 就是文件的内容。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="09138469b61e5f4804bd5767a3afac49">
+
+<p>如果未指定编码方式，原生buffer就会被返回。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f7047de3bdbb531d1d225f965e991cb3">
+
+<h2>fs.readFileSync(filename, [options])<span><a href="#fs_fs_readfilesync_filename_options_3888" id="fs_fs_readfilesync_filename_options_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="95fbfbd7e2b71b3a121682710224bf4a">
+
+<p> <code>fs.readFile</code>的同步版本。 返回文件名为 <code>filename</code> 的文件内容。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d71510e45f55a36f42c906385b741aee">
+
+<p>如果 <code>encoding</code> 选项被指定， 那么这个函数返回一个字符串。如果未指定，则返回一个原生buffer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0505a5f039be2ae3291ff3ff3032dbb8">
+
+<h2>fs.writeFile(filename, data, [options], callback)<span><a href="#fs_fs_writefile_filename_data_options_callback_3888" id="fs_fs_writefile_filename_data_options_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4896bb1cea36edd8ec35d82c8205d48b">
+
+<ul>
+<li><code>filename</code> {String}</li>
+<li><code>data</code> {String | Buffer}</li>
+<li><code>options</code> {Object}<ul>
+<li><code>encoding</code> {String | Null} default = <code>&apos;utf8&apos;</code></li>
+<li><code>mode</code> {Number} default = <code>438</code> (aka <code>0666</code> in Octal)</li>
+<li><code>flag</code> {String} default = <code>&apos;w&apos;</code></li>
+</ul>
+</li>
+<li><code>callback</code> {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="1460e7fb379c8889a6dc42f548e62446">
+
+<p>异步的将数据写入一个文件, 如果文件原先存在，会被替换。
+<code>data</code> 可以是一个string，也可以是一个原生buffer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="21a1e6a29546f5dcbe75b1b49b6664b0">
+
+<p><code>encoding</code> 选项会被忽视如果 <code>data</code> 不是string而是原生buffer。<code>encoding</code>缺省为 <code>&apos;utf8&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d7ccc05e1ccf0e55f61b45d08615c9a6">
+
+<pre><code>fs.writeFile(&apos;message.txt&apos;, &apos;Hello Node&apos;, function (err) {
+  if (err) throw err;
+  console.log(&apos;It\&apos;s saved!&apos;); //文件被保存
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ca4b91b9dc5f85c71de2dffdd991dede">
+
+<h2>fs.writeFileSync(filename, data, [options])<span><a href="#fs_fs_writefilesync_filename_data_options_3888" id="fs_fs_writefilesync_filename_data_options_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2a8f4573bf0dc7680b740908eb3ed5a6">
+
+<p><code>fs.writeFile</code>的同步版本。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3b365083e7f0924418bed28e6264b259">
+
+<h2>fs.appendFile(filename, data, [options], callback)<span><a href="#fs_fs_appendfile_filename_data_options_callback_3888" id="fs_fs_appendfile_filename_data_options_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="844608ca003c2d11be6e34da1a702f63">
+
+<ul>
+<li><code>filename</code> {String}</li>
+<li><code>data</code> {String | Buffer}</li>
+<li><code>options</code> {Object}<ul>
+<li><code>encoding</code> {String | Null} default = <code>&apos;utf8&apos;</code></li>
+<li><code>mode</code> {Number} default = <code>438</code> (aka <code>0666</code> in Octal)</li>
+<li><code>flag</code> {String} default = <code>&apos;a&apos;</code></li>
+</ul>
+</li>
+<li><code>callback</code> {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="97cb658ab1c7563344e9206d0bd4773e">
+
+<p>异步的将数据添加到一个文件的尾部，如果文件不存在，会创建一个新的文件。
+<code>data</code> 可以是一个string，也可以是原生buffer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="05e4eef03e04f2909a54e3dd578cc7d3">
+
+<pre><code>fs.appendFile(&apos;message.txt&apos;, &apos;data to append&apos;, function (err) {
+  if (err) throw err;
+  console.log(&apos;The &quot;data to append&quot; was appended to file!&apos;); //数据被添加到文件的尾部
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="19147fbb7f1b1a3262ee2a063df5a77a">
+
+<h2>fs.appendFileSync(filename, data, [options])<span><a href="#fs_fs_appendfilesync_filename_data_options_3888" id="fs_fs_appendfilesync_filename_data_options_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="41cb14a95d922d5a0ad5ed466194f3df">
+
+<p><code>fs.appendFile</code>的同步版本。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="30598829e6662d6aa03dc6ec6d792b04">
+
+<h2>fs.watchFile(filename, [options], listener)<span><a href="#fs_fs_watchfile_filename_options_listener_3888" id="fs_fs_watchfile_filename_options_listener_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="64a0b650c89c51a38fd1c716993702df">
+
+<pre><code>稳定性: 2 - 不稳定.   尽可能的话推荐使用 fs.watch 来代替。</code></pre>
+</div>
+
+<div class="translate-section" data-hash="611cd21053d9bcb6c94223627dc51a89">
+
+<p>监视<code>filename</code>指定的文件的改变. 回调函数 <code>listener</code> 会在文件每一次被访问时被调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dd9229f24c304083019ad8ab9fe58a22">
+
+<p>第二个参数是可选的。 如果提供此参数，<code>options</code> 应该是包含两个成员<code>persistent</code>和<code>interval</code>的对象，其中<code>persistent</code>值为boolean类型。<code>persistent</code>指定进程是否应该在文件被监视（watch）时继续运行，<code>interval</code>指定了目标文件被查询的间隔，以毫秒为单位。缺省值为<code>{ persistent: true, interval: 5007 }</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1dafbcf11f1afa7ef5823b69cd4ad62f">
+
+<p><code>listener</code> 有两个参数，第一个为文件现在的状态，第二个为文件的前一个状态。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2118c92c108f327075ae3753fde53b18">
+
+<pre><code>fs.watchFile(&apos;message.text&apos;, function (curr, prev) {
+  console.log(&apos;the current mtime is: &apos; + curr.mtime);
+  console.log(&apos;the previous mtime was: &apos; + prev.mtime);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8da7249e2de2e67ec87574e5e2902791">
+
+<p><code>listener</code>中的文件状态对象类型为<code>fs.Stat</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dc97f645ff7a2dd517f99691337cf07c">
+
+<p>如果你只想在文件被修改时被告知，而不是仅仅在被访问时就告知，你应当在<code>listener</code>回调函数中比较下两个状态对象的<code>mtime</code>属性。即<code>curr.mtime</code> 和 <code>prev.mtime</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="292641cf7374a6e6ad15e6f6ff98b16d">
+
+<h2>fs.unwatchFile(filename, [listener])<span><a href="#fs_fs_unwatchfile_filename_listener_3888" id="fs_fs_unwatchfile_filename_listener_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="64a0b650c89c51a38fd1c716993702df">
+
+<pre><code>稳定性: 2 - 不稳定.   尽可能的话推荐使用 fs.watch 来代替。</code></pre>
+</div>
+
+<div class="translate-section" data-hash="14893e51ca54155f24a4246522a976f8">
+
+<p>停止监视文件名为 <code>filename</code>的文件. 如果 <code>listener</code> 参数被指定, 会移除在<code>fs.watchFile</code>函数中指定的那一个listener回调函数。 否则, <em>所有的</em> 回调函数都会被移除，你将彻底停止监视<code>filename</code>文件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="24f60da099d1e771563cf8f4d1dfbe11">
+
+<p>调用 <code>fs.unwatchFile()</code> 时，传递的文件名为未被监视的文件时，不会发生错误，而会发生一个no-op。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ed6b5b8da8d263897559886c210269bc">
+
+<h2>fs.watch(filename, [options], [listener])<span><a href="#fs_fs_watch_filename_options_listener_3888" id="fs_fs_watch_filename_options_listener_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d96e284e30d4f281e8e2b8fc688e9023">
+
+<pre><code>稳定性: 2 - 不稳定的</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e9ec341cb3751326498cc25e14af64cf">
+
+<p>观察指定路径的改变，<code>filename</code> 路径可以是文件或者目录。改函数返回的对象是 <a href="#fs_class_fs_fswatcher">fs.FSWatcher</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f12e5c42be813e5eb36b89a7e0116c6a">
+
+<p>第二个参数是可选的. 如果 <code>options</code> 选项被提供那么它应当是一个只包含成员<code>persistent</code>得对象，
+<code>persistent</code>为boolean类型。<code>persistent</code>指定了进程是否“只要文件被监视就继续执行”缺省值为
+<code>{ persistent: true }</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2bc4cd6ff2f986dab7209cdc7b96b3ad">
+
+<p>监听器的回调函数得到两个参数 <code>(event, filename)</code>。其中 <code>event</code> 是 &apos;rename&apos;（重命名）或者 &apos;change&apos;（改变），而 <code>filename</code> 则是触发事件的文件名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1078984dc69ddba1ccac792621503bb9">
+
+<h3>注意事项<span><a href="#fs_11664" id="fs_11664">#</a></span></h3>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="be7c64a101ff734868e90a40308f5e06">
+
+<p><code>fs.watch</code> 不是完全跨平台的，且在某些情况下不可用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="21a3bcd63fb2a4076159c085bc2e33ba">
+
+<h4>可用性<span><a href="#fs_11665" id="fs_11665">#</a></span></h4>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="4837325ffcc6d8d629efa1c7ee25a33a">
+
+<p>此功能依赖于操作系统底层提供的方法来监视文件系统的变化。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d482508ec68015ee333692cd47978d0f">
+
+<ul>
+<li>在 Linux 操作系统上，使用 <code>inotify</code>。</li>
+<li>在 BSD 操作系统上 (包括 OS X)，使用 <code>kqueue</code>。</li>
+<li>在 SunOS 操作系统上 (包括 Solaris 和 SmartOS)，使用 <code>event ports</code>。</li>
+<li>在 Windows 操作系统上，该特性依赖于 <code>ReadDirectoryChangesW</code>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="55630550ec03525ff65672a4b34e648b">
+
+<p>如果系统底层函数出于某些原因不可用，那么 <code>fs.watch</code> 也就无法工作。例如，监视网络文件系统(如 NFS, SMB 等)的文件或者目录，就时常不能稳定的工作，有时甚至完全不起作用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8a6e941b8652777d19b4ec704a8f3671">
+
+<p>你仍然可以调用使用了文件状态调查的 <code>fs.watchFile</code>，但是会比较慢而且比较不可靠。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="93e5e45fa5f884b7d4ce6a8ee5cbd6c3">
+
+<h4>文件名参数<span><a href="#fs_11666" id="fs_11666">#</a></span></h4>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="b6c3da077b53d62bada1061ea2cd54f5">
+
+<p>在回调函数中提供的 <code>filename</code> 参数不是在每一个操作系统中都被支持（当下仅在Linux和Windows上支持）。
+即便是在支持的系统中，<code>filename</code>也不能保证在每一次回调都被提供。因此，不要假设<code>filename</code>参数总会会在
+回调函数中提供，在回调函数中添加检测<code>filename</code>是否为null的if判断语句。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="966a15a07694d9647fc6b1f9e472476a">
+
+<pre><code>fs.watch(&apos;somedir&apos;, function (event, filename) {
+  console.log(&apos;event is: &apos; + event);
+  if (filename) {
+    console.log(&apos;filename provided: &apos; + filename);
+  } else {
+    console.log(&apos;filename not provided&apos;);
+  }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="5effed23604d546d9c1d0d1ec22026dd">
+
+<h2>fs.exists(path, callback)<span><a href="#fs_fs_exists_path_callback_3888" id="fs_fs_exists_path_callback_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fd7bbbfa9cb2625cd93cf437564b9314">
+
+<p>检查指定路径的文件或者目录是否存在。接着通过 <code>callback</code> 传入的参数指明存在 (true) 或者不存在 (false)。示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7aa0ccc97f6b0acba30410de865d4ad9">
+
+<pre><code>fs.exists(&apos;/etc/passwd&apos;, function (exists) {
+  util.debug(exists ? &quot;存在&quot; : &quot;不存在!&quot;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0cc7ded13754bbc516c7fbfe9aeb784c">
+
+<h2>fs.existsSync(path)<span><a href="#fs_fs_existssync_path_3888" id="fs_fs_existssync_path_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="0968b772898ef7851eec33676a8d096d">
+
+<p><code>fs.exists</code> 函数的同步版。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8dc21ad1e0b0d3d51c077f66613fcb4c">
+
+<h2>Class: fs.Stats<span><a href="#fs_class_fs_stats_3888" id="fs_class_fs_stats_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="69d37ff4473c31da79cea3b2650ef7fe">
+
+<p><code>fs.stat()</code>, <code>fs.lstat()</code> 和 <code>fs.fstat()</code> 以及他们对应的同步版本返回的对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="60c8a3a19e0848c7de61db6119ec9757">
+
+<ul>
+<li><code>stats.isFile()</code></li>
+<li><code>stats.isDirectory()</code></li>
+<li><code>stats.isBlockDevice()</code></li>
+<li><code>stats.isCharacterDevice()</code></li>
+<li><code>stats.isSymbolicLink()</code> (仅在与 <code>fs.lstat()</code>一起使用时合法)</li>
+<li><code>stats.isFIFO()</code></li>
+<li><code>stats.isSocket()</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5473721396b307d3a0de0e7355e8dad9">
+
+<p>对于一个普通文件使用 <code>util.inspect(stats)</code> 将会返回一个类似如下输出的字符串：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8556d734af3d82ac511557d2687f9336">
+
+<pre><code>{ dev: 2114,
+  ino: 48064969,
+  mode: 33188,
+  nlink: 1,
+  uid: 85,
+  gid: 100,
+  rdev: 0,
+  size: 527,
+  blksize: 4096,
+  blocks: 8,
+  atime: Mon, 10 Oct 2011 23:24:11 GMT,
+  mtime: Mon, 10 Oct 2011 23:24:11 GMT,
+  ctime: Mon, 10 Oct 2011 23:24:11 GMT,
+  birthtime: Mon, 10 Oct 2011 23:24:11 GMT }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="57286d43052561738e4d4d3d46545a23">
+
+<p>请注意 <code>atime</code>, <code>mtime</code>, <code>birthtime</code>, and <code>ctime</code> 是
+ <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date">Date</a> 对象的实例。而且在比较这些对象的值时你应当使用合适的方法。
+大部分情况下，使用 <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/getTime">getTime()</a> 将会返回自 <em>1 January 1970 00:00:00 UTC</em> 以来逝去的毫秒数，
+而且这个整形值应该能满足任何比较的使用条件。但是仍然还有一些额外的方法可以用来显示一些模糊的信息。更多细节请查看
+ <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date">MDN JavaScript Reference</a> 页面。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f490e10f3422bfeeba578e575b8da98b">
+
+</div>
+
+<div class="translate-section" data-hash="bbbe4c78a199320b974f5fef01466560">
+
+<h3>Stat Time Values<span><a href="#fs_stat_time_values_3888" id="fs_stat_time_values_3888">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f859a52f979a031b0ae53d7b589b61b3">
+
+<p>在状态对象（stat object）中的时间有以下语义：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bab180fe58b7a7ed2f21cd3d4b9e1851">
+
+<ul>
+<li><code>atime</code> &quot;Access Time&quot; - 文件数据上次被访问的时间.<br>会被 <code>mknod(2)</code>, <code>utimes(2)</code>, and <code>read(2)</code> 等系统调用改变。</li>
+<li><code>mtime</code> &quot;Modified Time&quot; - 文件上次被修改的时间。
+会被 <code>mknod(2)</code>, <code>utimes(2)</code>, and <code>write(2)</code> 等系统调用改变。</li>
+<li><code>ctime</code> &quot;Change Time&quot; - 文件状态上次改变的时间。
+(inode data modification).  会被 <code>chmod(2)</code>, <code>chown(2)</code>,
+<code>link(2)</code>, <code>mknod(2)</code>, <code>rename(2)</code>, <code>unlink(2)</code>, <code>utimes(2)</code>,
+<code>read(2)</code>, and <code>write(2)</code> 等系统调用改变。</li>
+<li><code>birthtime</code> &quot;Birth Time&quot; -  文件被创建的时间。 会在文件被创建时生成。
+在一些不提供文件<code>birthtime</code>的文件系统中,
+这个字段会被 <code>ctime</code> 或
+<code>1970-01-01T00:00Z</code> (ie, unix epoch timestamp <code>0</code>)来填充。  在 Darwin 和其他
+ FreeBSD 系统变体中, 也将 <code>atime</code> 显式地设置成比它现在的 <code>birthtime</code> 更早的一个时间值，这个过程使用了<code>utimes(2)</code>系统调用。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9ef2aee793403cc38f0136077ef0c066">
+
+<p>在Node v0.12版本之前, <code>ctime</code> 持有Windows系统的 <code>birthtime</code> 值. 注意在v.0.12版本中, <code>ctime</code> 不再是&quot;creation time&quot;, 而且在Unix系统中，他从来都不是。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="610aa919e323f0ef8e232676616b152c">
+
+<h2>fs.createReadStream(path, [options])<span><a href="#fs_fs_createreadstream_path_options_3888" id="fs_fs_createreadstream_path_options_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7d16c56607f5eec8caf6cd315a9c5d6b">
+
+<p>返回一个新的 ReadStream 对象 (详见 <code>Readable Stream</code>).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="949235f6a1e907b55db2ca4fc86f993f">
+
+<p><code>options</code> 是一个包含下列缺省值的对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="38d05056b66397e2845cc428a391e0e8">
+
+<pre><code>{ flags: &apos;r&apos;,
+  encoding: null,
+  fd: null,
+  mode: 0666,
+  autoClose: true
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ecb1ef4c2e11b21db49c4434184119d9">
+
+<p><code>options</code> 可以提供 <code>start</code> 和 <code>end</code> 值用于读取文件内的特定范围而非整个文件。
+<code>start</code> 和 <code>end</code> 都是包含在范围内的（inclusive, 可理解为闭区间）并且以 0 开始。
+<code>encoding</code> 可选为 <code>&apos;utf8&apos;</code>, <code>&apos;ascii&apos;</code> 或者 <code>&apos;base64&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2882bbceaf1d6e976d8e18acbe167866">
+
+<p>如果 <code>autoClose</code> 为 false 则即使在发生错误时也不会关闭文件描述符 (file descriptor)。
+此时你需要负责关闭文件，避免文件描述符泄露 (leak)。
+如果 <code>autoClose</code> 为 true （缺省值），
+当发生 <code>error</code> 或者 <code>end</code> 事件时，文件描述符会被自动释放。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4537f544b58758ce936f96c49d77d0a8">
+
+<p>一个从100字节的文件中读取最后10字节的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c9096ca4e27e2668422312c4835921c0">
+
+<pre><code>fs.createReadStream(&apos;sample.txt&apos;, {start: 90, end: 99});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ae169251ad5005fd481ac3750fb29962">
+
+<h2>Class: fs.ReadStream<span><a href="#fs_class_fs_readstream_3888" id="fs_class_fs_readstream_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fcaeba06feb6767c6e875058c9146061">
+
+<p><code>ReadStream</code> 是一个可读的流<a href="stream.html#stream_class_stream_readable">(Readable Stream)</a>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b4484f565ca6550e888df5dbc5a6a8a3">
+
+<h3>事件: &apos;open&apos;<span><a href="#fs_open_7776" id="fs_open_7776">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1775492e5ed515e163082952d1350920">
+
+<ul>
+<li><code>fd</code> {整形} ReadStream 所使用的文件描述符。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="cb22935fdd64c939b74b9e74b43d456a">
+
+<p>当文件的 ReadStream 被创建时触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ad6cc3990d4a5c71d6a98fb51fcc2cbe">
+
+<h2>fs.createWriteStream(path, [options])<span><a href="#fs_fs_createwritestream_path_options_3888" id="fs_fs_createwritestream_path_options_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ae597109dbdb5fbe4db42c84c8c6df87">
+
+<p>返回一个新的 WriteStream 对象 (详见 <code>Writable Stream</code>).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="949235f6a1e907b55db2ca4fc86f993f">
+
+<p><code>options</code> 是一个包含下列缺省值的对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="665e64c86076cab8aed981bfbcad9f08">
+
+<pre><code>{ flags: &apos;w&apos;,
+  encoding: null,
+  mode: 0666 }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="318a906ac565d0ba8954b978e0eceb21">
+
+<p><code>options</code> 也可以包含一个 <code>start</code> 选项用于指定在文件中开始写入数据的位置。
+修改而不替换文件需要 <code>flags</code> 的模式指定为 <code>r+</code> 而不是默值的 <code>w</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="be60edda2030c2ad8c1daa4a19f2b76c">
+
+<h2>Class: fs.WriteStream<span><a href="#fs_class_fs_writestream_3888" id="fs_class_fs_writestream_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2fac0fd4baaacc7939981f8b8812305f">
+
+<p><code>WriteStream</code> 是一个可写的流<a href="stream.html#stream_class_stream_writable">(Writable Stream)</a>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b4484f565ca6550e888df5dbc5a6a8a3">
+
+<h3>事件: &apos;open&apos;<span><a href="#fs_open_7777" id="fs_open_7777">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="cdd05a8dc27983dee7cd9ac02eb44190">
+
+<ul>
+<li><code>fd</code> {整形} WriteStream 所使用的文件描述符。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="8c0b9dec92aec2cc9e5bf8dd56f947fe">
+
+<p>当 WriteStream 创建时触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3d066864fcf414a8a629d55f7db867a6">
+
+<h3>file.bytesWritten<span><a href="#fs_file_byteswritten_3888" id="fs_file_byteswritten_3888">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="b378c659a45cd408016483887f9a3e2d">
+
+<p>已写的字节数。不包含仍在队列中准备写入的数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="754e81d41901571ef47c005d8e7ed720">
+
+<h2>Class: fs.FSWatcher<span><a href="#fs_class_fs_fswatcher_3888" id="fs_class_fs_fswatcher_3888">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="aef0f7dcc908859a7c2ae326812c4ecc">
+
+<p><code>fs.watch()</code> 返回的对象类型。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="847e4a6d4a72c54efc554ddfeb0ff24b">
+
+<h3>watcher.close()<span><a href="#fs_watcher_close_3888" id="fs_watcher_close_3888">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="6637b99814a96b3807c1148c808ce308">
+
+<p>停止观察 <code>fs.FSWatcher</code> 对象中的更改。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="27978256e421f601d1f3d21ff466f932">
+
+<h3>事件: &apos;change&apos;<span><a href="#fs_change_3888" id="fs_change_3888">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="03865db14ed2944f46ba768292ed5479">
+
+<ul>
+<li><code>event</code> {字符串} fs 改变的类型</li>
+<li><code>filename</code> {字符串} 改变的文件名 (if relevant/available)</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="bc7d3f73310635ec0753c49796acb92f">
+
+<p>当正在观察的目录或文件发生变动时触发。更多细节，详见 <a href="#fs_fs_watch_filename_options_listener">fs.watch</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="64e904775a6e7456b0a8274a22954209">
+
+<h3>事件: &apos;error&apos;<span><a href="#fs_error_3888" id="fs_error_3888">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1f9a142875c867d9fdbeff74a7a854ef">
+
+<ul>
+<li><code>error</code> {Error 对象}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="90921257b950f29843a79883ee75cd7b">
+
+<p>当产生错误时触发
+
+</p>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

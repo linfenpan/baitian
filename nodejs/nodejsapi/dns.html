@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DNS Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/dns.html">
+</head>
+<body class="alt apidoc" id="api-section-dns">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="dns.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#dns_dns_576">DNS</a><ul>
+<li><a href="#dns_dns_lookup_domain_family_callback_576">dns.lookup(domain, [family], callback)</a></li>
+<li><a href="#dns_dns_resolve_domain_rrtype_callback_576">dns.resolve(domain, [rrtype], callback)</a></li>
+<li><a href="#dns_dns_resolve4_domain_callback_576">dns.resolve4(domain, callback)</a></li>
+<li><a href="#dns_dns_resolve6_domain_callback_576">dns.resolve6(domain, callback)</a></li>
+<li><a href="#dns_dns_resolvemx_domain_callback_576">dns.resolveMx(domain, callback)</a></li>
+<li><a href="#dns_dns_resolvetxt_domain_callback_576">dns.resolveTxt(domain, callback)</a></li>
+<li><a href="#dns_dns_resolvesrv_domain_callback_576">dns.resolveSrv(domain, callback)</a></li>
+<li><a href="#dns_dns_resolvens_domain_callback_576">dns.resolveNs(domain, callback)</a></li>
+<li><a href="#dns_dns_resolvecname_domain_callback_576">dns.resolveCname(domain, callback)</a></li>
+<li><a href="#dns_dns_reverse_ip_callback_576">dns.reverse(ip, callback)</a></li>
+<li><a href="#dns_dns_getservers_576">dns.getServers()</a></li>
+<li><a href="#dns_dns_setservers_servers_576">dns.setServers(servers)</a></li>
+<li><a href="#dns_576">错误代码</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="5c83b4ae529e7557f0c216c1b45948df">
+
+<h1>DNS<span><a href="#dns_dns_576" id="dns_dns_576">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a150274f13024ebc1856f7372c536d3e">
+
+<p>使用 <code>require(&apos;dns&apos;)</code> 引入此模块。dns 模块中的所有方法都使用了 C-Ares，除了 <code>dns.lookup</code> 使用了线程池中的 <code>getaddrinfo(3)</code>。C-Ares 比 <code>getaddrinfo</code> 要快得多，但系统解析器相对于其它程序的操作要更固定。当一个用户使用 <code>net.connect(80, &apos;google.com&apos;)</code> 或 <code>http.get({ host: &apos;google.com&apos; })</code> 时会使用 <code>dns.lookup</code> 方法。如果用户需要进行大量的快速查询，则最好使用 C-Ares 提供的方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fc7c44ead6282b3eb9facd106524c4cf">
+
+<p>下面是一个解析 <code>&apos;www.google.com&apos;</code> 并反向解析所返回 IP 地址的例子。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cfbee2f1df8cc628bb6ccdb57998a10a">
+
+<pre><code>      console.log(&apos;反向解析 &apos; + a + &apos;: &apos; + JSON.stringify(domains));
+    });
+  });
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="53eafab253a96c15ca6fa564f1175f57">
+
+<h2>dns.lookup(domain, [family], callback)<span><a href="#dns_dns_lookup_domain_family_callback_576" id="dns_dns_lookup_domain_family_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fa654e90aac33f52958d630f399c01b3">
+
+<p>将一个域名（比如 <code>&apos;google.com&apos;</code>）解析为第一个找到的 A 记录（IPv4）或 AAAA 记录（IPv6）。地址族 <code>family</code> 可以是数字 <code>4</code> 或 <code>6</code>，缺省为 <code>null</code> 表示同时允许 IPv4 和 IPv6 地址族。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0fb2620fbf657c53a3e0fb5d4dde50ca">
+
+<p>回调参数为 <code>(err, address, family)</code>。地址 <code>address</code> 参数为一个代表 IPv4 或 IPv6 地址的字符串。地址族 <code>family</code> 参数为数字 4 或 6，地表 <code>address</code> 的地址族（不一定是之前传入 <code>lookup</code> 的值）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="34f64651f55e5fa3e93f4286beac8222">
+
+<p>当错误发生时，<code>err</code> 为一个 <code>Error</code> 对象，其中 <code>err.code</code> 为错误代码。请记住 <code>err.code</code> 被设定为 <code>&apos;ENOENT&apos;</code> 的情况不仅是域名不存在，也可能是查询在其它途径出错，比如没有可用文件描述符时。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="41a107e13190f94083fa20704c9ce4d7">
+
+<h2>dns.resolve(domain, [rrtype], callback)<span><a href="#dns_dns_resolve_domain_rrtype_callback_576" id="dns_dns_resolve_domain_rrtype_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="f45a5c632df527407b55d20c9531dbaf">
+
+<p>将一个域名（比如 <code>&apos;google.com&apos;</code>）解析为一个 <code>rrtype</code> 指定记录类型的数组。有效 <code>rrtypes</code> 取值有 <code>&apos;A&apos;</code>（IPv4 地址，缺省）、<code>&apos;AAAA&apos;</code>（IPv6 地址）、<code>&apos;MX&apos;</code>（邮件交换记录）、<code>&apos;TXT&apos;</code>（文本记录）、<code>&apos;SRV&apos;</code>（SRV 记录）、<code>&apos;PTR&apos;</code>（用于 IP 反向查找）、<code>&apos;NS&apos;</code>（域名服务器记录）和 <code>&apos;CNAME&apos;</code>（别名记录）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a62a6ab1fdfdf51739f376677f7ea641">
+
+<p>回调参数为 <code>(err, addresses)</code>。其中 <code>addresses</code> 中每一项的类型取决于记录类型，详见下文对应的查找方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7f8396d8f9dd97b9cb9044e22c7b0de">
+
+<p>当出错时，<code>err</code> 参数为一个 <code>Error</code> 对象，其中 <code>err.code</code> 为下文所列出的错误代码之一。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ad7c13a65c0efbd77e1e8bd704df3d09">
+
+<h2>dns.resolve4(domain, callback)<span><a href="#dns_dns_resolve4_domain_callback_576" id="dns_dns_resolve4_domain_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="707ff9350b6b4d491491e62d5f1d6f13">
+
+<p>于 <code>dns.resolve()</code> 一样，但只用于查询 IPv4（<code>A</code> 记录）。<code>addresses</code> 是一个 IPv4 地址的数组（比如 <code>[&apos;74.125.79.104&apos;, &apos;74.125.79.105&apos;, &apos;74.125.79.106&apos;]</code>）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="51b92cd942e187bd724ca9d6189e39ba">
+
+<h2>dns.resolve6(domain, callback)<span><a href="#dns_dns_resolve6_domain_callback_576" id="dns_dns_resolve6_domain_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="f9edb96fdcfc08d7b759a1917c8d1c08">
+
+<p>类似于 <code>dns.resolve4()</code>，但用于 IPv6（<code>AAAA</code>）查询。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3b7a8746c698339c4f181b3727349ceb">
+
+<h2>dns.resolveMx(domain, callback)<span><a href="#dns_dns_resolvemx_domain_callback_576" id="dns_dns_resolvemx_domain_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1fecebfa191ef33c7f4e65f9c9f77a79">
+
+<p>类似于 <code>dns.resolve()</code>，但用于邮件交换查询（<code>MX</code> 记录）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b79ab512544aa3ffb0b4fb1bd37fd5bd">
+
+<p><code>addresses</code> 为一个 MX 记录的数组，每一项包含优先级和交换属性（比如 <code>[{&apos;priority&apos;: 10, &apos;exchange&apos;: &apos;mx.example.com&apos;},...]</code>）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4ad42e6922a11a566a1933516d343b73">
+
+<h2>dns.resolveTxt(domain, callback)<span><a href="#dns_dns_resolvetxt_domain_callback_576" id="dns_dns_resolvetxt_domain_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="37f428e44e14fe67cfbe7ced1b54bd76">
+
+<p>与 <code>dns.resolve()</code> 相似，但用于文本查询（<code>TXT</code> 记录）。<code>addresses</code> 为 <code>domain</code> 可用文本记录的数组（比如 <code>[&apos;v=spf1 ip4:0.0.0.0 ~all&apos;]</code>）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="22a8e84ecff07a542e7dfd24606cb245">
+
+<h2>dns.resolveSrv(domain, callback)<span><a href="#dns_dns_resolvesrv_domain_callback_576" id="dns_dns_resolvesrv_domain_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="43a49f086a16a47828431d9dc7f24570">
+
+<p>查询 SRV 记录，与 <code>dns.resolve()</code> 相似。
+<code>addresses</code> 是域名 <code>domain</code> 可用的 SRV 记录数组，
+每一条记录都包含优先级（priority）、权重（weight）、端口号（port）、服务名称（name）等属性
+(比如：  <code>[{&apos;priority&apos;: 10, {&apos;weight&apos;: 5, &apos;port&apos;: 21223, &apos;name&apos;: &apos;service.example.com&apos;}, ...]</code>)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2cbc4d084410dd16611cff93110a9a53">
+
+<h2>dns.resolveNs(domain, callback)<span><a href="#dns_dns_resolvens_domain_callback_576" id="dns_dns_resolvens_domain_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="26a81ceedc934644957324a2321c085d">
+
+<p>查询 NS 记录，与 <code>dns.resolve()</code> 相似。
+<code>addresses</code> 是域名 <code>domain</code> 可用的 NS 记录数组，
+(比如： <code>[&apos;ns1.example.com&apos;, &apos;ns2.example.com&apos;]</code>).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1d3263e6fb1d5add0412af36e6504df2">
+
+<h2>dns.resolveCname(domain, callback)<span><a href="#dns_dns_resolvecname_domain_callback_576" id="dns_dns_resolvecname_domain_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fcb00bf1ba1a71617b30389b60720636">
+
+<p>查询 CNAME 记录，与 <code>dns.resolve()</code> 相似。
+<code>addresses</code> 是域名 <code>domain</code> 可用的 CNAME 记录数组，
+(比如： <code>[&apos;bar.example.com&apos;]</code>).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fff889859a0fe98a4c92fc2972fe75d4">
+
+<h2>dns.reverse(ip, callback)<span><a href="#dns_dns_reverse_ip_callback_576" id="dns_dns_reverse_ip_callback_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fec711550ad0c78872861f25cf80ec81">
+
+<p>反向解析 IP 地址，返回指向该 IP 地址的域名数组。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0893d3fb3a28198cc67f71ae48f095ea">
+
+<p>回调函数接收两个参数： <code>(err, domains)</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7f8396d8f9dd97b9cb9044e22c7b0de">
+
+<p>当出错时，<code>err</code> 参数为一个 <code>Error</code> 对象，其中 <code>err.code</code> 为下文所列出的错误代码之一。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ca38c468f70e2e38ac17153c4dbc5d85">
+
+<h2>dns.getServers()<span><a href="#dns_dns_getservers_576" id="dns_dns_getservers_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a7519474be9268e3136612c561003e65">
+
+<p>已字符串返回一个当前用于解析的 IP 地址的数组。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="211dc1fd430e825221d068bfaef130b1">
+
+<h2>dns.setServers(servers)<span><a href="#dns_dns_setservers_servers_576" id="dns_dns_setservers_servers_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a7d80aeac47aa3e9f02269bb3db9e146">
+
+<p>指定一个 IP 地址字符串数组，将它们作为解析所用的服务器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="263314a8abf84eb04e44eae00f7fb5b0">
+
+<p>如果您在地址中指定了端口，则端口会被忽略，因为底层库并不支持。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9ae23b1d7f08280fad06c723651e019">
+
+<p>如果您传入无效参数，则会抛出异常。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3e0a953fc4db6b022c7426e5ea5e3e25">
+
+<h2>错误代码<span><a href="#dns_576" id="dns_576">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d9b27d3f6db897f8f3437359b17535e3">
+
+<p>每个 DNS 查询都可能返回下列错误代码之一：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="84c46170e5011faadc5c0dc77849b1f0">
+
+<ul>
+<li><code>dns.NODATA</code>: DNS 服务器返回无数据应答。</li>
+<li><code>dns.FORMERR</code>: DNS 声称查询格式错误。</li>
+<li><code>dns.SERVFAIL</code>: DNS 服务器返回一般失败。</li>
+<li><code>dns.NOTFOUND</code>: 域名未找到。</li>
+<li><code>dns.NOTIMP</code>: DNS 服务器未实现所请求操作。</li>
+<li><code>dns.REFUSED</code>: DNS 服务器拒绝查询。</li>
+<li><code>dns.BADQUERY</code>: DNS 查询格式错误。</li>
+<li><code>dns.BADNAME</code>: 域名格式错误。</li>
+<li><code>dns.BADFAMILY</code>: 不支持的地址类型。</li>
+<li><code>dns.BADRESP</code>: DNS 答复格式错误。</li>
+<li><code>dns.CONNREFUSED</code>: 无法联系 DNS 服务器。</li>
+<li><code>dns.TIMEOUT</code>: 联系 DNS 服务器超时。</li>
+<li><code>dns.EOF</code>: 文件末端。</li>
+<li><code>dns.FILE</code>: 读取文件错误。</li>
+<li><code>dns.NOMEM</code>: 超出内存。</li>
+<li><code>dns.DESTRUCTION</code>: 通道正在被销毁。</li>
+<li><code>dns.BADSTR</code>: 字符串格式错误。</li>
+<li><code>dns.BADFLAGS</code>: 指定了非法标记。</li>
+<li><code>dns.NONAME</code>: 所给主机名非数字。</li>
+<li><code>dns.BADHINTS</code>: 指定了非法提示标记。</li>
+<li><code>dns.NOTINITIALIZED</code>: c-ares 库初始化尚未进行。</li>
+<li><code>dns.LOADIPHLPAPI</code>: 加载 iphlpapi.dll 出错。</li>
+<li><code>dns.ADDRGETNETWORKPARAMS</code>: 无法找到 GetNetworkParams 函数。</li>
+<li><code>dns.CANCELLED</code>: DNS 查询取消。</li>
+</ul>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

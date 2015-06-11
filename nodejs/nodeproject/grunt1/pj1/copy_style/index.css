@@ -1,0 +1,94 @@
+@charset "utf-8";
+body{background:#f0f1f1;}
+nav{display:block;}
+
+/* 焦点图 */
+#banner{position:relative; overflow:hidden; width:100%; max-width:720px; margin:0 auto;}
+#banner .hd{position:absolute; height:28px; line-height:28px; bottom:0; right:0;}
+#banner .hd li{display:inline-block; width:5px; height:5px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; background:#333; text-indent:-9999px; overflow:hidden; margin:0 6px;}
+#banner .hd li.on{background:#fff;}
+#banner .bd{position:relative;}
+#banner .bd li{position:relative; text-align:center;}
+#banner .bd li img{background:url(img_s/loading.gif) center center no-repeat;  vertical-align:top; width:100%;/* 图片宽度100%，达到自适应效果 */}
+#banner .bd li a{-webkit-tap-highlight-color:rgba(0,0,0,0);}  /* 去掉链接触摸高亮 */
+#banner .bd li .tit{display:none; width:100%;  position:absolute; bottom:0; text-indent:10px; height:28px; line-height:28px; background:rgba(0,0,0,0.4); color:#fff;  text-align:left;}
+
+/** 游戏历史*/
+#playHistroy{width:94%;margin:1rem auto 0 auto;}
+#playHistroy .title{padding-bottom:.1rem;font-size:1.4rem;color:#68b100;border-bottom:.1rem solid #c6c6c6;}
+#playHistroy .list{}
+#playHistroy li{
+	float:left;width:31%;margin:3.5% 0 0 3.5%;padding:.35rem .2rem;
+	list-style:none;cursor:pointer;background:#fff;border:1px solid #e9e9e9;text-align:center;
+	font-size:1.2rem;color:#5a5a5a;
+	box-sizing:border-box;border-radius:.2rem;
+	white-space:nowrap; 
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis; 
+	overflow: hidden;
+}
+#playHistroy li:nth-of-type(3n + 1){margin-left:0;}
+#playHistroy li[active]{
+	border-color:#7aba1e;
+}
+
+/** 导航*/
+#nav{overflow:hidden;width:94%;margin:1rem auto 0;border:1px solid #68b100;text-align:center;background:#68b100;}
+#nav .item{float:left;width:25%;padding:.5rem 0;margin:0 2px 0 -1px;font-size:1.2rem;color:#68b100;background:#fff;}
+#nav .item:last-child{margin-right:-2px;/** 随意设置一个负数(<-2)就OK*/}
+#nav .item[active]{background:#68b100;color:#fff;}
+
+/** 主题内容*/
+#mainContent{overflow:hidden;width:100%;}
+
+/** 游戏内容*/
+#gameList{position:relative;left:0;}
+#gameList[animate]{left:-100%;}
+#gameList .gameList{position:relative;left:0;}
+
+/** 游戏分类*/
+#classify{position:relative;left:0;width:94%;margin:2% auto 0;}
+#classify[animate]{left:100%;}
+#classify li{float:left;width:49%;margin:0 0 2% 2%;background:#fff;
+	padding:2%;border:1px solid #eaebeb;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	border-radius:.3rem;
+}
+#classify li[active]{border-color:#7aba1e;}
+#classify li:nth-child(2n + 1){margin-left:0;}
+#classify .title{
+	white-space:nowrap; 
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis; 
+	overflow: hidden;
+}
+#classify .title{font-size:1.18rem;color:#333;}
+#classify .title:before{float:left;margin-top:0.25rem;width:.2rem;height:1.1rem;border-left:.25rem solid #68b100;content:"\20"; }
+#classify .icon{float:left;width:3.8rem;height:3.8rem;-webkit-animation:classifyIcon .7s linear;}
+@-webkit-keyframes classifyIcon{
+	0%{
+		-webkit-transform: translateX(-3rem);
+	}
+	20%{
+		-webkit-transform: translateX(2rem);
+	}
+	40%{
+		-webkit-transform: translateX(-1.5rem);
+	}
+	60%{
+		-webkit-transform: translateX(1rem);
+	}
+	80%{
+		-webkit-transform: translateX(-.5rem);
+	}
+	100%{
+		-webkit-transform: translateX(0rem);
+	}
+}
+#classify .cnt{margin:.8rem 0 .5rem 0;overflow:hidden;height:3.8rem;}
+#classify .desc{float:right;width:6.5rem;font-size:1rem;}
+#classify .desc .i{display:inline-block;padding:0 .5rem;color:#999;}
+
+

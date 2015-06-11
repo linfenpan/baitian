@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>REPL Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/repl.html">
+</head>
+<body class="alt apidoc" id="api-section-repl">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="repl.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#repl_repl_850">REPL</a><ul>
+<li><a href="#repl_repl_start_options_425">repl.start(options)</a><ul>
+<li><a href="#repl_exit_425">事件: &apos;exit&apos;</a></li>
+<li><a href="#repl_reset_425">事件: &apos;reset&apos;</a></li>
+</ul>
+</li>
+<li><a href="#repl_repl_851">REPL 特性</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="e534f001a6aaeb81ad2b588607487c3a">
+
+<h1>REPL<span><a href="#repl_repl_850" id="repl_repl_850">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b3053f5f9c813e628db75d935b2456e5">
+
+<p>一个 Read-Eval-Print-Loop（REPL，读取-执行-输出循环）既可用于独立程序也可很容易地被集成到其它程序中。REPL 提供了一种交互地执行 JavaScript 并查看输出的方式。它可以被用作调试、测试或仅仅尝试某些东西。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2ab94b8af156d9ff091bfb97acced29b">
+
+<p>在命令行中不带任何参数执行 <code>node</code> 您便会进入 REPL。它提供了一个简单的 Emacs 行编辑。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bf73673a724da90366a766fc507587d6">
+
+<pre><code>mjr:~$ node
+Type &apos;.help&apos; for options.
+&gt; a = [ 1, 2, 3];
+[ 1, 2, 3 ]
+&gt; a.forEach(function (v) {
+...   console.log(v);
+...   });
+1
+2
+3</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c7949ca98332298f270a63075a75fdee">
+
+<p>若想使用高级的编辑模式，设置环境变量 <code>NODE_NO_READLINE=1</code> 后运行 node。这将在允许你在可以使用 <code>rlwrap</code> 的终端上，启动高级的 REPL 模式 (the main and debugger REPL)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a29328bfa3d8c5599e6578f9028fec2c">
+
+<p>例如，您可以将下列代码加入到您的 bashrc 文件：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="834500e2bd1d50eaa867efdd7829d260">
+
+<pre><code>alias node=&quot;env NODE_NO_READLINE=1 rlwrap node&quot;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d27544913a71ae02dc7840a91d6efd11">
+
+<h2>repl.start(options)<span><a href="#repl_repl_start_options_425" id="repl_repl_start_options_425">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="5d86f61c7c5b7eca3a55ff5f7e484173">
+
+<p>启动并返回一个 <code>REPLServer</code> 实例。接受一个包含如下内容的 &quot;options&quot; 对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9baf5783b8b70e72fc0ce9dc81de5d75">
+
+<ul>
+<li><code>prompt</code> - 所有输入输出的提示符。默认是 <code>&gt; </code>.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9cfcac1e16bc03b82ef6c1ea04e278d6">
+
+<ul>
+<li><code>input</code> - 监听的可读流。默认指向标准输入流 <code>process.stdin</code>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="57b1b2612c6df4a37eadde9cb8276fdc">
+
+<ul>
+<li><code>output</code> - 用来输出数据的可写流。默认指向标准输出流 <code>process.stdout</code>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9e2e8f916995700780c08b327797a1e6">
+
+<ul>
+<li><code>terminal</code> - 如果 <code>stream</code> 应该被当做 TTY 来对待并且有 ANSI/VT100 转义时，则传 <code>true</code>。 默认使用 <code>output</code> 实例的 <code>isTTY</code>来检查。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5521458d0707e64f958128f608ef770f">
+
+<ul>
+<li><code>eval</code> - 用来对每一行进行求值的函数。 默认为<code>eval()</code>的一个异步包装函数。下面给出一个自定义<code>eval</code>的例子。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="179b8f26e3e6432faa76da965e824d5b">
+
+<ul>
+<li><code>useColors</code> - 一个布尔值，表明了<code>writer</code>函数是否会输出颜色。如果设定了一个不同的<code>writer</code>函数，那么这不会产生任何影响。默认为repl的<code>terminal</code>值。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="273e7f7567eb0fed1083c813b0703af7">
+
+<ul>
+<li><code>useGlobal</code> - 如果设定为<code>true</code>，那么repl就会使用<code>global</code>对象而不是在一个独立环境里运行脚本。默认为<code>false</code>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9dbb07b7cf6630ff38e3dece7d753323">
+
+<ul>
+<li><code>ignoreUndefined</code> - 如果设定为<code>true</code>，那么repl将不会输出未定义命令的返回值。默认为<code>false</code>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="81aad9463ed6fe18cfd90e89421dfcc8">
+
+<ul>
+<li><code>writer</code> - 每一个命令被求值时都会调用此函数，而该函数会返回显示的格式（包括颜色）。默认为<code>util.inspect</code>。
+<code>util.inspect</code>.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="1391ad6e0761d19937f13f4df630b8ad">
+
+<p>你可以使用你自己的<code>eval</code>函数，只有它有如下的签名：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1190135c8a1904ddfedec3b52b94a474">
+
+<pre><code>function eval(cmd, context, filename, callback) {
+  callback(null, result);
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="bfc985e630335f77e08ae0dbf08c6d7f">
+
+<p>多个REPL可以在同一个运行的节点实例上打开。它们共享同一个global对象，但分别有各自的I/O。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="273b32586cbf9f1b5aea6f3180fc616d">
+
+<p>以下是通过标准输入流（stdin）、Unix socket 以及 TCP socket 三种情况来启动 REPL 的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="19c65db2510acb40a7e44216cce858da">
+
+<pre><code>net.createServer(function (socket) {
+  connections += 1;
+  repl.start({
+    prompt: &quot;node via TCP socket&gt; &quot;,
+    input: socket,
+    output: socket
+  }).on(&apos;exit&apos;, function() {
+    socket.end();
+  });
+}).listen(5001);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="fad42341445df4503df8b099bc385aa7">
+
+<p>从命令行运行该程序，将会从标准输入流启动 REPL 模式。 其他的 REPL 客户端也可以通过 Unix socket 或者 TCP socket 连接。 <code>telnet</code> 常用于连接 TCP sockets，而 <code>socat</code> 则可以同时用来连接 Unix 和 TCP sockets。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b1955dc84cf6ca9f0bd3958e67d3d7f6">
+
+<p>通过从一个Unix的套接字服务器而不是stdin来启动REPL, 你可以连接到一个长久运行的node进程而不不需要重启。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="01a67afc96acba99549af655693847bf">
+
+<p>一个在<code>net.Server</code>和<code>net.Socket</code>实例上运行的&quot;全功能&quot;(<code>terminal</code>)REPL的例子可以查看这里： <a href="https://gist.github.com/2209310">https://gist.github.com/2209310</a>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1a29708f5c7ca66882fa9527e8e2b349">
+
+<p>一个在<code>curl(1)</code>上运行的REPL实例的例子可以查看这里： <a href="https://gist.github.com/2053342">https://gist.github.com/2053342</a>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c450008f1e4a67d83fe028d35a6ed683">
+
+<h3>事件: &apos;exit&apos;<span><a href="#repl_exit_425" id="repl_exit_425">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fe07e7186d85ee1b1478b2608f3f2a26">
+
+<p>当用户通过任意预定义的方式退出REPL，该事件被分发。比如，在repl里输入<code>.exit</code>，按Ctrl+C两次来发送SIGINT信号，或者在<code>input</code>流上按Ctrl+D来发送&quot;end&quot;。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="62c60612c4cade1c920c3b230bfdd399">
+
+<p>监听 <code>exit</code> 事件的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fa8c50635280f9c7a08cb23d33e691b5">
+
+<pre><code>r.on(&apos;exit&apos;, function () {
+  console.log(&apos;从 REPL 得到 &quot;exit&quot; 事件！&apos;);
+  process.exit();
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3659b690f7f548bc7a574c63afd3eb9d">
+
+<h3>事件: &apos;reset&apos;<span><a href="#repl_reset_425" id="repl_reset_425">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="dfc0d20bf906df3e87847f9e3682007d">
+
+<p><code>function (context) {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="df23f0bf5e0d8080afc59e49f083c4fe">
+
+<p>当REPL的上下文被重置时，该事件被分发。当你打<code>.clear</code>命令时这种情况就会发生。如果你以<code>{ useGlobal: true }</code>来启动repl，那么这个事件就永远不会被分发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="db781f21cf42dba145658277965cdcb3">
+
+<p>监听<code>reset</code>的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c30390d8ad0db949c2ec9896169169ba">
+
+<pre><code>// 当一个新的上下文被创建时，扩充这个上下文。
+r.on(&apos;reset&apos;, function (context) {
+  console.log(&apos;repl有一个新的上下文&apos;);
+  someExtension.extend(context);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="fae6947ef2b4624a1497854544717ad7">
+
+<h2>REPL 特性<span><a href="#repl_repl_851" id="repl_repl_851">#</a></span></h2>
+</div>
+
+<!-- type=misc -->
+
+<div class="translate-section" data-hash="1bab699569321ce88a4003e7e932477b">
+
+<p>在REPL里，Control+D会退出。可以输入多行表达式。对于全局变量和本地变量都支持自动缩进。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="10de6a5e450a62015078b97fc08b6a6a">
+
+<p>特殊变量 <code>_</code> (下划线)储存了上一个表达式的结果。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="45310871ca713b2d52beb3e970554ffd">
+
+<pre><code>&gt; [ &quot;a&quot;, &quot;b&quot;, &quot;c&quot; ]
+[ &apos;a&apos;, &apos;b&apos;, &apos;c&apos; ]
+&gt; _.length
+3
+&gt; _ += 1
+4</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6d2f8a5ca5e6e0a2dd4ecd4884d8297e">
+
+<p>REPL提供了访问global域里所有变量的权限。通过将一个变量赋值给与每一个<code>REPLServer</code>关联的<code>context</code>对象，你可以显式地将一个变量暴露给REPL。例如：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3acd410b0210401b3f6be9f44f9c6e0c">
+
+<pre><code>repl.start(&quot;&gt; &quot;).context.m = msg;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="187aea19e7d8525885a426bdbb4271ee">
+
+<p>在<code>context</code>对象里的东西，会在REPL以本地变量的形式出现。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9d4e6136f89c6e28ff02dc3c5038bf72">
+
+<pre><code>mjr:~$ node repl_test.js
+&gt; m
+&apos;message&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="424475bf681cc10b71089c9c611668d0">
+
+<p>有几个特殊的REPL命令：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="16b5111b695e7cdc00ae1a404051b6c0">
+
+<ul>
+<li><code>.break</code> - 当你输入一个多行表达式时，有时你走神了或者你不想完成这个表达式了。<code>.break</code>让你可以重头再来。</li>
+<li><code>.clear</code> - 重置<code>context</code>对象为一个空对象，并且清除所有的多行表达式。</li>
+<li><code>.exit</code> - 关闭I/O流，使得REPL退出。</li>
+<li><code>.help</code> - 显示这个特殊命令的列表。</li>
+<li><code>.save</code> - 将当前的REPL会话保存到一个文件<blockquote>
+<p>.save ./file/to/save.js</p>
+</blockquote>
+</li>
+<li><code>.load</code> - 将一个文件装载到当前的REPL会话。<blockquote>
+<p>.load ./file/to/load.js</p>
+</blockquote>
+</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0fcc9f8bc865c5a55d5f320548506bed">
+
+<p>下面的组合键在REPL中有以下效果：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="800f3730083357e2702e6a93a86c4579">
+
+<ul>
+<li><code>&lt;ctrl&gt;C</code> - 与<code>.break</code>关键字类似。终止正在执行的命令。在一个空行连按两次会强制退出。</li>
+<li><code>&lt;ctrl&gt;D</code> - 与<code>.exit</code>关键字类似。</li>
+</ul>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

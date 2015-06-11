@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TTY Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/tty.html">
+</head>
+<body class="alt apidoc" id="api-section-tty">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="tty.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#tty_tty_411">TTY</a><ul>
+<li><a href="#tty_tty_isatty_fd_411">tty.isatty(fd)</a></li>
+<li><a href="#tty_tty_setrawmode_mode_411">tty.setRawMode(mode)</a></li>
+<li><a href="#tty_readstream_411">类: ReadStream</a><ul>
+<li><a href="#tty_rs_israw_411">rs.isRaw</a></li>
+<li><a href="#tty_rs_setrawmode_mode_411">rs.setRawMode(mode)</a></li>
+</ul>
+</li>
+<li><a href="#tty_writestream_411">类: WriteStream</a><ul>
+<li><a href="#tty_ws_columns_411">ws.columns</a></li>
+<li><a href="#tty_ws_rows_411">ws.rows</a></li>
+<li><a href="#tty_resize_411">事件: &apos;resize&apos;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="6aee509913e8049a1e290ccfa2eb376b">
+
+<h1>TTY<span><a href="#tty_tty_411" id="tty_tty_411">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="14ae3b8a1560651cf34fa2e5562e7f27">
+
+<pre><code>稳定度: 2 - 不稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c3637cf4b5c2650dc05349350c2a9efe">
+
+<p><code>tty</code> 模块提供了 <code>tty.ReadStream</code> 和 <code>tty.WriteStream</code> 类。在大部分情况下，您都不会需要直接使用此模块。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fa59c26085599927359f5b0bc1d511db">
+
+<p>当 node 检测到它正运行于 TTY 上下文中时，<code>process.stdin</code> 将会是一个 <code>tty.ReadStream</code> 实例，且 <code>process.stdout</code> 也将会是一个 <code>tty.WriteStream</code> 实例。检查 node 是否运行于 TTY 上下文的首选方式是检查 <code>process.stdout.isTTY</code>：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ab0cdecff1a7d09526a3e9c61ab61052">
+
+<pre><code>$ node -p -e &quot;Boolean(process.stdout.isTTY)&quot;
+true
+$ node -p -e &quot;Boolean(process.stdout.isTTY)&quot; | cat
+false</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3cb7ff287dfd9cdb4e043d7903be67b0">
+
+<h2>tty.isatty(fd)<span><a href="#tty_tty_isatty_fd_411" id="tty_tty_isatty_fd_411">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="3bd88cbff78aeac95973a9e6c408b369">
+
+<p>若 <code>fd</code> 关联于中端则返回 <code>true</code>，反之返回 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b1966b1034ced54c31b951bc64b6ed64">
+
+<h2>tty.setRawMode(mode)<span><a href="#tty_tty_setrawmode_mode_411" id="tty_tty_setrawmode_mode_411">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d6f3e54d077b1c136a109f7aea54dede">
+
+<p>已废弃，请使用 <code>tty.ReadStream#setRawMode()</code>（如 <code>process.stdin.setRawMode()</code>）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e48762ca7a42dd2df69f3549e0a61ce9">
+
+<h2>类: ReadStream<span><a href="#tty_readstream_411" id="tty_readstream_411">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="9d2e63b2bf317b854b2f1b5889e726fc">
+
+<p>一个 <code>net.Socket</code> 子类，代表 TTY 的可读部分。通常情况下在所有 node 程序中 <code>process.stdin</code> 会是仅有的 <code>tty.ReadStream</code> 实例（进当 <code>isatty(0)</code> 为 true 时）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0aa206842f50ab0ca83f1eb1bd6b117e">
+
+<h3>rs.isRaw<span><a href="#tty_rs_israw_411" id="tty_rs_israw_411">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="0022dd1d9a16e5a08e8e5cd460ccd810">
+
+<p>一个 <code>Boolean</code>，初始为 <code>false</code>，代表 <code>tty.ReadStream</code> 实例的当前 &quot;raw&quot; 状态。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6b6842d2964934ae85a500ef1ce24cac">
+
+<h3>rs.setRawMode(mode)<span><a href="#tty_rs_setrawmode_mode_411" id="tty_rs_setrawmode_mode_411">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ebc63684b1d0bb39e59b29fc5d406db2">
+
+<p><code>mode</code> 可以是 <code>true</code> 或 <code>false</code>。它设定 <code>tty.ReadStream</code> 的属性表现为原始设备或缺省。<code>isRaw</code> 会被设置为结果模式。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bd345239bbb349a524542ef6efef0e10">
+
+<h2>类: WriteStream<span><a href="#tty_writestream_411" id="tty_writestream_411">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2b90432f86acbbdd65a5e567a8d3a614">
+
+<p>一个 <code>net.Socket</code> 子类，代表 TTY 的可写部分。通常情况下 <code>process.stdout</code> 会是仅有的 <code>tty.WriteStream</code> 实例（进当 <code>isatty(1)</code> 为 true 时）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="30d892ad6998483139a2a82e9ae6725f">
+
+<h3>ws.columns<span><a href="#tty_ws_columns_411" id="tty_ws_columns_411">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="019d263db0d3bbd175cc8e2999a440ee">
+
+<p>一个 `Number，表示 TTY 当前的列数。该属性会在 &quot;resize&quot; 事件中被更新。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d0f111d6f4590da0bcf0dc001843fa2f">
+
+<h3>ws.rows<span><a href="#tty_ws_rows_411" id="tty_ws_rows_411">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f25fee8911d3ee891c394836dfcf6478">
+
+<p>一个 `Number，表示 TTY 当前的行数。该属性会在 &quot;resize&quot; 事件中被更新。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dc73ac9888771435594830e7babbc4a8">
+
+<h3>事件: &apos;resize&apos;<span><a href="#tty_resize_411" id="tty_resize_411">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="53ae2dcc238bdf79d4fb8cb2ab6427fa">
+
+<p>由 <code>refreshSize()</code> 在 <code>columns</code> 或 <code>rows</code> 属性被改变时触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e1764923735b8c2ccb487bcac71733f0">
+
+<pre><code>process.stdout.on(&apos;resize&apos;, function() {
+  console.log(&apos;屏幕大小已改变！&apos;);
+  console.log(process.stdout.columns + &apos;x&apos; + process.stdout.rows);
+});</code></pre>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

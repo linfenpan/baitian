@@ -1,0 +1,6 @@
+<div id="wx_logo" style="margin:0 auto;display:none;">
+	<img src="icon.png">
+</div>
+<script>
+	btGame.playLogoAdv1();
+</script>

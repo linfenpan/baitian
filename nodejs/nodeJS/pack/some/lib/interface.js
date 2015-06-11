@@ -1,0 +1,1 @@
+exports.sayHi = function(){	console.log("hi yours");}

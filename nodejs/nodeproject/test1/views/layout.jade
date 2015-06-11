@@ -1,0 +1,26 @@
+//- doctype html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+doctype html
+html
+  head
+    block title
+        title #{title}
+    script(
+	  src='http://resource.a0bi.com/qq/zn/script/zepto.min.js'
+	)
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    block content
+      p Default Content if no content is defined!
+      .subContent
+    br/
+    block subTest
+      .sub1
+        block sub1
+          p 默认内容1
+      .sub2
+        block sub2
+          p 默认内容2
+    br/
+    block footer
+      br/
+      p This is footer

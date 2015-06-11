@@ -1,0 +1,10 @@
+{
+  "name": "compress",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "html-minifier": "~0.6.9",
+    "uglify-js": "~2.4.16",
+    "yuicompressor": "~2.4.8"
+  }
+}

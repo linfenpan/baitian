@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>操作系统 Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/os.html">
+</head>
+<body class="alt apidoc" id="api-section-os">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="os.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#os_683">操作系统</a><ul>
+<li><a href="#os_os_tmpdir_683">os.tmpdir()</a></li>
+<li><a href="#os_os_endianness_683">os.endianness()</a></li>
+<li><a href="#os_os_hostname_683">os.hostname()</a></li>
+<li><a href="#os_os_type_683">os.type()</a></li>
+<li><a href="#os_os_platform_683">os.platform()</a></li>
+<li><a href="#os_os_arch_683">os.arch()</a></li>
+<li><a href="#os_os_release_683">os.release()</a></li>
+<li><a href="#os_os_uptime_683">os.uptime()</a></li>
+<li><a href="#os_os_loadavg_683">os.loadavg()</a></li>
+<li><a href="#os_os_totalmem_683">os.totalmem()</a></li>
+<li><a href="#os_os_freemem_683">os.freemem()</a></li>
+<li><a href="#os_os_cpus_683">os.cpus()</a></li>
+<li><a href="#os_os_networkinterfaces_683">os.networkInterfaces()</a></li>
+<li><a href="#os_os_eol_683">os.EOL</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="92fe69f3fad3945ea95f9fb423563364">
+
+<h1>操作系统<span><a href="#os_683" id="os_683">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="050a2049458b1f3dbf3e3f111adcfb22">
+
+<pre><code>稳定度: 4 - 冻结</code></pre>
+</div>
+
+<div class="translate-section" data-hash="788f468a157a826a2be7846386969f87">
+
+<p>提供一些基本的操作系统相关函数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cac398783c0fa8465b6597cd803a468a">
+
+<p>使用 <code>require(&apos;os&apos;)</code> 来调用这个模块。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="48a3616fd14242d8d1fb18434a802762">
+
+<h2>os.tmpdir()<span><a href="#os_os_tmpdir_683" id="os_os_tmpdir_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1801770de1dff8e4125388abce2f2add">
+
+<p>返回操作系统默认的临时文件目录
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="94eab219d13692eda46b30e95b5fa817">
+
+<h2>os.endianness()<span><a href="#os_os_endianness_683" id="os_os_endianness_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7133997745ad6ba0e0ef18c1bf201448">
+
+<p>返回 CPU 的字节序，可能的是 <code>&quot;BE&quot;</code> 或 <code>&quot;LE&quot;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dda46e03db1f7fa98b494bd2c3144b5f">
+
+<h2>os.hostname()<span><a href="#os_os_hostname_683" id="os_os_hostname_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a98f1b07910478e9c2f6c4ee89527997">
+
+<p>返回操作系统的主机名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="55aef10d6f44db3a1f1f211f5f4778c7">
+
+<h2>os.type()<span><a href="#os_os_type_683" id="os_os_type_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4227f83b7475ec0cff9b9f83d9c25a5d">
+
+<p>返回操作系统名称。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="427e93e24ef7cc518a82e4ad41ff4510">
+
+<h2>os.platform()<span><a href="#os_os_platform_683" id="os_os_platform_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="63f369d89e4485c3c0176bd9b7538395">
+
+<p>返回操作系统平台
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1d48c8095d3ca7f9f5a7dba54cf9d55">
+
+<h2>os.arch()<span><a href="#os_os_arch_683" id="os_os_arch_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a2e886e44dd5d255a6ce2a8938063b86">
+
+<p>返回操作系统 CPU 架构，可能的值有 <code>&quot;x64&quot;</code>、<code>&quot;arm&quot;</code> 和 <code>&quot;ia32&quot;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="eeb83bb6cf96920d43aa705dbd1d5529">
+
+<h2>os.release()<span><a href="#os_os_release_683" id="os_os_release_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="57faf6cb2743f0ce3146de66ff95d0eb">
+
+<p>返回操作系统的发行版本。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a276b2b6e6d151eedf84335753d3a6c7">
+
+<h2>os.uptime()<span><a href="#os_os_uptime_683" id="os_os_uptime_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1c55bccd88413860747cfedc0331ceb2">
+
+<p>返回操作系统运行的时间，以秒为单位。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d33b10e6487a32c9acdc576ed05ca5d0">
+
+<h2>os.loadavg()<span><a href="#os_os_loadavg_683" id="os_os_loadavg_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b752c758096e8b22c615128c05053179">
+
+<p>返回一个包含 1、5、15 分钟平均负载的数组。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e870ef691bbe0ab3c31947aefea0e2d6">
+
+<h2>os.totalmem()<span><a href="#os_os_totalmem_683" id="os_os_totalmem_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="98254e1c6f2678cf50bc09c4ec2fa648">
+
+<p>返回系统内存总量，单位为字节。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e7a4e65af5da58401a02b96755d00eab">
+
+<h2>os.freemem()<span><a href="#os_os_freemem_683" id="os_os_freemem_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="314cd0f557a5ece44c3bb163c239d018">
+
+<p>返回操作系统空闲内存量，单位是字节。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b3ccd56431bd0b2248c720694bcea2a1">
+
+<h2>os.cpus()<span><a href="#os_os_cpus_683" id="os_os_cpus_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="f20331201ac8375575c5026b0a68da7b">
+
+<p>返回一个对象数组，包含所安装的每个 CPU/内核的信息：型号、速度（单位 MHz）、时间（一个包含 user、nice、sys、idle 和 irq 所使用 CPU/内核毫秒数的对象）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="907932fee1ffc61cc9fa578df1d4d2f0">
+
+<p>os.cpus 的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a360a827bbcc14842be833e46f3f1e69">
+
+<pre><code>[ { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 252020,
+       nice: 0,
+       sys: 30340,
+       idle: 1070356870,
+       irq: 0 } },
+  { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 306960,
+       nice: 0,
+       sys: 26980,
+       idle: 1071569080,
+       irq: 0 } },
+  { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 248450,
+       nice: 0,
+       sys: 21750,
+       idle: 1070919370,
+       irq: 0 } },
+  { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 256880,
+       nice: 0,
+       sys: 19430,
+       idle: 1070905480,
+       irq: 20 } },
+  { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 511580,
+       nice: 20,
+       sys: 40900,
+       idle: 1070842510,
+       irq: 0 } },
+  { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 291660,
+       nice: 0,
+       sys: 34360,
+       idle: 1070888000,
+       irq: 10 } },
+  { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 308260,
+       nice: 0,
+       sys: 55410,
+       idle: 1071129970,
+       irq: 880 } },
+  { model: &apos;Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz&apos;,
+    speed: 2926,
+    times:
+     { user: 266450,
+       nice: 1480,
+       sys: 34920,
+       idle: 1072572010,
+       irq: 30 } } ]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f39a47cfe2e2dbeecd1fb11ecda4d8ed">
+
+<h2>os.networkInterfaces()<span><a href="#os_os_networkinterfaces_683" id="os_os_networkinterfaces_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="f47ec5f67b513b1571308ff619a98f5f">
+
+<p>获取网络接口的一个列表信息：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="baeb3ae18473fb6e4cfa2a9b589072a2">
+
+<pre><code>{ lo:
+   [ { address: &apos;127.0.0.1&apos;,
+       netmask: &apos;255.0.0.0&apos;,
+       family: &apos;IPv4&apos;,
+       mac: &apos;00:00:00:00:00:00&apos;,
+       internal: true },
+     { address: &apos;::1&apos;,
+       netmask: &apos;ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff&apos;,
+       family: &apos;IPv6&apos;,
+       mac: &apos;00:00:00:00:00:00&apos;,
+       internal: true } ],
+  eth0:
+   [ { address: &apos;192.168.1.108&apos;,
+       netmask: &apos;255.255.255.0&apos;,
+       family: &apos;IPv4&apos;,
+       mac: &apos;01:02:03:0a:0b:0c&apos;,
+       internal: false },
+     { address: &apos;fe80::a00:27ff:fe4e:66a1&apos;,
+       netmask: &apos;ffff:ffff:ffff:ffff::&apos;,
+       family: &apos;IPv6&apos;,
+       mac: &apos;01:02:03:0a:0b:0c&apos;,
+       internal: false } ] }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="824df2b74c581c38f9b15bb640935582">
+
+<h2>os.EOL<span><a href="#os_os_eol_683" id="os_os_eol_683">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="06f2cd52ee484cba6ae5a603543e8b7d">
+
+<p>一个定义了操作系统的一行结束的标识的常量。
+
+</p>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

@@ -1,0 +1,22 @@
+{
+    "name":"install-grunt",
+    "description": "Example project to demonstrate Grunt.",
+    "version":"0.1.0",
+    "private": true,
+    "author": {
+        "name": "w3cplus",
+        "email": "w3cplus@hotmail.com"
+    },
+    "devDependencies": {
+        "grunt": "*",
+		"grunt-contrib-sass":"*",
+		"grunt-contrib-less":"*",
+        "grunt-contrib-jshint":"*",
+        "grunt-contrib-uglify":"*",
+        "grunt-contrib-watch":"*",
+		"grunt-contrib-compress": "*",
+		"grunt-contrib-htmlmin": "*",
+		"grunt-contrib-jade": "*",
+		"grunt-contrib-mincss": "*"
+    }
+}

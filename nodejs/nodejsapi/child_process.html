@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>子进程 Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/child_process.html">
+</head>
+<body class="alt apidoc" id="api-section-child_process">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="child_process.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#child_process_1748">子进程</a><ul>
+<li><a href="#child_process_childprocess_1748">类: ChildProcess</a><ul>
+<li><a href="#child_process_error_1748">事件:  &apos;error&apos;</a></li>
+<li><a href="#child_process_exit_1748">事件:  &apos;exit&apos;</a></li>
+<li><a href="#child_process_close_1748">事件: &apos;close&apos;</a></li>
+<li><a href="#child_process_disconnect_1748">事件: &apos;disconnect&apos;</a></li>
+<li><a href="#child_process_message_1748">事件: &apos;message&apos;</a></li>
+<li><a href="#child_process_child_stdin_1748">child.stdin</a></li>
+<li><a href="#child_process_child_stdout_1748">child.stdout</a></li>
+<li><a href="#child_process_child_stderr_1748">child.stderr</a></li>
+<li><a href="#child_process_child_pid_1748">child.pid</a></li>
+<li><a href="#child_process_child_kill_signal_1748">child.kill([signal])</a></li>
+<li><a href="#child_process_child_send_message_sendhandle_1748">child.send(message, [sendHandle])</a><ul>
+<li><a href="#child_process_server_1748">例子: 发送一个server对象</a></li>
+<li><a href="#child_process_socket_1748">示例: 发送socket对象</a></li>
+</ul>
+</li>
+<li><a href="#child_process_child_disconnect_1748">child.disconnect()</a></li>
+</ul>
+</li>
+<li><a href="#child_process_child_process_spawn_command_args_options_1748">child_process.spawn(command, [args], [options])</a></li>
+<li><a href="#child_process_child_process_exec_command_options_callback_1748">child_process.exec(command, [options], callback)</a></li>
+<li><a href="#child_process_child_process_execfile_file_args_options_callback_1748">child_process.execFile(file, args, options, callback)</a></li>
+<li><a href="#child_process_child_process_fork_modulepath_args_options_1748">child_process.fork(modulePath, [args], [options])</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="76cff107e9b1516d68437471906795fb">
+
+<h1>子进程<span><a href="#child_process_1748" id="child_process_1748">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="08c14d61e651a14cad19924158f6ef82">
+
+<p>Node 通过 <code>child_process</code> 模块提供了类似 <code>popen(3)</code> 的处理三向数据流（stdin/stdout/stderr）的功能。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5af57ff99b7d50a79cd11e66ddc407c6">
+
+<p>它能够以完全非阻塞的方式与子进程的 <code>stdin</code>、<code>stdout</code> 和 <code>stderr</code> 以流式传递数据。（请注意，某些程序在内部使用行缓冲 I/O。这不会影响到 node.js，但您发送到子进程的数据不会被立即消费。）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="be0a2170105ca9cf22f862b7b8ecf5ac">
+
+<p>使用 <code>require(&apos;child_process&apos;).spawn()</code>或者 <code>require(&apos;child_process&apos;).fork()</code> 创建子进程，这两种方法的语义有些区别，下文将会解释。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0e1cee23dd37028f06b48fa01b822450">
+
+<h2>类: ChildProcess<span><a href="#child_process_childprocess_1748" id="child_process_childprocess_1748">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a59c804c9f37ad673544983d7282b2ac">
+
+<p><code>ChildProcess</code> 是一个 <a href="events.html#events_class_events_eventemitter">EventEmitter</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b1b4776bc759489695d340f35d537ea3">
+
+<p>子进程有三个与之关联的流：<code>child.stdin</code>、<code>child.stdout</code> 和 <code>child.stderr</code>。它们可以共享父进程的 stdio 流，也可以作为独立的被导流的流对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c8cb2da9a73a327baa28e03300791f11">
+
+<p>ChildProcess 类不能直接被使用， 使用 <code>spawn()</code> 或者 <code>fork()</code> 方法创建一个 Child Process 实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="91f970b40569ad268f661cfc645798c3">
+
+<h3>事件:  &apos;error&apos;<span><a href="#child_process_error_1748" id="child_process_error_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="49d481ac26c080e95e871860e6935f6d">
+
+<ul>
+<li><code>err</code> {Error Object} 错误。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="17f4f3dc1439b19e323c0a8cc533127c">
+
+<p>发生于：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9924aa5aef0334657eace3fb2468b3e5">
+
+
+<ol>
+<li>进程不能被创建, 或者</li>
+<li>进程不能被终止掉, 或者</li>
+<li>由任何原因引起的数据发送到子进程失败.</li>
+</ol>
+</div>
+
+<div class="translate-section" data-hash="c67d96447147109bf1dcd026bbc34ddd">
+
+<p>参阅 <a href="#child_process_child_kill_signal"><code>ChildProcess#kill()</code></a> 和
+<a href="#child_process_child_send_message_sendhandle"><code>ChildProcess#send()</code></a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a8adb8f04663936f1197d26cda339445">
+
+<h3>事件:  &apos;exit&apos;<span><a href="#child_process_exit_1748" id="child_process_exit_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="b5b2a2abde44c517db0e2d8829d3ce7a">
+
+<ul>
+<li><code>code</code> {Number} 假如进程正常退出，则为它的退出代码。</li>
+<li><code>signal</code> {String} 假如是被父进程终止，则为所传入的终止子进程的信号。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="251b0f51ca423c83f1797486f074e859">
+
+<p>这个事件是在子进程被结束的时候触发的. 假如进程被正常结束，‘code’就是退出进程的指令代码, 否则为&apos;null&apos;. 假如进程是由于接受到signal结束的, <code>signal</code> 就代表着信号的名称, 否则为<code>null</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="50a4fb6d43e97d54c196e5c9faef658e">
+
+<p>注意子进程的 stdio 流可能仍为开启状态。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="da81dd7473c8b46b9ceb9277926208f2">
+
+<p>参阅<code>waitpid(2)</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2b8af4d8afc211663a4341cca53b503">
+
+<h3>事件: &apos;close&apos;<span><a href="#child_process_close_1748" id="child_process_close_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="b5b2a2abde44c517db0e2d8829d3ce7a">
+
+<ul>
+<li><code>code</code> {Number} 假如进程正常退出，则为它的退出代码。</li>
+<li><code>signal</code> {String} 假如是被父进程终止，则为所传入的终止子进程的信号。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="df77eb92c1534027cbb65bded39ee548">
+
+<p>这个事件会在一个子进程的所有stdio流被终止时触发， 这和&apos;exit&apos;事件有明显的不同，因为多进程有时候会共享同一个stdio流
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="78d99fe54de7fafe231325bba1ddd619">
+
+<h3>事件: &apos;disconnect&apos;<span><a href="#child_process_disconnect_1748" id="child_process_disconnect_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="23b883206d2bb2243db1b30a0675a346">
+
+<p>在子进程或父进程中使用使用.disconnect()方法后，这个事件会被触发，在断开之后，就不可能再相互发送信息了。可以通过检查子进程的child.connected属性是否为true去检查是否可以发送信息
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7ac73013006024dddcd78e9adef591b1">
+
+<h3>事件: &apos;message&apos;<span><a href="#child_process_message_1748" id="child_process_message_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3eb5c296fc0c750642ca6a97f11f97d5">
+
+<ul>
+<li><code>message</code> {Object} 一个已解析的JSON对象或者原始类型值</li>
+<li><code>sendHandle</code> {Handle object} 一个socket 或者 server对象</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="afafe4c6de3d2b598662cd1a90fb8206">
+
+<p>通过.send()发送的信息可以通过监听&apos;message&apos;事件获取到
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="567b077c9f5d03c1adadba83c7a0da71">
+
+<h3>child.stdin<span><a href="#child_process_child_stdin_1748" id="child_process_child_stdin_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3fa8c9e5298d0aad25380b776a84cd68">
+
+<ul>
+<li>{Stream object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="509bc284428a07399af379b6a1973657">
+
+<p>子进程的&apos;stdin&apos;是一个‘可写流’，通过end()方法关闭该可写流可以终止子进程，
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="644a19c0443f5fecc39785b804522653">
+
+<p>假如子进程的stdio流与父线程共享，这个child.stdin不会被设置
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ea175a7ccfacbe0fbf626f16c57eb9f7">
+
+<h3>child.stdout<span><a href="#child_process_child_stdout_1748" id="child_process_child_stdout_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3fa8c9e5298d0aad25380b776a84cd68">
+
+<ul>
+<li>{Stream object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c5bbd8f0d04b7b6942476383136cb0f8">
+
+<p>子进程的<code>stdout</code>是个可读流.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="644a19c0443f5fecc39785b804522653">
+
+<p>假如子进程的stdio流与父线程共享，这个child.stdin不会被设置
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8ef2a5f0372061f2cc10dd2566209846">
+
+<h3>child.stderr<span><a href="#child_process_child_stderr_1748" id="child_process_child_stderr_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3fa8c9e5298d0aad25380b776a84cd68">
+
+<ul>
+<li>{Stream object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9efc92ea2e12e1eb5e761f25b3a59596">
+
+<p>子进程的stderr是一个可读流
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="644a19c0443f5fecc39785b804522653">
+
+<p>假如子进程的stdio流与父线程共享，这个child.stdin不会被设置
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4de785005ec456ddf3f1eefc15d41a02">
+
+<h3>child.pid<span><a href="#child_process_child_pid_1748" id="child_process_child_pid_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a2e77a4e569932ba0e7ec11cf8184ded">
+
+<ul>
+<li>{Integer}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="38247ad3135926da57989da7948781d9">
+
+<p>子进程的PID
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aaf01ea5b1c4feb17b215b965b572196">
+
+<pre><code>console.log(&apos;Spawned child pid: &apos; + grep.pid);
+grep.stdin.end();</code></pre>
+</div>
+
+<div class="translate-section" data-hash="83114359847367c9ad93c425fd1d11e7">
+
+<h3>child.kill([signal])<span><a href="#child_process_child_kill_signal_1748" id="child_process_child_kill_signal_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="13c433d2836186cee9114f09ca1cb003">
+
+<ul>
+<li><code>signal</code> {String}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="3052e79930c410e3d8d83f6913bd9abb">
+
+<p>发送一个信号给子线程. 假如没有给参数, 将会发送 <code>&apos;SIGTERM&apos;</code>. 参阅 <code>signal(7)</code> 查看所有可用的signals列表
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="34058ae35044fdc23e0a629c7cc67262">
+
+<pre><code>// send SIGHUP to process
+grep.kill(&apos;SIGHUP&apos;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b17b7a12c05825a3bd19c09265f576b5">
+
+<p>当一个signal不能被传递的时候，会触发一个&apos;error&apos;事件， 发送一个信号到已终止的子线程不会发生错误，但是可能引起不可预见的后果， 假如该子进程的ID已经重新分配给了其他进程，signal将会被发送到其他进程上面，大家可以猜想到这发生什么后果。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f17684b5f855a23efd7b6f9d15ccea6e">
+
+<p>注意，当函数调用‘kill’, 传递给子进程的信号不会去终结子进程， ‘kill’实际上只是发送一个信号到进程而已。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1a1e838b03556a9cb36d4855adc7a612">
+
+<p>See <code>kill(2)</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bc832e38f5690568d8ab9bd8c14781b5">
+
+<h3>child.send(message, [sendHandle])<span><a href="#child_process_child_send_message_sendhandle_1748" id="child_process_child_send_message_sendhandle_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="17f8002e2794715877ed20d0365dd2bb">
+
+<ul>
+<li><code>message</code> {Object}</li>
+<li><code>sendHandle</code> {Handle object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d1234fd3c4b6c5084303913d7b615c5c">
+
+<p>当使用 <code>child_process.fork()</code> 你可以使用 
+<code>child.send(message, [sendHandle])</code>向子进程写数据 and 数据将通过子进程上的‘message’事件接受.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="506c2c0c7f5b70af3df68c45c46f45a7">
+
+<p>例如：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="763e65960b76f625d84ebda7c1993526">
+
+<pre><code>n.send({ hello: &apos;world&apos; });</code></pre>
+</div>
+
+<div class="translate-section" data-hash="dd4c2059d816adb18053ea4c3f327852">
+
+<p>然后是子进程脚本的代码, <code>&apos;sub.js&apos;</code> 代码如下:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4802855aebaa226ed77d1af1ab4c3b61">
+
+<pre><code>process.send({ foo: &apos;bar&apos; });</code></pre>
+</div>
+
+<div class="translate-section" data-hash="5c1adb559d135f2abdd437d013e54bf9">
+
+<p>在子进程脚本中&apos;process&apos;对象有‘send()’方法， ‘process’每次通过它的信道接收到信息都会触发事件，信息以对象形式返回。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3f5b2b5f467b8a562dba3090c15a7807">
+
+<p>不过发送<code>{cmd: &apos;NODE_foo&apos;}</code> 信息是个比较特殊的情况. 所有在‘cmd’属性中包含 a <code>NODE_</code>前缀的信息将不会触发‘message’事件, 因为他们是由node 核心使用的内部信息.
+相反这种信息会触发 <code>internalMessage</code> 事件, 你应该通过各种方法避免使用这种特性, 他改变的时候不会接收到通知.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8787f18de77f87d42a9c5eebc7e40f72">
+
+<p><code>child.send()</code>的<code>sendHandle</code> 选项是用来发送一个TCP服务或者socket对象到另一个线程的，子进程将会接收这个参数作为‘message’事件的第二个参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7f14b4ff530aafa79ac1bb34fe1f35d6">
+
+<p>假如信息不能被发送，将会触发一个‘error’事件， 比如说因为子线程已经退出了。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd681e13148bb89c9d2a8dd43bbc6626">
+
+<h4>例子: 发送一个server对象<span><a href="#child_process_server_1748" id="child_process_server_1748">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="9a9aede600026a43e839829307bea064">
+
+<p>这里是一个发送一个server对象的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bb707e4921d43c08561054755295b86b">
+
+<pre><code>// 创建一个handle对象，发送一个句柄.
+var server = require(&apos;net&apos;).createServer();
+server.on(&apos;connection&apos;, function (socket) {
+  socket.end(&apos;handled by parent&apos;);
+});
+server.listen(1337, function() {
+  child.send(&apos;server&apos;, server);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="046b0d45ee7bdcc875b95e6429b28249">
+
+<p>同时子进程将会以如下方式接收到这个server对象:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e74a2143cbcd2e3c5d83c98cc85d98f1">
+
+<pre><code>process.on(&apos;message&apos;, function(m, server) {
+  if (m === &apos;server&apos;) {
+    server.on(&apos;connection&apos;, function (socket) {
+      socket.end(&apos;handled by child&apos;);
+    });
+  }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="edcd7ccd56a2a911e69881496895b5ac">
+
+<p>注意，server对象现在有父进程和子进程共享，这意味着某些连接将会被父进程和子进程处理。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="49c5e431b9fbabc768fbaef111ac7c59">
+
+<p>对‘dgram’服务器，工作流程是一样的, 你监听的是‘message’事件，而不是 ‘connection’事件， 使用‘server.bind’ ,而不是‘server.listen’.(当前仅在UNIX平台支持)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cb1b681630fa4fe898f9fb52f9930f3f">
+
+<h4>示例: 发送socket对象<span><a href="#child_process_socket_1748" id="child_process_socket_1748">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="31838537f38820874aca461601aebc56">
+
+<p>这是个发送socket的例子. 他将创建两个子线程 ，同时处理连接，这是通过使用远程地址 <code>74.125.127.100</code> 作为 VIP 发送socket到一个‘特殊’的子线程. 其他的socket将会发送到‘正常’的线程里.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="06da412a22241fee7df34a6f976960b8">
+
+<pre><code>  // if this is a VIP
+  if (socket.remoteAddress === &apos;74.125.127.100&apos;) {
+    special.send(&apos;socket&apos;, socket);
+    return;
+  }
+  // just the usual dudes
+  normal.send(&apos;socket&apos;, socket);
+});
+server.listen(1337);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9137938ad91dc67adec01f3ab04848cc">
+
+<p> <code>child.js</code> 文件代码如下:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e91d1b8fce7f882722c680c8dd176989">
+
+<pre><code>process.on(&apos;message&apos;, function(m, socket) {
+  if (m === &apos;socket&apos;) {
+    socket.end(&apos;You were handled as a &apos; + process.argv[2] + &apos; person&apos;);
+  }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3167d0d3d4e5306cc4e24034cd019db8">
+
+<p>注意，一旦单个的socket被发送到子进程，当这个socket被删除之后，父进程将不再对它保存跟踪，这表明了这个条件下‘.connetions’属性将变成&apos;null&apos;， 在这个条件下同时也不推荐使用‘.maxConnections’属性.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="85f3f15163ff78c07313b6a7854459ac">
+
+<h3>child.disconnect()<span><a href="#child_process_child_disconnect_1748" id="child_process_child_disconnect_1748">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="451c42dd8d0640c6394ede4c0e4c901f">
+
+<p>使用<code>child.disconnect()</code> 方法关闭父进程与子进程的IPC连接. 他让子进程非常优雅的退出，因为已经没有活跃的IPC信道. 当调用这个方法，‘disconnect’事件将会同时在父进程和子进程内被触发，‘connected’的标签将会被设置成‘flase’， 请注意，你也可以在子进程中调用‘process.disconnect()’
+
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="19c4f3bc95e73d0204b1bd08a2229ecc">
+
+<h2>child_process.spawn(command, [args], [options])<span><a href="#child_process_child_process_spawn_command_args_options_1748" id="child_process_child_process_spawn_command_args_options_1748">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1e08863d20c3394bbf9ff5729fbf6f9f">
+
+
+<ul>
+<li><code>command</code> {String}要运行的命令</li>
+<li><code>args</code> {Array} 字符串参数列表</li>
+<li><code>options</code> {Object}<ul>
+<li><code>cwd</code> {String} 子进程的当前的工作目录</li>
+<li><code>stdio</code> {Array|String} 子进程 stdio 配置. (参阅下文)</li>
+<li><code>customFds</code> {Array} <strong>Deprecated</strong> 作为子进程 stdio 使用的 文件标示符.  (参阅下文)</li>
+<li><code>env</code> {Object} 环境变量的键值对</li>
+<li><code>detached</code> {Boolean} 子进程将会变成一个进程组的领导者.  (参阅下文)</li>
+<li><code>uid</code> {Number} 设置用户进程的ID. (See setuid(2).)</li>
+<li><code>gid</code> {Number} 设置进程组的ID. (See setgid(2).)</li>
+</ul>
+</li>
+<li>返回: {ChildProcess object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="ba2b24e7663601f3381d3a19223eefd1">
+
+<p>用给定的命令发布一个子进程，带有‘args’命令行参数，如果省略的话，‘args’默认为一个空数组
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5c35779ce9e40f89df40cd807af9186d">
+
+<p>第三个参数被用来指定额外的设置，默认是:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5f2291c77a7655a43e25e9de99a34ca3">
+
+<pre><code>{ cwd: undefined,
+  env: process.env
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="aa06df84ec2aebc71bf762c0139f013c">
+
+<p><code>cwd</code>允许你从被创建的子进程中指定一个工作目录.
+使用 <code>env</code> 去指定在新进程中可用的环境变量.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1be96b11049363589ce59661a2ebfeed">
+
+<p>一个运行 <code>ls -lh /usr</code>的例子, 获取<code>stdout</code>, <code>stderr</code>, 和退出代码:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="45e98a03b1cd8ee47a7cfee73bddd926">
+
+<pre><code>ls.on(&apos;close&apos;, function (code) {
+  console.log(&apos;child process exited with code &apos; + code);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="08ba17badc7bf084450af8b45bb8b7b2">
+
+<p>例子: 一个非常精巧的方法执行 &apos;ps ax | grep ssh&apos;
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5176aa0e27ebdc8f8b12f702f541fb8e">
+
+<pre><code>grep.on(&apos;close&apos;, function (code) {
+  if (code !== 0) {
+    console.log(&apos;grep process exited with code &apos; + code);
+  }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6cd33d0259ad3e5c3d653ad3d0a00912">
+
+<p>检查执行错误的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8ee4305dcb8e75b60d0406b0948597e9">
+
+<pre><code>child.stderr.setEncoding(&apos;utf8&apos;);
+child.stderr.on(&apos;data&apos;, function (data) {
+  if (/^execvp\(\)/.test(data)) {
+    console.log(&apos;Failed to start child process.&apos;);
+  }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="53dc131a398351cd8e4b03a032d77fb0">
+
+<p>注意，当在spawn过程中接收一个空对象,这会导致创建的进程使用空的环境变量而不是使用‘process.env’.这是由于与一个废弃API向后兼容的问题.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1ea9ca4d142f625c4984631aff142168">
+
+<p><code>child_process.spawn()</code> 中的 <code>stdio</code> 选项是一个数组，每个索引对应子进程中的一个文件标识符。可以是下列值之一：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b8fd6c5486ecc0236c13b43988b66011">
+
+
+<ol>
+<li><p><code>&apos;pipe&apos;</code> -在子进程与父进程之间创建一个管道，管道的父进程端以 <code>child_process</code> 的属性的形式暴露给父进程，如 <code>ChildProcess.stdio[fd]</code>。
+为 文件标识（fds） 0 - 2 建立的管道也可以通过 ChildProcess.stdin，ChildProcess.stdout 及 ChildProcess.stderr 分别访问。</p>
+</li>
+<li><p><code>&apos;ipc&apos;</code> - 创建一个IPC通道以在父进程与子进程之间传递 消息/文件标识符。一个子进程只能有最多<em>一个</em> IPC stdio 文件标识。
+设置该选项激活 ChildProcess.send() 方法。如果子进程向此文件标识符写JSON消息，则会触发 ChildProcess.on(&quot;message&quot;)。
+如果子进程是一个nodejs程序，那么IPC通道的存在会激活process.send()和process.on(&apos;message&apos;)</p>
+</li>
+<li><p><code>&apos;ignore&apos;</code> - 不在子进程中设置该文件标识。注意，Node 总是会为其spawn的进程打开 文件标识（fd） 0 - 2。 
+当其中任意一项被 ignored，node 会打开 <code>/dev/null</code> 并将其附给子进程的文件标识（fd）。</p>
+</li>
+<li><p><code>Stream</code> 对象 - 与子进程共享一个与tty，文件，socket，或者管道(pipe)相关的可读或可写流。
+ 该流底层（underlying）的文件标识在子进程中被复制给stdio数组索引对应的文件标识（fd）</p>
+</li>
+<li><p>正数 - 该整形值被解释为父进程中打开的文件标识符。他与子进程共享，和<code>Stream</code>被共享的方式相似。</p>
+</li>
+<li><p><code>null</code>, <code>undefined</code> - 使用默认值。 对于stdio fds 0,1,2（或者说stdin,stdout和stderr），pipe管道被建立。对于fd 3及往后，默认为<code>ignore</code></p>
+</li>
+</ol>
+</div>
+
+<div class="translate-section" data-hash="e80a0b276b164e8dd211a6df95ed0b09">
+
+<p>作为快捷方式，<code>stdio</code> 参数除了数组也可以是下列字符串之一：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="52b461fe8fa353050f326c41205604ea">
+
+<ul>
+<li><code>ignore</code> - <code>[&apos;ignore&apos;, &apos;ignore&apos;, &apos;ignore&apos;]</code></li>
+<li><code>pipe</code> - <code>[&apos;pipe&apos;, &apos;pipe&apos;, &apos;pipe&apos;]</code></li>
+<li><code>inherit</code> - <code>[process.stdin, process.stdout, process.stderr]</code> 或 <code>[0,1,2]</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8bd3a718697c6abbd9150c46b5aecc83">
+
+<pre><code>// 开启一个额外的 fd=4 来与提供 startd 风格接口的程序进行交互。
+spawn(&apos;prg&apos;, [], { stdio: [&apos;pipe&apos;, null, null, null, &apos;pipe&apos;] });</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a1e642dfd7d2cb6d496f926b8028c5f6">
+
+<p>如果 <code>detached</code> 选项被设置，则子进程会被作为新进程组的 leader。这使得子进程可以在父进程退出后继续运行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="71536effa1a12f0fb6a990f48d50fe68">
+
+<p>缺省情况下，父进程会等待脱离了的子进程退出。要阻止父进程等待一个给出的子进程 <code>child</code>，使用 <code>child.unref()</code> 方法，则父进程的事件循环引用计数中将不会包含这个子进程。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="335eab4182af7d360dc9b5408436f3a4">
+
+<p>脱离一个长时间运行的进程并将它的输出重定向到一个文件的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7cc19ecde24fd79277f306444a60f347">
+
+<pre><code> child.unref();</code></pre>
+</div>
+
+<div class="translate-section" data-hash="fc489be06585776b9d95a958d8b9754b">
+
+<p>当使用 <code>detached</code> 选项来启动一个长时间运行的进程，该进程不会在后台保持运行，除非向它提供了一个不连接到父进程的 <code>stdio</code> 配置。如果继承了父进程的 <code>stdio</code>，则子进程会继续附着在控制终端。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b6935fa0679931cecbe3c8282b320633">
+
+<p>有一个已废弃的选项 <code>customFds</code> 允许指定特定文件描述符作为子进程的 stdio。该 API 无法移植到所有平台，因此被移除。使用 <code>customFds</code> 可以将新进程的 <code>[stdin, stdout, stderr]</code> 钩到已有流上；<code>-1</code> 表示创建新流。自己承担使用风险。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c85e4ddf95fc1b93f91baf9e1bb54211">
+
+<p>参阅：<code>child_process.exec()</code> 和 <code>child_process.fork()</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b39d3857c767f3d570afb103f2cb1d9e">
+
+<h2>child_process.exec(command, [options], callback)<span><a href="#child_process_child_process_exec_command_options_callback_1748" id="child_process_child_process_exec_command_options_callback_1748">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="185391c8cdcada4a9a73bb34186b1225">
+
+<ul>
+<li><code>command</code> {String} 将要执行的命令，用空格分隔参数</li>
+<li><code>options</code> {Object}<ul>
+<li><code>cwd</code> {String} 子进程的当前工作目录</li>
+<li><code>env</code> {Object} 环境变量键值对</li>
+<li><code>encoding</code> {String} 编码（缺省为 &apos;utf8&apos;）</li>
+<li><code>shell</code> {String} 运行命令的 shell（UNIX 上缺省为 &apos;/bin/sh&apos;，Windows 上缺省为 &apos;cmd.exe&apos;。该 shell 在 UNIX 上应当接受 <code>-c</code> 开关，在 Windows 上应当接受 <code>/s /c</code> 开关。在 Windows 中，命令行解析应当兼容 <code>cmd.exe</code>。）</li>
+<li><code>timeout</code> {Number} 超时（缺省为 0）</li>
+<li><code>maxBuffer</code> {Number} 最大缓冲（缺省为 200*1024）</li>
+<li><code>killSignal</code> {String} 结束信号（缺省为 &apos;SIGTERM&apos;）</li>
+</ul>
+</li>
+<li><code>callback</code> {Function} 进程结束时回调并带上输出<ul>
+<li><code>error</code> {Error}</li>
+<li><code>stdout</code> {Buffer}</li>
+<li><code>stderr</code> {Buffer}</li>
+</ul>
+</li>
+<li>返回：ChildProcess 对象</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="8960501cd4dde52e83bc8c10d0517335">
+
+<p>在 shell 中执行一个命令并缓冲输出。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="598869bf6c7b4cd228b717fe4977359f">
+
+<pre><code>child = exec(&apos;cat *.js bad_file | wc -l&apos;,
+  function (error, stdout, stderr) {
+    console.log(&apos;stdout: &apos; + stdout);
+    console.log(&apos;stderr: &apos; + stderr);
+    if (error !== null) {
+      console.log(&apos;exec error: &apos; + error);
+    }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a0f7e00f4166e93fc7e9a9e2e4aef275">
+
+<p>回调参数为 <code>(error, stdout, stderr)</code>。当成功时，<code>error</code> 会是 <code>null</code>。当遇到错误时，<code>error</code> 会是一个 <code>Error</code> 实例，并且 <code>err.code</code> 会是子进程的退出代码，同时 <code>err.signal</code> 会被设置为结束进程的信号名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8c4dca48f851d087d4256e52972aea50">
+
+<p>第二个可选的参数用于指定一些选项，缺省选项为：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d04e1eba457354ba7b3ac9a2346b3ea1">
+
+<pre><code>{ encoding: &apos;utf8&apos;,
+  timeout: 0,
+  maxBuffer: 200*1024,
+  killSignal: &apos;SIGTERM&apos;,
+  cwd: null,
+  env: null }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f25e9bc3c3ec986e436612930f2d48a4">
+
+<p>如果 <code>timeout</code> 大于 0，则当进程运行超过 <code>timeout</code> 毫秒后会被终止。子进程使用 <code>killSignal</code> 信号结束（缺省为 <code>&apos;SIGTERM&apos;</code>）。<code>maxBuffer</code> 指定了 stdout 或 stderr 所允许的最大数据量，如果超出这个值则子进程会被终止。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f79f583d10f39e2860b313d19bf1c8c5">
+
+<h2>child_process.execFile(file, args, options, callback)<span><a href="#child_process_child_process_execfile_file_args_options_callback_1748" id="child_process_child_process_execfile_file_args_options_callback_1748">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="cf580c42301eba01bd7d0eb34e7a859e">
+
+<ul>
+<li><code>file</code> {String} 要运行的程序的文件名</li>
+<li><code>args</code> {Array} 字符串参数列表</li>
+<li><code>options</code> {Object}<ul>
+<li><code>cwd</code> {String} 子进程的当前工作目录</li>
+<li><code>env</code> {Object} 环境变量键值对</li>
+<li><code>encoding</code> {String} 编码（缺省为 &apos;utf8&apos;）</li>
+<li><code>timeout</code> {Number} 超时（缺省为 0）</li>
+<li><code>maxBuffer</code> {Number} 最大缓冲（缺省为 200*1024）</li>
+<li><code>killSignal</code> {String} 结束信号（缺省为 &apos;SIGTERM&apos;）</li>
+</ul>
+</li>
+<li><code>callback</code> {Function} 进程结束时回调并带上输出<ul>
+<li><code>error</code> {Error}</li>
+<li><code>stdout</code> {Buffer}</li>
+<li><code>stderr</code> {Buffer}</li>
+</ul>
+</li>
+<li>返回：ChildProcess 对象</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f75721a2b838e44fec67eb07bb60dfd7">
+
+<p>该方法类似于 <code>child_process.exec()</code>，但是它不会执行一个子 shell，而是直接执行所指定的文件。因此它稍微比 <code>child_process.exec</code> 精简，参数与之一致。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4ef3fcfb9a92252ea25adbd3394daf19">
+
+<h2>child_process.fork(modulePath, [args], [options])<span><a href="#child_process_child_process_fork_modulepath_args_options_1748" id="child_process_child_process_fork_modulepath_args_options_1748">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="67eefc3c91a7462bd18ffe697fbc7399">
+
+<ul>
+<li><code>modulePath</code> {String} 子进程中运行的模块</li>
+<li><code>args</code> {Array} 字符串参数列表</li>
+<li><code>options</code> {Object}<ul>
+<li><code>cwd</code> {String} 子进程的当前工作目录</li>
+<li><code>env</code> {Object} 环境变量键值对</li>
+<li><code>encoding</code> {String} 编码（缺省为 &apos;utf8&apos;）</li>
+<li><code>execPath</code> {String} 创建子进程的可执行文件</li>
+</ul>
+</li>
+<li>返回：ChildProcess 对象</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="e713e9fa611629169cc5ade8ccb9715f">
+
+<p>该方法是 <code>spawn()</code> 的特殊情景，用于派生 Node 进程。除了普通 ChildProcess 实例所具有的所有方法，所返回的对象还具有内建的通讯通道。详见 <code>child.send(message, [sendHandle])</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd96b19e2b02e09282e03d7f333f23ea">
+
+<p>缺省情况下所派生的 Node 进程的 stdout、stderr 会关联到父进程。要更改该行为，可将 <code>options</code> 对象中的 <code>silent</code> 属性设置为 <code>true</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3ca8a25c2abe40eb623fd68a14bf4789">
+
+<p>子进程运行完成时并不会自动退出，您需要明确地调用 <code>process.exit()</code>。该限制可能会在未来版本里接触。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6ee5f4519d198dcfe2f418a7f1e759e6">
+
+<p>这些子 Node 是全新的 V8 实例，假设每个新的 Node 需要至少 30 毫秒的启动时间和 10MB 内存，就是说您不能创建成百上千个这样的实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fabbb6b2b745f62c32b8d62511bdbf2c">
+
+<p><code>options</code> 对象中的 <code>execPath</code> 属性可以用非当前 <code>node</code> 可执行文件来创建子进程。这需要小心使用，并且缺省情况下会使用子进程上的 <code>NODE_CHANNEL_FD</code> 环境变量所指定的文件描述符来通讯。该文件描述符的输入和输出假定为以行分割的 JSON 对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6949f457689f76a715805ad76aa0f835">
+
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

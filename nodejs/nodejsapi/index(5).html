@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/pipe.css">
+  <link rel="stylesheet" href="/sh_vim-dark.css">
+  <script type="text/javascript" src="//use.typekit.net/mse5tqx.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <title>Node.js Blog</title>
+  <link rel="alternate" type="application/rss+xml"
+    title="Node.js Blog RSS"
+    href="http://blog.nodejs.org/feed/">
+</head>
+
+<body class="blog alt" id="index-0">
+  <div id="nav">
+    <img id="logo" src="/images/logo.svg" alt="node.js">
+    <ul>
+      <li><a href="http://nodejs.org/">Home</a></li>
+      <li><a href="http://nodejs.org/download/">Downloads</a></li>
+      <li><a href="http://nodejs.org/documentation/">Docs</a></li>
+      <li><a href="http://nodejs.org/community/">Community</a></li>
+      <li><a href="http://nodejs.org/about/">About</a></li>
+      <li><a href="http://jobs.nodejs.org">Jobs</a></li>
+      <li class="active"><a href="http://blog.nodejs.org">Blog</a></li>
+    </ul>
+  </div>
+  <div id="content-wrap">
+  <div id="content" class="clearfix">
+    <div id="column1" class="interior">
+      <div class="clearfix pagination">
+              <p class="next"><a href="/1">
+                Page 2 &rarr;
+              </a></p>
+              </div>
+            <div class="post-in-feed">
+              <h1><a href="/2015/02/06/node-v0-12-0-stable/" class="permalink">Node v0.12.0 (Stable)</a></h1>
+
+              <p class="meta">Fri, 06 Feb 2015 22:03:56 UTC - <a href="/release/">release</a></p>
+
+              <p>We are excited to announce the availability of Node.js v0.12! It has been a
+long process, and we want to thank contributors and all of the community who
+waited patiently for this event. Node.js has such a vibrant and enthusiastic
+community, and we&#39;re very lucky to have you all supporting us.
+
+</p>
+<p>Node.js has seen many changes between v0.10 and v0.12. There is <a href="https://github.com/joyent/node/wiki/API-changes-between-v0.10-and-v0.12">a listing of
+changes documented on the wiki</a>. Note that this release includes API updates
+that may require dependency updates. Following are some highlights:
+
+</p>
+<ul>
+<li>Streams 3<ul>
+<li>The Streams implementation now works the way you thought it already should,
+without introducing any changes to the API. Basically this means no more
+getting stuck in &quot;old mode&quot;, there are only streams that are flowing or not.</li>
+<li>Streams now support the use of cork and uncork mechanisms to prevent
+flushing writes out to the system if an application is going to be
+performing many writes in a row. There is an implicit uncork performed when
+you end a writable stream.</li>
+</ul>
+</li>
+<li>HTTP<ul>
+<li><code>maxSockets</code> are no longer limited to 5. The default is now set to
+<code>Infinity</code> with the developer and the operating system given control over
+how many simultaneous connections an application can keep open to a given
+host.</li>
+<li>Proper KeepAlive support means that sockets will stay open until they
+timeout at the configured time, are closed by the remote side, or the
+process exits. Developer&#39;s no longer have to make sure requests have been
+pipelined to keep the socket open, or use an alternative module to get that
+support.</li>
+<li>Developers can also now explicitly <code>flushHeaders</code> to ensure time to first
+byte is low and proxied connections are held open.</li>
+</ul>
+</li>
+<li>Cluster<ul>
+<li>Now has two modes of operation, the new default is a round robin
+distribution mechanism where the master accepts new connections and
+distributes them to your workers. If you want you can still opt back into
+the old method where your workers are responsible for acception connections.</li>
+</ul>
+</li>
+<li>TLS<ul>
+<li>We have the new TLSWrap mechanism under the hood, this eliminates quite a
+few of the hops back and forth between JavaScript and our C++
+implementations.</li>
+<li>Added APIs for asynchronous SNI callbacks, OCSP stapling, and storage
+events.</li>
+</ul>
+</li>
+<li>Buffer<ul>
+<li>We use a more accurate mechanism for allocating memory for buffers now,
+which means you&#39;ll see less overhead and impact from holding onto to small
+slices of Buffers. This reduces the amount of memory pressure on the system,
+which means GC runs are quicker, which means Node.js is on CPU less, and
+thus lower latency for your applications.</li>
+</ul>
+</li>
+<li>child_process<ul>
+<li><code>spawnSync</code>/<code>execSync</code> have been added to facilitate synchronous child
+processes, warning your node process won&#39;t make forward progress while
+waiting for the child to exit, caveat emptor!</li>
+</ul>
+</li>
+<li>Crypto<ul>
+<li>Added APIs for loading custom engines for use with compiled in OpenSSL.</li>
+<li>More APIs support supplying the pass phrases.</li>
+<li>Added APIs for RSA public/private key encryption/decryption.</li>
+</ul>
+</li>
+<li>VM<ul>
+<li>The module is now based on the Contextify module, which shares values from
+the sandbox to avoid missing changes inside the execution from appearing in
+the parent context.</li>
+</ul>
+</li>
+<li>Initial support for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl">ECMAScript Internationalization API 1.0
+(ECMA-402)</a><ul>
+<li>By default, Node.js v0.12.0 binaries are shipped with ECMA-402 support,
+but only for the English language. In other words, the ECMA-402 API is
+working as you would expect, but only data for the English language is
+included. You can find more info on how to include more languages <a href="https://github.com/joyent/node/wiki/Intl">in
+the Wiki</a>.</li>
+</ul>
+</li>
+</ul>
+<p>These are just <em>some</em> of the changes you can find in this release of v0.12,
+and it&#39;s thanks to the hard work of the community and the members of team
+curating Node.js.
+
+</p>
+<p>We are also pleased to report that this release of Node.js has tests passing
+on all of our supported platforms. On the one hand, this seems obvious (what
+are tests for if not to verify before you release it?!), but this is actually
+the first release of Node.js that has operated under this constraint.
+Requiring that all tests pass before releasing Node.js marks an important
+development for the project, and is essential for building a solid path moving
+forward.
+
+</p>
+<p>We&#39;ll obviously be spending a couple weeks firefighting any immediate issues
+for v0.12, but the team is excited to start pulling in the items and
+discussing what the roadmap will look like next for Node.js. We want to make
+sure we&#39;re scoping future versions of Node.js so we can have confidence in
+knowing we&#39;re on the right path and that we&#39;re ready to release based on the
+standards we have set for ourselves.
+
+</p>
+<p>Quite a few members of the team will be attending
+<a href="http://nodesummit.com">NodeSummit</a> February 9th through the 11th in San
+Francisco. If you&#39;re around for that event please make sure to find us and
+give us feedback on what you would like to see from Node.js.
+
+</p>
+<p>Source Code: <a href="http://nodejs.org/dist/v0.12.0/node-v0.12.0.tar.gz">http://nodejs.org/dist/v0.12.0/node-v0.12.0.tar.gz</a>
+
+</p>
+<p>Macintosh Installer (Universal): <a href="http://nodejs.org/dist/v0.12.0/node-v0.12.0.pkg">http://nodejs.org/dist/v0.12.0/node-v0.12.0.pkg</a>
+
+</p>
+<p>Windows Installer: <a href="http://nodejs.org/dist/v0.12.0/node-v0.12.0-x86.msi">http://nodejs.org/dist/v0.12.0/node-v0.12.0-x86.msi</a>
+
+</p>
+<p>Windows x64 Installer: <a href="http://nodejs.org/dist/v0.12.0/x64/node-v0.12.0-x64.msi">http://nodejs.org/dist/v0.12.0/x64/node-v0.12.0-x64.msi</a>
+
+</p>
+<p>Windows x64 Files: <a href="http://nodejs.org/dist/v0.12.0/x64/">http://nodejs.org/dist/v0.12.0/x64/</a>
+
+</p>
+<p>Linux 32-bit Binary: <a href="http://nodejs.org/dist/v0.12.0/node-v0.12.0-linux-x86.tar.gz">http://nodejs.org/dist/v0.12.0/node-v0.12.0-linux-x86.tar.gz</a>
+
+</p>
+<p>Linux 64-bit Binary: <a href="http://nodejs.org/dist/v0.12.0/node-v0.12.0-linux-x64.tar.gz">http://nodejs.org/dist/v0.12.0/node-v0.12.0-linux-x64.tar.gz</a>
+
+</p>
+<p>Solaris 32-bit Binary: <a href="http://nodejs.org/dist/v0.12.0/node-v0.12.0-sunos-x86.tar.gz">http://nodejs.org/dist/v0.12.0/node-v0.12.0-sunos-x86.tar.gz</a>
+
+</p>
+<p>Solaris 64-bit Binary: <a href="http://nodejs.org/dist/v0.12.0/node-v0.12.0-sunos-x64.tar.gz">http://nodejs.org/dist/v0.12.0/node-v0.12.0-sunos-x64.tar.gz</a>
+
+</p>
+<p>Other release files: <a href="http://nodejs.org/dist/v0.12.0/">http://nodejs.org/dist/v0.12.0/</a>
+
+</p>
+<p>Website: <a href="http://nodejs.org/docs/v0.12.0/">http://nodejs.org/docs/v0.12.0/</a>
+
+</p>
+<p>Documentation: <a href="http://nodejs.org/docs/v0.12.0/api/">http://nodejs.org/docs/v0.12.0/api/</a>
+
+</p>
+<p>Shasums:
+</p>
+<pre><code>-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+4f53a1dac68057d700964707adb5e54302969dab  genccode.exe
+146930a2bdb88a3e12cb8d3a359e7197bbbde695  genccode.pdb
+6ec82639faae028e5d9c90e123f7220e7e915187  genrb.exe
+817c5b18f4cd8d2eed80815fc030a1342b4f88cd  genrb.pdb
+151036790bd98204764d302f3df2ab2685db6f54  iculslocs.exe
+228a3dcf968f6c552788fafc1ef84baee3e7450e  iculslocs.pdb
+8665404bb5cf3e730ba633c5b8184250bae1cafd  icupkg.exe
+819de4c86d0aad67cf62e5f4913910f1112ef1c9  icupkg.pdb
+596eff06fefc11ef10f345ea37e7e05f72533c67  node-v0.12.0-darwin-x64.tar.gz
+dddd5306a0c7e551aae8a8685b365f8c25a9d63a  node-v0.12.0-darwin-x86.tar.gz
+64fb5260a4a0f914b62a80066d7955856a04703a  node-v0.12.0-linux-x64.tar.gz
+765cb24d17625221ecdd8518907c265b99ce18d2  node-v0.12.0-linux-x86.tar.gz
+6964fe9bd299eea2844e0dc0bb6f5cae70e1f03c  node-v0.12.0-sunos-x64.tar.gz
+3988db298cfe614370481ab5abba3bd83b65570f  node-v0.12.0-sunos-x86.tar.gz
+20d936afd83f819c92826afdc87815a3c96884d2  node-v0.12.0-x86.msi
+8879163ab75f611abb49e250f3158c6a98e37d25  node-v0.12.0.pkg
+d08810034d170c19759cb38bfc9442ab6b0ebc7a  node-v0.12.0.tar.gz
+c54021b701cebc3ba713c920531ca4fdc96cf9fe  node.exe
+cce4bba695a8d4953977b3bf5193a9f16b24e003  node.exp
+4983bf4ef56b1af2e5e9db9e67c62250b5455016  node.lib
+ffa621154420292dcdd39cc4bd91a5e08bc5f622  node.pdb
+05bbc6228fb49005b2fd0858544d0dc42e6b6f0c  openssl-cli.exe
+0bd5916cbadeab0f5995728142279049e6e9d866  openssl-cli.pdb
+84bce5da7c5cc563d224d0d80e05a9c9fc3614b2  x64/genccode.exe
+9bc57d86caba460d6b0dc864db832956cf68096c  x64/genccode.pdb
+4ae96a5ec2619f9cd60e127cb4ad9e0147dcf58c  x64/genrb.exe
+4ff14345e733f266ed86679e88e8461825bc0c2d  x64/genrb.pdb
+4ba7525312c7e7d1d489f89af8d9b98d743d2397  x64/iculslocs.exe
+1a2cebefcaee90e81be67bc079b48a37b5a7f63a  x64/iculslocs.pdb
+251d768eba9543da5ae9a8d5617c9fc58069d413  x64/icupkg.exe
+f4647ad8db148b89475634000e0c0cd7f8f47b04  x64/icupkg.pdb
+a34650db220cb1886bb497edb72474e83a4dbe77  x64/node-v0.12.0-x64.msi
+71cf52c0ff9e1457364962697fb8798925241828  x64/node.exe
+dbd4614bf15b037c0ed2cb631bad0282e420c3ff  x64/node.exp
+709ff6f74f10b184e09c45e893a77248455fb452  x64/node.lib
+e14399d9cc5df344e6c4dd557ec2a8c62973b6d3  x64/node.pdb
+a014b76f8c36768a15532ccb5e8d5e904bc4dbb0  x64/openssl-cli.exe
+0827c6819bc7a2b100f14ffbe0b431e955c73b89  x64/openssl-cli.pdb
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIcBAEBCgAGBQJU1To8AAoJEFCjBR+IjGKNPIQQAJOepQMZctwstD1iiUcrKRo4
+iZMgdHUe4bcBcGfkeB2X8RD4WYIoYxfL/6EF7IfjapiQc8W3Zo1IlTQqRFR1RqRz
+HayhDQu5qPSE6EygT0le6eFbVsn7V1SdP+91umZ+kJVlUal0Li0ZWzSs94iFaok/
+SBgV92WegQBzGwYTxHa/tN2nJ8xkSJDSaqxmiavj+5Ve2phOuKo+vxYnP9viXIT4
+MsohnZyovm4BaOg/DWj8Jn5X42SVzhEiLDjZQxxku64IzjZPjflsYbuBIM8hMnb8
+FwIp92Cp48qsm/l4EX8PN6FLoXo+M82kT3i4rY2XLl7MxwUv4jrh4LTTHG+pPi9X
+LEu58em/xgp/IN+cobc4vs5yWKB98FQNOL+F6ketqyLQwfyr20kDuovcNqiuJX5V
+SIaeU7qyykFoj2qERU0Mk1v0FgLUTjlwwH5h9IcjagV4JFywcIJiNriibz/Ta6rA
+d2KzKyva3rnj4eL4Wa4F9yyLCX9j3sWCE/ZMuVb2NJnYl7RPgr3M+PEcMQVJbdUx
+b1lz+Yyo+NuXUXR9j9OtXscXVrSa8Bqxtc3heXajDzWbGdU8ZPW3DhULtQcPFAth
+DLolLXEcJn6QOQSC06Y+D3LZ3jJbSX0jGb6bvQLksRkPltSSI5VgHSBjlGGkyEVt
+UpmTqbfBdzs1UfeGwL6N
+=nSHJ
+-----END PGP SIGNATURE-----</code></pre>
+
+            </div>
+            
+            <div class="post-in-feed">
+              <h1><a href="/2015/01/30/node-v0-11-16-unstable/" class="permalink">Node v0.11.16 (Unstable)</a></h1>
+
+              <p class="meta">Fri, 30 Jan 2015 17:05:17 UTC - <a href="/release/">release</a></p>
+
+              <p>2015.01.29, Version 0.11.16 (Unstable)
+
+</p>
+<ul>
+<li><p>openssl: Upgrade to 1.0.1l</p>
+</li>
+<li><p>npm: Upgrade to 2.3.0</p>
+</li>
+<li><p>url: revert support of <code>path</code> for url.format (Julien Gilli)</p>
+</li>
+<li><p>assert: use util.inspect() to create error messages (cjihrig)</p>
+</li>
+<li><p>net: throw on invalid socket timeouts (cjihrig)</p>
+</li>
+<li><p>url: fix parsing of ssh urls (Evan Lucas)</p>
+</li>
+</ul>
+<p>Source Code: <a href="http://nodejs.org/dist/v0.11.16/node-v0.11.16.tar.gz">http://nodejs.org/dist/v0.11.16/node-v0.11.16.tar.gz</a>
+
+</p>
+<p>Macintosh Installer (Universal): <a href="http://nodejs.org/dist/v0.11.16/node-v0.11.16.pkg">http://nodejs.org/dist/v0.11.16/node-v0.11.16.pkg</a>
+
+</p>
+<p>Windows Installer: <a href="http://nodejs.org/dist/v0.11.16/node-v0.11.16-x86.msi">http://nodejs.org/dist/v0.11.16/node-v0.11.16-x86.msi</a>
+
+</p>
+<p>Windows x64 Installer: <a href="http://nodejs.org/dist/v0.11.16/x64/node-v0.11.16-x64.msi">http://nodejs.org/dist/v0.11.16/x64/node-v0.11.16-x64.msi</a>
+
+</p>
+<p>Windows x64 Files: <a href="http://nodejs.org/dist/v0.11.16/x64/">http://nodejs.org/dist/v0.11.16/x64/</a>
+
+</p>
+<p>Linux 32-bit Binary: <a href="http://nodejs.org/dist/v0.11.16/node-v0.11.16-linux-x86.tar.gz">http://nodejs.org/dist/v0.11.16/node-v0.11.16-linux-x86.tar.gz</a>
+
+</p>
+<p>Linux 64-bit Binary: <a href="http://nodejs.org/dist/v0.11.16/node-v0.11.16-linux-x64.tar.gz">http://nodejs.org/dist/v0.11.16/node-v0.11.16-linux-x64.tar.gz</a>
+
+</p>
+<p>Solaris 32-bit Binary: <a href="http://nodejs.org/dist/v0.11.16/node-v0.11.16-sunos-x86.tar.gz">http://nodejs.org/dist/v0.11.16/node-v0.11.16-sunos-x86.tar.gz</a>
+
+</p>
+<p>Solaris 64-bit Binary: <a href="http://nodejs.org/dist/v0.11.16/node-v0.11.16-sunos-x64.tar.gz">http://nodejs.org/dist/v0.11.16/node-v0.11.16-sunos-x64.tar.gz</a>
+
+</p>
+<p>Other release files: <a href="http://nodejs.org/dist/v0.11.16/">http://nodejs.org/dist/v0.11.16/</a>
+
+</p>
+<p>Website: <a href="http://nodejs.org/docs/v0.11.16/">http://nodejs.org/docs/v0.11.16/</a>
+
+</p>
+<p>Documentation: <a href="http://nodejs.org/docs/v0.11.16/api/">http://nodejs.org/docs/v0.11.16/api/</a>
+
+</p>
+<p>Shasums:
+</p>
+<pre><code>-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+ce58cf758cab75ee46dcbe61c4010ffea8ce25ba  node-v0.11.16-darwin-x64.tar.gz
+4b3a4ec8baabb22f8c2d60b56d89c62c7823b213  node-v0.11.16-darwin-x86.tar.gz
+e3b09fc832a3af04cbfcec6329941b5f80eeeb2d  node-v0.11.16-linux-x64.tar.gz
+d470dce6cde5f379c32b251f9f748f5ae3102332  node-v0.11.16-linux-x86.tar.gz
+8ec3178ea5ac7f3513351b9fb8b7bc1e3f8d7914  node-v0.11.16-sunos-x64.tar.gz
+c5b3870760ed1055ac91d6c3a18b3458a065d713  node-v0.11.16-sunos-x86.tar.gz
+3df4ba6b635a7b37d0e7dc56bc5a15bf92a16835  node-v0.11.16-x86.msi
+d2467525fdf2019f54406fde4b060493768cdc65  node-v0.11.16.pkg
+3c3e66773b4eccbe1e5b6da9a7c39a5ead51e155  node-v0.11.16.tar.gz
+63900715b0c375ca514639dc028ce99febc51314  node.exe
+99f9c8542207b52be34d9832a4c311e3376a31e5  node.exp
+e0b6950bb1063686f118a83727a992f08b1a05a6  node.lib
+3035e059b1664195d1a6c7817577f8fc36703548  node.pdb
+753b6e5b08a778a726a5109dfe11a1f7a8276e2c  openssl-cli.exe
+d874143e14c4f93b5e9bd39b4a5f4c07a5492296  openssl-cli.pdb
+30e50735103889bc92a698546caa4de8968c9a6f  x64/node-v0.11.16-x64.msi
+c7e71d54507ee6e4b1119ec13bcbe33ee23e8be7  x64/node.exe
+70e514f9524deb07338d4a529107aa8a6ffd2e1b  x64/node.exp
+24dc180b2848b6e181f3ab192f6c1d3535a1c7ba  x64/node.lib
+7e8515e3e1e0b57ef8a2aa298434fcda0b7d453b  x64/node.pdb
+0b15f0749d95b07ad860d586fd18915e97103ff8  x64/openssl-cli.exe
+d7664f3b528397ff377665dd9f3b2dfaa6b5c4c9  x64/openssl-cli.pdb
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIcBAEBCgAGBQJUy7m8AAoJEFCjBR+IjGKNgAgQAJGK6z/qc3ZvB02hkMtZI419
+Rypw1Sh++WB/+OGbUO6bfvAEPMM3SSZDDQkoNnGg1DEf+sQziFIqlrb3z2E/dCww
+/GoM+ySfz3lci7G2a+QS/fEsbFwlliSsNv9q3ngZB6M1cxDvhm7/QjO+wlJP056E
+EtiZczmo9AWYAhg8psLy/KH18owGPOs65PmH7mP3Un1bW0J3xxTrOnKktfjSiNNP
+utCpyQzEqJ/LsPaenf5gUNLyyUltXfsPkr4V1gab0pGM/Ic77OhceMOAEw3CIns3
+hvSRpgG+W5IO3+2nvWnX3qEfylcuDcy9ZltPKFLVtbcPXVr9ilW39dJQ0EwXJ/Im
+rRgH2xUEYGye0/lBrRddZ6awHKgSwAGN8JbDId2n93mcgiGzEVfe6BcfRQ7tgOpV
+AXPD+bFd0Eeia7gt63otr/k4aHTaT8P51vKh7lyDsFTvwpaGLzuvO5fTHTRSdoMC
+oynILl7DRPi32f2N1w9Ek54L8N9ZODhxoIXDRCS5Oep2JsbucPqncC7jbiJKjPK2
+OkzKWC0bwVlda0leAaeJrNjNPJSvpSKEk/Vo1Dzl3HcSEmVoRTivYV4vdkwhrkEp
+EPBp3m7iPeNrNKLdibt/16lxNrp67RuIh1gMtIWuu4piuR8+36j1F6LocDmNoOEg
+sqYr4G14o86ztVhqYw/C
+=xcfK
+-----END PGP SIGNATURE-----</code></pre>
+
+            </div>
+            
+            <div class="post-in-feed">
+              <h1><a href="/2015/01/26/node-v0-10-36-stable/" class="permalink">Node v0.10.36 (Stable)</a></h1>
+
+              <p class="meta">Mon, 26 Jan 2015 20:26:06 UTC - <a href="/release/">release</a></p>
+
+              <p>2015.01.26, Version 0.10.36 (Stable)
+
+</p>
+<ul>
+<li><p>openssl: update to 1.0.1l</p>
+</li>
+<li><p>v8: Fix debugger and strict mode regression (Julien Gilli)</p>
+</li>
+<li><p>v8: don&#39;t busy loop in cpu profiler thread (Ben Noordhuis)</p>
+</li>
+</ul>
+<p>Source Code: <a href="http://nodejs.org/dist/v0.10.36/node-v0.10.36.tar.gz">http://nodejs.org/dist/v0.10.36/node-v0.10.36.tar.gz</a>
+
+</p>
+<p>Macintosh Installer (Universal): <a href="http://nodejs.org/dist/v0.10.36/node-v0.10.36.pkg">http://nodejs.org/dist/v0.10.36/node-v0.10.36.pkg</a>
+
+</p>
+<p>Windows Installer: <a href="http://nodejs.org/dist/v0.10.36/node-v0.10.36-x86.msi">http://nodejs.org/dist/v0.10.36/node-v0.10.36-x86.msi</a>
+
+</p>
+<p>Windows x64 Installer: <a href="http://nodejs.org/dist/v0.10.36/x64/node-v0.10.36-x64.msi">http://nodejs.org/dist/v0.10.36/x64/node-v0.10.36-x64.msi</a>
+
+</p>
+<p>Windows x64 Files: <a href="http://nodejs.org/dist/v0.10.36/x64/">http://nodejs.org/dist/v0.10.36/x64/</a>
+
+</p>
+<p>Linux 32-bit Binary: <a href="http://nodejs.org/dist/v0.10.36/node-v0.10.36-linux-x86.tar.gz">http://nodejs.org/dist/v0.10.36/node-v0.10.36-linux-x86.tar.gz</a>
+
+</p>
+<p>Linux 64-bit Binary: <a href="http://nodejs.org/dist/v0.10.36/node-v0.10.36-linux-x64.tar.gz">http://nodejs.org/dist/v0.10.36/node-v0.10.36-linux-x64.tar.gz</a>
+
+</p>
+<p>Solaris 32-bit Binary: <a href="http://nodejs.org/dist/v0.10.36/node-v0.10.36-sunos-x86.tar.gz">http://nodejs.org/dist/v0.10.36/node-v0.10.36-sunos-x86.tar.gz</a>
+
+</p>
+<p>Solaris 64-bit Binary: <a href="http://nodejs.org/dist/v0.10.36/node-v0.10.36-sunos-x64.tar.gz">http://nodejs.org/dist/v0.10.36/node-v0.10.36-sunos-x64.tar.gz</a>
+
+</p>
+<p>Other release files: <a href="http://nodejs.org/dist/v0.10.36/">http://nodejs.org/dist/v0.10.36/</a>
+
+</p>
+<p>Website: <a href="http://nodejs.org/docs/v0.10.36/">http://nodejs.org/docs/v0.10.36/</a>
+
+</p>
+<p>Documentation: <a href="http://nodejs.org/docs/v0.10.36/api/">http://nodejs.org/docs/v0.10.36/api/</a>
+
+</p>
+<p>Shasums:
+</p>
+<pre><code>-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+ff5e9ab73aa025473d5601e6b71a13d0208caae9  node-v0.10.36-darwin-x64.tar.gz
+e6d81d13d8917b94d17c503b4a7cc640c82cb1f1  node-v0.10.36-darwin-x86.tar.gz
+350df861e161c34b97398fc1b440f3d80f174cf9  node-v0.10.36-linux-x64.tar.gz
+1d486043f200ae2d666e15f3e55ba9c0f07d67e3  node-v0.10.36-linux-x86.tar.gz
+925d107a0292355d2f06385ebed071b70bd23d13  node-v0.10.36-sunos-x64.tar.gz
+91202baf7c4ef7d2c11954fbcb716daa1058ae79  node-v0.10.36-sunos-x86.tar.gz
+80b1db379635f10f2f6e031b996539db47340b0b  node-v0.10.36-x86.msi
+2596c17e373ba3e57023272c7f8fb2132ff4e157  node-v0.10.36.pkg
+7e89d33ad0e56f6ca517f43a4a7b56079db18420  node-v0.10.36.tar.gz
+5ee17e953525551ca059f2c768db1b867362d804  node.exe
+cf4dbb65e4eeed1b4ce7be20830f6c1d7db6fb08  node.exp
+965af2cfb72e68449d1cc55d7e1e44087b901b34  node.lib
+e07b30c6c810a20d8312261b723d0097a7e42532  node.pdb
+ebdf10d8edc1c44a62cee8422351c1cd4e6a0fa0  openssl-cli.exe
+b70949a5f041a3d95d26b95675757883f57079e6  openssl-cli.pdb
+2e89fadf70f9fbcecd7ebb9abaf6f98bdeaf84ab  x64/node-v0.10.36-x64.msi
+d4b5bcdf92433f273d64e067468666fa63f5e21b  x64/node.exe
+43cf4a20f52e80c4a4eecbb1b88dbfdc83067b77  x64/node.exp
+bea04b572bcb7b8dfce1fc7360b64feb3a6b9b83  x64/node.lib
+7fb057fd7466cdc62510ed75c340fca5e12feb58  x64/node.pdb
+a61d7b8d8a59eba15bcd616c9a3eb7fde8941aff  x64/openssl-cli.exe
+df7091913d9d013ceb20b18184ea69856d435daa  x64/openssl-cli.pdb
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
+Comment: GPGTools - http://gpgtools.org
+
+iEYEARECAAYFAlTGm+oACgkQfTP/nQJGQG1l3wCgme2qcVmnzwI76xf4XFP1Cv7J
+96EAnRBumCd17whHm5PgSzopMtqvu0+g
+=E09G
+-----END PGP SIGNATURE-----</code></pre>
+
+            </div>
+            
+            <div class="post-in-feed">
+              <h1><a href="/2015/01/20/node-v0-11-15-unstable/" class="permalink">Node v0.11.15 (Unstable)</a></h1>
+
+              <p class="meta">Tue, 20 Jan 2015 23:42:57 UTC - <a href="/release/">release</a></p>
+
+              <p>2015.01.20, Version 0.11.15 (Unstable)
+
+</p>
+<ul>
+<li><p>v8: Upgrade to 3.28.73</p>
+</li>
+<li><p>uv: Upgrade to 1.0.2</p>
+</li>
+<li><p>npm: Upgrade to v2.1.6</p>
+</li>
+<li><p>uv: float patch to revert tty breakage (Trevor Norris)</p>
+</li>
+<li><p>v8: re-implement debugger-agent (Fedor Indutny)</p>
+</li>
+<li><p>v8: apply floating irhydra patch (Fedor Indutny)</p>
+</li>
+<li><p>v8: fix postmortem-metadata generator (Refael Ackermann)</p>
+</li>
+<li><p>debugger: fix unhandled error in setBreakpoint (Miroslav Bajtoš)</p>
+</li>
+<li><p>async-wrap: add event hooks (Trevor Norris)</p>
+</li>
+<li><p>async-wrap: expose async-wrap as binding (Trevor Norris)</p>
+</li>
+<li><p>buffer, doc: misc. fix and cleanup (Trevor Norris)</p>
+</li>
+<li><p>buffer: add generic functions for (u)int ops (Yazhong Liu)</p>
+</li>
+<li><p>buffer: fix and cleanup fill() (Trevor Norris)</p>
+</li>
+<li><p>buffer: mv floating point read/write checks to JS (Trevor Norris)</p>
+</li>
+<li><p>build, i18n: improve Intl build, add &quot;--with-intl&quot; (Steven R. Loomis)</p>
+</li>
+<li><p>build: add small-icu support for binary packages (Julien Gilli)</p>
+</li>
+<li><p>build: do not generate support for libuv&#39;s probes (Julien Gilli)</p>
+</li>
+<li><p>build: i18n: add icu config options (Steven R. Loomis)</p>
+</li>
+<li><p>build: i18n: support little-endian machines (Steven Loomis)</p>
+</li>
+<li><p>build: vcbuild fix &quot;The input line is too long.&quot; (Alexis Campailla)</p>
+</li>
+<li><p>child_process: improve spawn() argument handling (cjihrig)</p>
+</li>
+<li><p>cluster: avoid race enabling debugger in worker (Timothy J Fontaine)</p>
+</li>
+<li><p>cluster: cluster.disconnect() should check status (Sam Roberts)</p>
+</li>
+<li><p>cluster: do not signal children in debug mode (Fedor Indutny)</p>
+</li>
+<li><p>cluster: don&#39;t assert if worker has no handles (Sam Roberts)</p>
+</li>
+<li><p>core: fix usage of uv_cwd (Saúl Ibarra Corretgé)</p>
+</li>
+<li><p>core: replace uv_fs_readdir with uv_fs_scandir (Saúl Ibarra Corretgé)</p>
+</li>
+<li><p>crypto: createDiffieHellman throw for bad args (Trevor Norris)</p>
+</li>
+<li><p>crypto: lower RSS usage for TLSCallbacks (Fedor Indutny)</p>
+</li>
+<li><p>crypto: store thread id as pointer-sized (Alexis Campailla)</p>
+</li>
+<li><p>dns: propagate domain for c-ares methods (Chris Dickinson)</p>
+</li>
+<li><p>fs: fix symlink error message (Vladimir Kurchatkin)</p>
+</li>
+<li><p>http: Improve _addHeaderLines method (Jackson Tian)</p>
+</li>
+<li><p>http: cleanup setHeader() (Trevor Norris)</p>
+</li>
+<li><p>http: rename flush to flushHeaders (Timothy J Fontaine)</p>
+</li>
+<li><p>lib,src: fix spawnSync ignoring its &#39;env&#39; option (Juanjo)</p>
+</li>
+<li><p>modules: adding load linked modules feature (Thorsten Lorenz)</p>
+</li>
+<li><p>net: Make server.connections un-enumerable (Patrick Mooney)</p>
+</li>
+<li><p>net: add pauseOnConnect option to createServer() (cjihrig)</p>
+</li>
+<li><p>net: make connect() input validation synchronous (cjihrig)</p>
+</li>
+<li><p>node: avoid automatic microtask runs (Vladimir Kurchatkin)</p>
+</li>
+<li><p>node: fix throws before timer module is loaded (Trevor Norris)</p>
+</li>
+<li><p>openssl: fix keypress requirement in apps on win32 (Fedor Indutny)</p>
+</li>
+<li><p>path: added parse() and format() functions (Rory Bradford)</p>
+</li>
+<li><p>path: allow calling platform specific methods (Timothy J Fontaine)</p>
+</li>
+<li><p>path: don&#39;t lower-cases drive letters (Bert Belder)</p>
+</li>
+<li><p>path: refactor normalizeArray() (Nathan Woltman)</p>
+</li>
+<li><p>process: pid can be a string in process.kill() (Sam Roberts)</p>
+</li>
+<li><p>readline: fix performance issue when large line (Jicheng Li)</p>
+</li>
+<li><p>readline: should not require an output stream. (Julien Gilli)</p>
+</li>
+<li><p>smalloc: check if obj has external data (Vladimir Kurchatkin)</p>
+</li>
+<li><p>smalloc: don&#39;t allow to dispose typed arrays (Vladimir Kurchatkin)</p>
+</li>
+<li><p>smalloc: fix bad assert for zero length data (Trevor Norris)</p>
+</li>
+<li><p>smalloc: fix copyOnto optimization (Vladimir Kurchatkin)</p>
+</li>
+<li><p>src: all wrap&#39;s now use actual FunctionTemplate (Trevor Norris)</p>
+</li>
+<li><p>src: fix VC++ warning C4244 (Rasmus Christian Pedersen)</p>
+</li>
+<li><p>src: remove Async Listener (Trevor Norris)</p>
+</li>
+<li><p>stream: switch _writableState.buffer to queue (Chris Dickinson)</p>
+</li>
+<li><p>streams: make setDefaultEncoding() throw (Brian White)</p>
+</li>
+<li><p>streams: set default encoding for writable streams (Johnny Ray)</p>
+</li>
+<li><p>tls: remove tls.createSecurePair code deprecation (Jackson Tian)</p>
+</li>
+<li><p>tls_wrap: ignore ZERO_RETURN after close_notify (Fedor Indutny)</p>
+</li>
+<li><p>url: change hostname regex to negate invalid chars (Jonathan Johnson)</p>
+</li>
+<li><p>url: fixed encoding for slash switching emulation. (Evan Rutledge Borden)</p>
+</li>
+<li><p>url: improve parsing speed (CGavrila)</p>
+</li>
+<li><p>url: make query() consistent (Gabriel Wicke)</p>
+</li>
+<li><p>url: support <code>path</code> for url.format (Yazhong Liu)</p>
+</li>
+<li><p>util: add es6 Symbol support for <code>util.inspect</code> (gyson)</p>
+</li>
+</ul>
+<p>Source Code: <a href="http://nodejs.org/dist/v0.11.15/node-v0.11.15.tar.gz">http://nodejs.org/dist/v0.11.15/node-v0.11.15.tar.gz</a>
+
+</p>
+<p>Macintosh Installer (Universal): <a href="http://nodejs.org/dist/v0.11.15/node-v0.11.15.pkg">http://nodejs.org/dist/v0.11.15/node-v0.11.15.pkg</a>
+
+</p>
+<p>Windows Installer: <a href="http://nodejs.org/dist/v0.11.15/node-v0.11.15-x86.msi">http://nodejs.org/dist/v0.11.15/node-v0.11.15-x86.msi</a>
+
+</p>
+<p>Windows x64 Installer: <a href="http://nodejs.org/dist/v0.11.15/x64/node-v0.11.15-x64.msi">http://nodejs.org/dist/v0.11.15/x64/node-v0.11.15-x64.msi</a>
+
+</p>
+<p>Windows x64 Files: <a href="http://nodejs.org/dist/v0.11.15/x64/">http://nodejs.org/dist/v0.11.15/x64/</a>
+
+</p>
+<p>Linux 32-bit Binary: <a href="http://nodejs.org/dist/v0.11.15/node-v0.11.15-linux-x86.tar.gz">http://nodejs.org/dist/v0.11.15/node-v0.11.15-linux-x86.tar.gz</a>
+
+</p>
+<p>Linux 64-bit Binary: <a href="http://nodejs.org/dist/v0.11.15/node-v0.11.15-linux-x64.tar.gz">http://nodejs.org/dist/v0.11.15/node-v0.11.15-linux-x64.tar.gz</a>
+
+</p>
+<p>Solaris 32-bit Binary: <a href="http://nodejs.org/dist/v0.11.15/node-v0.11.15-sunos-x86.tar.gz">http://nodejs.org/dist/v0.11.15/node-v0.11.15-sunos-x86.tar.gz</a>
+
+</p>
+<p>Solaris 64-bit Binary: <a href="http://nodejs.org/dist/v0.11.15/node-v0.11.15-sunos-x64.tar.gz">http://nodejs.org/dist/v0.11.15/node-v0.11.15-sunos-x64.tar.gz</a>
+
+</p>
+<p>Other release files: <a href="http://nodejs.org/dist/v0.11.15/">http://nodejs.org/dist/v0.11.15/</a>
+
+</p>
+<p>Website: <a href="http://nodejs.org/docs/v0.11.15/">http://nodejs.org/docs/v0.11.15/</a>
+
+</p>
+<p>Documentation: <a href="http://nodejs.org/docs/v0.11.15/api/">http://nodejs.org/docs/v0.11.15/api/</a>
+
+</p>
+<p>Shasums:
+</p>
+<pre><code>-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+5eaa3274e376ad2b92e2a23543951efd4c4139cf  genccode.exe
+27cb2cfb67c92aa6760c1338ab7c34aab5397f36  genccode.pdb
+c5a20b41673283e6f813e7357cd52027a7624f00  genrb.exe
+5f5e15d4139c70a0a430137ee35311d3c2ebb64b  genrb.pdb
+301c0dee7582a340e352d8823c2a49dc9c3c2b7c  iculslocs.exe
+4f5502491ccbe09ac354c05b77c09d74ef2e47fb  iculslocs.pdb
+85fd3ef552fd2ca2e3b2ca4d11f909cd9e952a0c  icupkg.exe
+2d69e816c4209615b6280ae147b0b2f1e36f443d  icupkg.pdb
+bd82a1a110a46264c6a614b36bfafdb26e5ca323  node-v0.11.15-darwin-x64.tar.gz
+0992691dee9dfa2fdb749b4ccc69a536f3dee783  node-v0.11.15-darwin-x86.tar.gz
+edd10d65f2d1fd2d355fc79faa47584344cdc92d  node-v0.11.15-linux-x64.tar.gz
+ee189a6fb39c961a2ed9cb1b093e5ddc2c14b736  node-v0.11.15-linux-x86.tar.gz
+f505231036859d19e145338f6ddbcd34346553af  node-v0.11.15-sunos-x64.tar.gz
+d395682bd993da095b5ca0f917ee692e6ed579b1  node-v0.11.15-sunos-x86.tar.gz
+a7644dbb064bea957254d0f4f934dc6f840977f7  node-v0.11.15-x86.msi
+72374399795101bdcbd5d861ec4f7e8854584141  node-v0.11.15.pkg
+59af71738620c94f07340b9f6276dbd56591e9fb  node-v0.11.15.tar.gz
+f4c5042527ef4e2c49f0ffaa5a739b27a9813fa4  node.exe
+9086161ac68bc196c9e232a67f98ba7c10e57acd  node.exp
+ba37668d856cadbf91e368871aee9cd5b025765f  node.lib
+020a907ff40f4b4f9594ea27540972892d8b7548  node.pdb
+1190d6596676284950f484f463c5bc8bbee2587c  openssl-cli.exe
+aff88e0d020b1706b946dc6d57e5fb6b06296822  openssl-cli.pdb
+1858619cb97551908d69c5ddcba36fd23ea9063f  x64/genccode.exe
+4eefa250fde44a13ebbdb21cb84e59fa1efd77df  x64/genccode.pdb
+268d9e0766b5d999ed37a7604a02a0146e53d09a  x64/genrb.exe
+6acc17c0fbf7f15e1982b0359fdc8578edb12349  x64/genrb.pdb
+06aff6123272fedbb4c7e2a43debb46b7e6a9c98  x64/iculslocs.exe
+2bf92f86776997f6e887738b4cfa1238db1deafb  x64/iculslocs.pdb
+c615fc5fc4e41e3855e136f6af441c981be9507a  x64/icupkg.exe
+ca293fc02e68e58ea5bbbb9d4d989eddacce1b70  x64/icupkg.pdb
+3cb93ecbff3336d26526556d3b77bfcb96c4e4fc  x64/node-v0.11.15-x64.msi
+ef6c5e5d1ea49c0f661a6bcc3fd3a5b2c97e70fa  x64/node.exe
+3cd0d9fe8a7f4d31b6009b528552305c23ac6b8b  x64/node.exp
+15cecbe8d197eb61edf1600583f1f0a4eb671d48  x64/node.lib
+3fb1a15f61aefd807f1187339ab9e7b647e7a6a2  x64/node.pdb
+7cbf49d56d33a659a4a8a22ecc761094e06ac212  x64/openssl-cli.exe
+3c03ad8791bc31f197a5476dbfec2b2a0f29c69b  x64/openssl-cli.pdb
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIcBAEBCgAGBQJUvufyAAoJEFCjBR+IjGKNDMgP/iSnV72vBSzQ88ixJ6xy+qoF
+pecQmfd+NPm9zDW86TlVnTyNGE/M9xCs3wQsN50dnGcnVNG/oELeC1NiZ139uvRd
+abUFcjwT9iXSAQtAkioaQT0pyaxnEtBu7y99wz0J5bxcsAwNpvtr1jNcJEvJHMkS
+0fdbYGFD5gpPn95j+Cye+8/ZUeyKRdiQCOgE4/KJS3MLqbw1E5lqqYmHpqanhqoD
+UXz40VQ9IRbfi/4E5Fs8N73DMW5JuDIc6Zn+27/Pm+OYPzI3/16UooeeWtQC9W2i
+QjZQYQtSwrzgXXov4rY0HEa2krm9+Kd9tiHhQT3CBaEfQs0s03FbdWxI8jEgAp4k
+kuZzWJix3OkkR+0hfxgYtD6Id1MK9e3ozW2BSCub6To77l7FMzUlOExmR3f/4g54
+E9dC0Sagv4G6lpc7/vSM0rmGmA6iwWBN/feDnGia2SxQESGbBhxS4DxVSZWmTN8u
+Ca029CUAXacKtCN59wyMKOGzEKJfFnyMlGbwAp0tujbdykvsGW4/6Mf5dpYkfEkP
+yMJqGuahvRFnl0pHebIA8eaXaPcp6KRTsv49RHAVWsG10qvUqbQzMe7k8D89smEN
+1X3ijrf+4uNfD+RNBKdmCu1lPhTiOTKpP7XHgWnqw6HTzO7ery4oE04CnFgQ7Ffv
+onofJvSmBRIlesVvJHSk
+=PwEC
+-----END PGP SIGNATURE-----</code></pre>
+
+            </div>
+            
+              <p class="next"><a href="/1">
+                Page 2 &rarr;
+              </a></p>
+              
+    </div>
+  </div>
+  </div>
+
+  <div id="footer">
+    <div class="foot-1">
+      <a href="http://www.joyent.com"><h5>The Node.js Project is Sponsored by</h5>
+      <img src="/images/joyent-footer.svg" width="200">
+      <p class="tag">Production Node +<br>High Performance Infrastructure</p></a>
+      <a href="https://my.joyent.com/landing/signup/701800000015696" class="button getstarted">Get Started</a>
+    </div>
+    <div class="foot-2">
+      <div class="foot-nav">
+        <ul>
+          <li><a href="http://nodejs.org/download/">Downloads</a></li>
+        </ul>
+        <ul>
+          <li><a href="http://nodejs.org/documentation/">Documentation</a></li>
+          <li><a href="http://nodejs.org/api/">API Docs</a></li>
+          <li><a href="http://nodejs.org/documentation/tutorials/">Tutorials</a></li>
+          <li><a href="http://nodejs.org/documentation/localization/">Localization</a></li>
+        </ul>
+        <ul>
+          <li><a href="http://nodejs.org/community/">Community</a></li>
+          <li><a href="https://github.com/joyent/node/issues">Github Issues</a></li>
+          <li><a href="http://groups.google.com/group/nodejs">Mailing List</a></li>
+          <li><a href="http://webchat.freenode.net/?channels=node.js">IRC</a></li>
+          <li><a href="https://twitter.com/nodejs">Twitter</a></li>
+        </ul>
+        <ul>
+          <li><a href="http://nodejs.org/about/">About</a></li>
+          <li><a href="http://nodejs.org/about/organization/">Organization</a></li>
+          <li><a href="http://nodejs.org/about/core-team/">Core Team</a></li>
+          <li><a href="http://nodejs.org/about/resources/">Resources</a></li>
+        </ul>
+        <ul>
+          <li><a href="http://blog.nodejs.org">Blog</a></li>
+        </ul>
+      </div>
+      <p class="copyright">Copyright 2015 <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/images/trademark-policy.pdf">trademark</a> of Joyent, Inc. <a href="https://raw.github.com/joyent/node/__VERSION__/LICENSE">View license</a>.</p>
+    </div>
+  </div>
+
+  <script src="/sh_main.js"></script>
+  <script src="/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+  <script src="/tracking.js"></script>
+</body>
+</html>

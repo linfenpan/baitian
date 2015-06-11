@@ -1,0 +1,1418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>npm</title>
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="cleartype" content="on" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="npm is the package manager for JavaScript.">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,initial-scale=1,user-scalable=yes">
+
+  <link rel="shortcut icon" href="/static/misc/favicon.ico">
+  <link rel="canonical" href="https://www.npmjs.com/">
+  <link type="text/css" rel="stylesheet" media="all" href="/static/css/index.css">
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="npm">
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+
+  <script defer src="/static/js/index.js"></script>
+  <script defer src="/static/js/vendor.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <![endif]-->
+
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a href="#" id="npm-expansions">node package manager</a>
+      <a href="/private-modules">npm private modules</a>
+      <a href="/enterprise">npm Enterprise</a>
+      <a href="https://docs.npmjs.com">documentation</a>
+      <a href="http://blog.npmjs.org/">blog</a>
+      <a href="/npm-weekly">npm weekly</a>
+      <a href="/jobs">jobs</a>
+      <a href="/support">support</a>
+    </div>
+  </nav>
+
+  <header>
+    <div class="container">
+      <a href="/" id="npm-logo"><img src="/static/images/npm-logo.svg" alt="npm logo" /></a>
+
+      <div id="user-info" class="anonymous">
+          <a href="/login"><img src="/static/images/wombat-avatar.png" id="user-avatar" /></a>
+          <ul class="single">
+            <li><a href="/signup">sign up</a> or <a href="/login">log in</a></li>
+          </ul>
+
+      </div>
+
+      <form id="npm-search" action="/search" method="get">
+        <input name="q" value="" type="search" id="site-search" placeholder="find packages" tabindex="1" autocorrect="off" autocapitalize="off" />
+        <input type="submit" id="site-search-submit" />
+      </form>
+
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="container">
+
+  <div class="centered">
+    <h1>npm is the package manager for <span id="what-npm-is-for">node</span></h1>
+  </div>
+
+  <div id="home-stats">
+      <div class="stat icon-package-hex">
+        <strong class="pretty-number">131225</strong>
+        total packages
+      </div>
+
+      <div class="stat icon-cal-24hours">
+        <strong class="pretty-number">33559621</strong>
+        downloads in the last day
+      </div>
+
+      <div class="stat icon-cal-7days">
+        <strong class="pretty-number">203826015</strong>
+        downloads in the last week
+      </div>
+
+      <div class="stat icon-cal-30days">
+        <strong class="pretty-number">1022396159</strong>
+        downloads in the last month
+      </div>
+  </div>
+
+</div>
+
+<h2 class="centered ruled">
+  <a id="explicit" href="#explicit">packages people 'npm install' a lot</a>
+</h2>
+<ul class="columnar">
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/browserify">
+      <img src="https://d21ii91i3y6o6h.cloudfront.net/gallery_images/from_proof/1647/small/1405586570/browserify-2-hexagon-sticker.png" alt="browserify logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/browserify">browserify</a>
+    </h3>
+
+    <p class="description">browser-side require() the node way</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/browserify">8.0.3</a>
+
+       
+
+        published
+        2 months ago
+        by
+        <a href="/~substack">substack</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/grunt-cli">
+      <img src="https://i.cloudup.com/bDkmXyEmr5.png" alt="grunt-cli logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/grunt-cli">grunt-cli</a>
+    </h3>
+
+    <p class="description">The grunt command line interface.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/grunt-cli">0.1.13</a>
+
+       
+
+        published
+        a year ago
+        by
+        <a href="/~tkellen">tkellen</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/bower">
+      <img src="https://i.cloudup.com/Ka0R3QvWRs.png" alt="bower logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/bower">bower</a>
+    </h3>
+
+    <p class="description">The browser package manager</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/bower">1.3.12</a>
+
+       
+
+        published
+        5 months ago
+        by
+        <a href="/~sheerun">sheerun</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/gulp">
+      <img src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png" alt="gulp logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/gulp">gulp</a>
+    </h3>
+
+    <p class="description">The streaming build system</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/gulp">3.8.10</a>
+
+       
+
+        published
+        4 months ago
+        by
+        <a href="/~fractal">fractal</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/grunt">
+      <img src="https://i.cloudup.com/bDkmXyEmr5.png" alt="grunt logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/grunt">grunt</a>
+    </h3>
+
+    <p class="description">The JavaScript Task Runner</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/grunt">0.4.5</a>
+
+       
+
+        published
+        10 months ago
+        by
+        <a href="/~cowboy">cowboy</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/express">
+      <img src="https://cldup.com/wpGXm1cWwB.png" alt="express logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/express">express</a>
+    </h3>
+
+    <p class="description">Fast, unopinionated, minimalist web framework</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/express">4.10.7</a>
+
+       
+
+        published
+        2 months ago
+        by
+        <a href="/~dougwilson">dougwilson</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/npm">
+      <img src="https://cldup.com/Rg6WLgqccB.svg" alt="npm logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/npm">npm</a>
+    </h3>
+
+    <p class="description">A package manager for node</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/npm">2.1.17</a>
+
+       
+
+        published
+        2 months ago
+        by
+        <a href="/~othiym23">othiym23</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/cordova">
+      <img src="https://cldup.com/q5Jmvu10tV.png" alt="cordova logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/cordova">cordova</a>
+    </h3>
+
+    <p class="description">Cordova command line interface tool</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/cordova">4.1.2</a>
+
+       
+
+        published
+        4 months ago
+        by
+        <a href="/~kamrik">kamrik</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/forever">
+      <img src="https://cldup.com/iSilAlBYLW.svg" alt="forever logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/forever">forever</a>
+    </h3>
+
+    <p class="description">A simple CLI tool for ensuring that a given node script runs continuously (i.e. forever)</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/forever">0.13.0</a>
+
+       
+
+        published
+        4 months ago
+        by
+        <a href="/~indexzero">indexzero</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/less">
+      <img src="https://i.cloudup.com/LYSQDzsBKK.png" alt="less logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/less">less</a>
+    </h3>
+
+    <p class="description">Leaner CSS</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/less">2.2.0</a>
+
+       
+
+        published
+        2 months ago
+        by
+        <a href="/~agatronic">agatronic</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/pm2">
+      <img src="https://cldup.com/PKpktytKH9.png" alt="pm2 logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/pm2">pm2</a>
+    </h3>
+
+    <p class="description">Production process manager for Node.JS applications with a built-in load balancer.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/pm2">0.12.3</a>
+
+       
+
+        published
+        2 months ago
+        by
+        <a href="/~tknew">tknew</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/karma">
+      <img src="https://cldup.com/0286W-2y27.png" alt="karma logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/karma">karma</a>
+    </h3>
+
+    <p class="description">Spectacular Test Runner for JavaScript.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/karma">0.12.31</a>
+
+       
+
+        published
+        2 months ago
+        by
+        <a href="/~karmarunnerbot">karmarunnerbot</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/coffee-script">
+      <img src="https://cldup.com/kyDqUBuW3k.png" alt="coffee-script logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/coffee-script">coffee-script</a>
+    </h3>
+
+    <p class="description">Unfancy JavaScript</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/coffee-script">1.8.0</a>
+
+       
+
+        published
+        6 months ago
+        by
+        <a href="/~jashkenas">jashkenas</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/statsd">
+      <img src="https://cldup.com/3s3hGntQAy.svg" alt="statsd logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/statsd">statsd</a>
+    </h3>
+
+    <p class="description">A simple, lightweight network daemon to collect metrics over UDP</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/statsd">0.7.2</a>
+
+       
+
+        published
+        6 months ago
+        by
+        <a href="/~pkhzzrd">pkhzzrd</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget package-widget-with-logo">
+
+    <a class="package-logo" href="/packages/yo">
+      <img src="https://cldup.com/P3MQgWdDyG.png" alt="yo logo">
+    </a>
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/yo">yo</a>
+    </h3>
+
+    <p class="description">CLI tool for running Yeoman generators</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/yo">1.3.3</a>
+
+       
+
+        published
+        5 months ago
+        by
+        <a href="/~sindresorhus">sindresorhus</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+</ul>
+
+<h2 class="centered ruled">
+  <a id="recent" href="/browse/updated">recently updated packages</a>
+</h2>
+<ul class="columnar">
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/timezonecomplete">timezonecomplete</a>
+    </h3>
+
+    <p class="description">DateTime, TimeZone, Duration and Period library aimed at providing a consistent and complete date-time interface, away from the original JavaScript Date class.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/timezonecomplete">1.13.1</a>
+
+       
+
+        published
+        2 minutes ago
+        by
+        <a href="/~rogierschouten">rogierschouten</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/grunt-appc-js">grunt-appc-js</a>
+    </h3>
+
+    <p class="description">Linting and style checks for Appcelerator JavaScript</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/grunt-appc-js">0.3.2</a>
+
+       
+
+        published
+        3 minutes ago
+        by
+        <a href="/~ingo">ingo</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/flamingo-s3">flamingo-s3</a>
+    </h3>
+
+    <p class="description">flamingo-s3 is a https://github.com/piobyte/flamingo addon to allow reading and converting images from https://aws.amazon.com/s3/.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/flamingo-s3">0.1.1</a>
+
+       
+
+        published
+        4 minutes ago
+        by
+        <a href="/~makepanic">makepanic</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/config-cache">config-cache</a>
+    </h3>
+
+    <p class="description">General purpose JavaScript object storage methods.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/config-cache">1.1.0</a>
+
+       
+
+        published
+        5 minutes ago
+        by
+        <a href="/~jonschlinkert">jonschlinkert</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/grunt-eslint">grunt-eslint</a>
+    </h3>
+
+    <p class="description">Validate files with ESLint</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/grunt-eslint">8.0.0</a>
+
+       
+
+        published
+        8 minutes ago
+        by
+        <a href="/~sindresorhus">sindresorhus</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/math_node">math_node</a>
+    </h3>
+
+    <p class="description">An example of creating package</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/math_node">0.0.0</a>
+
+       
+
+        published
+        8 minutes ago
+        by
+        <a href="/~aghyad">aghyad</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/madlib-ws-client">madlib-ws-client</a>
+    </h3>
+
+    <p class="description">Platform agnostic WebSocket client implementation</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/madlib-ws-client">0.1.5</a>
+
+       
+
+        published
+        10 minutes ago
+        by
+        <a href="/~mdoeswijk">mdoeswijk</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/multifetch">multifetch</a>
+    </h3>
+
+    <p class="description">Express middleware for performing internal batch requests</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/multifetch">1.0.2</a>
+
+       
+
+        published
+        10 minutes ago
+        by
+        <a href="/~kapetan">kapetan</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/cqrs-domain">cqrs-domain</a>
+    </h3>
+
+    <p class="description">Node-cqrs-domain is a node.js module based on node-eventstore. It can be very useful as domain component if you work with (d)ddd, cqrs, eventdenormalizer, host, etc.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/cqrs-domain">1.5.0</a>
+
+       
+
+        published
+        11 minutes ago
+        by
+        <a href="/~adrai">adrai</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/amend">amend</a>
+    </h3>
+
+    <p class="description">Dependency injection module and IoC container.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/amend">0.3.0-beta-4</a>
+
+       
+
+        published
+        13 minutes ago
+        by
+        <a href="/~theludd">theludd</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/flamingo">flamingo</a>
+    </h3>
+
+    <p class="description">simple, hapijs based, HTTP server that allows you to convert media files to images</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/flamingo">0.13.1</a>
+
+       
+
+        published
+        13 minutes ago
+        by
+        <a href="/~makepanic">makepanic</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/async-chainable-exec">async-chainable-exec</a>
+    </h3>
+
+    <p class="description">Plugin for async-chainable that provides exec() support</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/async-chainable-exec">1.2.1</a>
+
+       
+
+        published
+        14 minutes ago
+        by
+        <a href="/~hash-bang">hash-bang</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+</ul>
+
+<h2 class="centered ruled">
+  <a id="depended" href="/browse/depended">most depended-upon packages</a>
+</h2>
+<ul class="columnar packages">
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/underscore">underscore</a>
+    </h3>
+
+    <p class="description">JavaScript&#x27;s functional programming helper library.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/underscore">1.8.2</a>
+
+       
+
+        published
+        16 days ago
+        by
+        <a href="/~jashkenas">jashkenas</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/async">async</a>
+    </h3>
+
+    <p class="description">Higher-order functions and common patterns for asynchronous code</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/async">0.9.0</a>
+
+       
+
+        published
+        10 months ago
+        by
+        <a href="/~caolan">caolan</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/lodash">lodash</a>
+    </h3>
+
+    <p class="description">The modern build of lodash modular utilities.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/lodash">3.5.0</a>
+
+       
+
+        published
+        a day ago
+        by
+        <a href="/~jdalton">jdalton</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/request">request</a>
+    </h3>
+
+    <p class="description">Simplified HTTP request client.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/request">2.53.0</a>
+
+       
+
+        published
+        a month ago
+        by
+        <a href="/~nylen">nylen</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/commander">commander</a>
+    </h3>
+
+    <p class="description">the complete solution for node.js command-line programs</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/commander">2.7.0</a>
+
+       
+
+        published
+        17 hours ago
+        by
+        <a href="/~zhiyelee">zhiyelee</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/express">express</a>
+    </h3>
+
+    <p class="description">Fast, unopinionated, minimalist web framework</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/express">4.12.2</a>
+
+       
+
+        published
+        7 days ago
+        by
+        <a href="/~dougwilson">dougwilson</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/debug">debug</a>
+    </h3>
+
+    <p class="description">small debugging utility</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/debug">2.1.2</a>
+
+       
+
+        published
+        8 days ago
+        by
+        <a href="/~tootallnate">tootallnate</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/colors">colors</a>
+    </h3>
+
+    <p class="description">get colors in your node.js console</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/colors">1.0.3</a>
+
+       
+
+        published
+        5 months ago
+        by
+        <a href="/~marak">marak</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/coffee-script">coffee-script</a>
+    </h3>
+
+    <p class="description">Unfancy JavaScript</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/coffee-script">1.9.1</a>
+
+       
+
+        published
+        19 days ago
+        by
+        <a href="/~jashkenas">jashkenas</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/q">q</a>
+    </h3>
+
+    <p class="description">A library for promises (CommonJS/Promises/A,B,D)</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/q">1.2.0</a>
+
+       
+
+        published
+        16 days ago
+        by
+        <a href="/~kriskowal">kriskowal</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/chalk">chalk</a>
+    </h3>
+
+    <p class="description">Terminal string styling done right. Much color.</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/chalk">1.0.0</a>
+
+       
+
+        published
+        15 days ago
+        by
+        <a href="/~sindresorhus">sindresorhus</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+    <li><div class="package-widget ">
+
+
+  <div class="package-details">
+    <h3>
+      <a class="name" href="/packages/mkdirp">mkdirp</a>
+    </h3>
+
+    <p class="description">Recursively mkdir, like &#x60;mkdir -p&#x60;</p>
+
+    <p class="author quiet">
+
+      
+
+      <a class="version" href="/packages/mkdirp">0.5.0</a>
+
+       
+
+        published
+        10 months ago
+        by
+        <a href="/~substack">substack</a>
+
+       
+    </p>
+
+  </div>
+
+</div>
+</li>
+</ul>
+
+<ul class="columnar">
+  <li>
+    <h3><a href="http://nodejs.org/download/">Install npm</a></h3>
+    <p>
+      The npm command-line tool is bundled with Node.js, so if you already
+      have Node.js installed then you have npm too. If not, go
+      <a href="http://nodejs.org/download/">download the Node.js installer</a>.
+    </p>
+  </li>
+
+  <li>
+    <h3><a href="https://docs.npmjs.com">Learn the Ropes</a></h3>
+    <p>
+      We've got a <a href="https://docs.npmjs.com/">new docs site</a> featuring videos and tutorials to help
+      you make your javascript dreams come true. Head on over to
+      <a href="https://docs.npmjs.com/">docs.npmjs.com</a>
+    </p>
+  </li>
+
+  <li>
+    <h3><a href="/whoshiring">Get a Job</a></h3>
+    <div class="hiring-container" data-template="vanilla"></div>
+  </li>
+</ul>
+<script type="application/ld+json">
+  { "@context" : "http://schema.org",
+    "@type" : "Organization",
+    "name" : "npm, Inc.",
+    "url" : "https://www.npmjs.com",
+    "sameAs" : [ "http://twitter.com/npmjs",
+      "http://plus.google.com/117779828622760977116",
+      "https://www.youtube.com/channel/UCK71Wk0I45SLTSXQA23GdIw"],
+    "logo": "https://www.npmjs.com/static/images/npm-logo.svg"
+  }
+</script>
+
+  </div>
+
+  <footer>
+
+    <div class="container">
+
+      <ul class="columnar">
+        <li>
+          <h3>You Need Help</h3>
+          <ul class="links">
+            <li><a href="https://docs.npmjs.com">Documentation</a></li>
+            <li><a href="/support">Support / Contact Us</a></li>
+            <li><a href="http://status.npmjs.org/">Registry Status</a></li>
+            <li><a href="https://github.com/npm/newww/issues">Website Issues</a></li>
+            <li><a href="https://github.com/npm/npm/issues">CLI Issues</a></li>
+            <li><a href="/security">Security</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <h3>About npm</h3>
+          <ul class="links">
+            <li><a href="/about">About npm, Inc</a></li>
+            <li><a href="/jobs">Jobs</a></li>
+            <li><a href="/private-modules">npm private modules</a></li>
+            <li><a href="http://blog.npmjs.org">Blog</a></li>
+            <li><a href="https://twitter.com/npmjs">Twitter</a></li>
+            <li><a href="https://github.com/npm">GitHub</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <h3>Legal Stuff</h3>
+          <ul class="links">
+            <li><a href="/policies/conduct">Code of Conduct</a></li>
+            <li><a href="/policies/disputes">Package Name Disputes</a></li>
+            <li><a href="/policies/npm-license">npm License</a></li>
+            <li><a href="/policies/privacy">Privacy Policy</a></li>
+            <li><a href="/policies/receiving-reports">Reporting Abuse</a></li>
+            <li><a href="/policies/trademark">Trademark Policy</a></li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="container centered">
+      <a href="/" id="npm-loves-you">
+        npm loves you
+      </a>
+    </div>
+
+
+  </footer>
+</body>
+</html>
+
+<!-- pid=5563 55931e2ef85c4f1389fea54582f9f03e1add67f8 https://www.npmjs.com www-5-west.internal.npmjs.com undefined -->

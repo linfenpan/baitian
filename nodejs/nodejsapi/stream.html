@@ -1,0 +1,2621 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>流 Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/stream.html">
+</head>
+<body class="alt apidoc" id="api-section-stream">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="stream.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#stream_7974">流</a><ul>
+<li><a href="#stream_api_2658">面向流消费者的 API</a><ul>
+<li><a href="#stream_stream_readable_2658">类: stream.Readable</a><ul>
+<li><a href="#stream_readable_1329">事件: &apos;readable&apos;</a></li>
+<li><a href="#stream_data_1329">事件: &apos;data&apos;</a></li>
+<li><a href="#stream_end_1329">事件: &apos;end&apos;</a></li>
+<li><a href="#stream_close_1329">事件: &apos;close&apos;</a></li>
+<li><a href="#stream_error_1329">事件: &apos;error&apos;</a></li>
+<li><a href="#stream_readable_read_size_2658">readable.read([size])</a></li>
+<li><a href="#stream_readable_setencoding_encoding_1329">readable.setEncoding(encoding)</a></li>
+<li><a href="#stream_readable_resume_1329">readable.resume()</a></li>
+<li><a href="#stream_readable_pause_1329">readable.pause()</a></li>
+<li><a href="#stream_readable_pipe_destination_options_1329">readable.pipe(destination, [options])</a></li>
+<li><a href="#stream_readable_unpipe_destination_1329">readable.unpipe([destination])</a></li>
+<li><a href="#stream_readable_unshift_chunk_1329">readable.unshift(chunk)</a></li>
+<li><a href="#stream_readable_wrap_stream_1329">readable.wrap(stream)</a></li>
+</ul>
+</li>
+<li><a href="#stream_stream_writable_2658">类: stream.Writable</a><ul>
+<li><a href="#stream_writable_write_chunk_encoding_callback_2658">writable.write(chunk, [encoding], [callback])</a></li>
+<li><a href="#stream_drain_1329">事件: &apos;drain&apos;</a></li>
+<li><a href="#stream_writable_cork_1329">writable.cork()</a></li>
+<li><a href="#stream_writable_uncork_1329">writable.uncork()</a></li>
+<li><a href="#stream_writable_end_chunk_encoding_callback_1329">writable.end([chunk], [encoding], [callback])</a></li>
+<li><a href="#stream_finish_1329">事件: &apos;finish&apos;</a></li>
+<li><a href="#stream_pipe_1329">事件: &apos;pipe&apos;</a></li>
+<li><a href="#stream_unpipe_1329">事件: &apos;unpipe&apos;</a></li>
+</ul>
+</li>
+<li><a href="#stream_stream_duplex_2658">类: stream.Duplex</a></li>
+<li><a href="#stream_stream_transform_2658">类: stream.Transform</a></li>
+</ul>
+</li>
+<li><a href="#stream_api_2659">面向流实现者的 API</a><ul>
+<li><a href="#stream_stream_readable_2659">类: stream.Readable</a><ul>
+<li><a href="#stream_7975">例子: 一个计数流</a></li>
+<li><a href="#stream_simpleprotocol_v1_sub_optimal_1329">例子: SimpleProtocol v1 (Sub-optimal)</a></li>
+<li><a href="#stream_new_stream_readable_options_1329">new stream.Readable([options])</a></li>
+<li><a href="#stream_readable_read_size_2659">readable._read(size)</a></li>
+<li><a href="#stream_readable_push_chunk_encoding_1329">readable.push(chunk, [encoding])</a></li>
+</ul>
+</li>
+<li><a href="#stream_stream_writable_2659">类: stream.Writable</a><ul>
+<li><a href="#stream_new_stream_writable_options_1329">new stream.Writable([options])</a></li>
+<li><a href="#stream_writable_write_chunk_encoding_callback_2659">writable._write(chunk, encoding, callback)</a></li>
+</ul>
+</li>
+<li><a href="#stream_writable_writev_chunks_callback_1329">writable._writev(chunks, callback)</a></li>
+<li><a href="#stream_stream_duplex_2659">类: stream.Duplex</a><ul>
+<li><a href="#stream_new_stream_duplex_options_1329">new stream.Duplex(options)</a></li>
+</ul>
+</li>
+<li><a href="#stream_stream_transform_2659">类: stream.Transform</a><ul>
+<li><a href="#stream_new_stream_transform_options_1329">new stream.Transform([options])</a></li>
+<li><a href="#stream_transform_transform_chunk_encoding_callback_1329">transform._transform(chunk, encoding, callback)</a></li>
+<li><a href="#stream_transform_flush_callback_1329">transform._flush(callback)</a></li>
+<li><a href="#stream_simpleprotocol_v2_1329">例子: <code>SimpleProtocol</code> 解析器 v2</a></li>
+</ul>
+</li>
+<li><a href="#stream_stream_passthrough_1329">类: stream.PassThrough</a></li>
+</ul>
+</li>
+<li><a href="#stream_7976">流：内部细节</a><ul>
+<li><a href="#stream_7977">缓冲</a></li>
+<li><a href="#stream_stream_read_0_1329"><code>stream.read(0)</code></a></li>
+<li><a href="#stream_stream_push_1329"><code>stream.push(&apos;&apos;)</code></a></li>
+<li><a href="#stream_node_1329">与 Node 早期版本的兼容性</a></li>
+<li><a href="#stream_7978">对象模式</a></li>
+<li><a href="#stream_7979">状态对象</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="dc47faa6e86cfa6d2d8dd5fa2ac30761">
+
+<h1>流<span><a href="#stream_7974" id="stream_7974">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="14ae3b8a1560651cf34fa2e5562e7f27">
+
+<pre><code>稳定度: 2 - 不稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0de466e8760c7ac84443446072354140">
+
+<p>流是一个抽象接口，被 Node 中的很多对象所实现。比如<a href="http.html#http_http_incomingmessage">对一个 HTTP 服务器的请求</a>是一个流，<a href="process.html#process_process_stdout">stdout</a> 也是一个流。流是可读、可写或兼具两者的。所有流都是 <a href="events.html#events_class_events_eventemitter">EventEmitter</a> 的实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd73f300ec9fb8f213afe808741791b5">
+
+<p>您可以通过 <code>require(&apos;stream&apos;)</code> 加载 Stream 基类，其中包括了 <a href="#stream_class_stream_readable">Readable</a> 流、<a href="#stream_class_stream_writable">Writable</a> 流、<a href="#stream_class_stream_duplex">Duplex</a> 流和 <a href="#stream_class_stream_transform">Transform</a> 流的基类。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="77907ff07a21e4154cb2a5d43d049775">
+
+<p>本文档分为三个章节。第一章节解释了您在您的程序中使用流时需要了解的那部分 API，如果您不打算自己实现一个流式 API，您可以只阅读这一章节。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="15a413a7eae6fa7b1b57c2240a0622c1">
+
+<p>第二章节解释了当您自己实现一个流时需要用到的那部分 API，这些 API 是为了方便您这么做而设计的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="161d148aede3d26afa80b1d3af36c601">
+
+<p>第三章节深入讲解了流的工作方式，包括一些内部机制和函数，除非您明确知道您在做什么，否则尽量不要改动它们。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="05436f364fc5ebf29e2907ab729feb32">
+
+<h2>面向流消费者的 API<span><a href="#stream_api_2658" id="stream_api_2658">#</a></span></h2>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="c6e7df22d240fe919a1d476e9251313a">
+
+<p>流可以是可读（<a href="#stream_class_stream_readable">Readable</a>）或可写（<a href="#stream_class_stream_writable">Writable</a>），或者兼具两者（<a href="#stream_class_stream_duplex">Duplex</a>，双工）的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a534c54cffd2e67f65778d976ca233bd">
+
+<p>所有流都是 EventEmitter，但它们也具有其它自定义方法和属性，取决于它们是 Readable、Writable 或 Duplex。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="360bf33ce7064cb9eb56028fa7e77a58">
+
+<p>如果一个流既可读（Readable）也可写（Writable），则它实现了下文所述的所有方法和事件。因此，这些 API 同时也涵盖了 <a href="#stream_class_stream_duplex">Duplex</a> 或 <a href="#stream_class_stream_transform">Transform</a> 流，即便它们的实现可能有点不同。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="002fa2295f93a8346b06383d0765df3f">
+
+<p>为了消费流而在您的程序中自己实现 Stream 接口是没有必要的。如果您<strong>确实</strong>正在您自己的程序中实现流式接口，请同时参考下文<a href="#stream_api_for_stream_implementors">面向流实现者的 API</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6f5094da15b8db32e4a50fae0b8b51ff">
+
+<p>几乎所有 Node 程序，无论多简单，都在某种途径用到了流。这里有一个使用流的 Node 程序的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e526bf2cfb37512525b6be5004a4d3ac">
+
+<pre><code>var http = require(&apos;http&apos;);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:5dd53fb86ef5aa2fb0a6e831e46cc135 --&gt;
+
+var server = http.createServer(function (req, res) {
+  // req 为 http.IncomingMessage，是一个可读流（Readable Stream）
+  // res 为 http.ServerResponse，是一个可写流（Writable Stream）
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:fd5e086becb475ded97300c6e8b1f889 --&gt;
+
+  var body = &apos;&apos;;
+  // 我们打算以 UTF-8 字符串的形式获取数据
+  // 如果您不设置编码，您将得到一个 Buffer 对象
+  req.setEncoding(&apos;utf8&apos;);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:bb5a4bf69e5c71de2331fe85918ed96b --&gt;
+
+  // 一旦监听器被添加，可读流会触发 &apos;data&apos; 事件
+  req.on(&apos;data&apos;, function (chunk) {
+    body += chunk;
+  })
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:5768f3afd395c860ba272f79026a6799 --&gt;
+
+  // &apos;end&apos; 事件表明您已经得到了完整的 body
+  req.on(&apos;end&apos;, function () {
+    try {
+      var data = JSON.parse(body);
+    } catch (er) {
+      // uh oh!  bad json!
+      res.statusCode = 400;
+      return res.end(&apos;错误: &apos; + er.message);
+    }
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:812496c72ef4682c63a7ba8837f9610a --&gt;
+
+    // 向用户回写一些有趣的信息
+    res.write(typeof data);
+    res.end();
+  })
+})
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:3bbc30d951532659ecc70a505ea1e985 --&gt;
+
+server.listen(1337);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:f0dea661693acf21ed203ec804a4f05a --&gt;
+
+// $ curl localhost:1337 -d &apos;{}&apos;
+// object
+// $ curl localhost:1337 -d &apos;&quot;foo&quot;&apos;
+// string
+// $ curl localhost:1337 -d &apos;not json&apos;
+// 错误: Unexpected token o</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4911f6284f42b2bc2b22b2eaf282f5b6">
+
+<h3>类: stream.Readable<span><a href="#stream_stream_readable_2658" id="stream_stream_readable_2658">#</a></span></h3>
+</div>
+
+<!--type=class-->
+
+<div class="translate-section" data-hash="e5a24757715c53d420d572ad3af71bca">
+
+<p>Readable（可读）流接口是对您正在读取的数据的<em>来源</em>的抽象。换言之，数据<em>出自</em>一个 Readable 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e2bdb086fbc6a485e92d04457adf759a">
+
+<p>在您表明您就绪接收之前，Readable 流并不会开始发生数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="82d52cbb6918372495482e83712210c6">
+
+<p>Readable 流有两种“模式”：<strong>流动模式</strong>和<strong>暂停模式</strong>。当处于流动模式时，数据由底层系统读出，并尽可能快地提供给您的程序；当处于暂停模式时，您必须明确地调用 <code>stream.read()</code> 来取出若干数据块。流默认处于暂停模式。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3fd7976d42abaa448cf214d4a3008247">
+
+<p><strong>注意</strong>：如果没有绑定 data 事件处理器，并且没有 <a href="#stream_readable_pipe_destination_options"><code>pipe()</code></a> 目标，同时流被切换到流动模式，那么数据会流失。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3ddf3fb999eb7117acc38772934f3923">
+
+<p>您可以通过下面几种做法切换到流动模式：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="57aafbd9d9403fdc59702abb42f3d6a6">
+
+<ul>
+<li>添加一个 <a href="#stream_event_data"><code>&apos;data&apos;</code> 事件</a>处理器来监听数据。</li>
+<li>调用 <a href="#stream_readable_resume"><code>resume()</code></a> 方法来明确开启数据流。</li>
+<li>调用 <a href="#stream_readable_pipe_destination_options"><code>pipe()</code></a> 方法将数据发送到一个 <a href="#stream_class_stream_writable">Writable</a>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="90bc8c5f399e46d001de56c33eb53577">
+
+<p>您可以通过下面其中一种做法切换回暂停模式：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="718e997516045ca6f55efa9087985290">
+
+<ul>
+<li>如果没有导流目标，调用 <a href="#stream_readable_pause"><code>pause()</code></a> 方法。</li>
+<li>如果有导流目标，移除所有 [<code>&apos;data&apos;</code> 事件][] 处理器、调用 <a href="#stream_readable_unpipe_destination"><code>unpipe()</code></a> 方法移除所有导流目标。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="688874585beeeb452de8349d46701bf8">
+
+<p>请注意，为了向后兼容考虑，移除 <code>&apos;data&apos;</code> 事件监听器并<strong>不会</strong>自动暂停流。同样的，当有导流目标时，调用 <code>pause()</code> 并不能保证流在那些目标排空并请求更多数据时<em>维持</em>暂停状态。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="073bf06a9c741177ea1aeb566e417dbb">
+
+<p>一些可读流的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fdc3e84991909b5d90ef9027dfd1098b">
+
+
+<ul>
+<li><a href="http.html#http_http_incomingmessage">客户端上的 HTTP 响应</a></li>
+<li><a href="http.html#http_http_incomingmessage">服务器上的 HTTP 请求</a></li>
+<li><a href="fs.html#fs_class_fs_readstream">fs 读取流</a></li>
+<li><a href="zlib.html">zlib 流</a></li>
+<li><a href="crypto.html">crypto 流</a></li>
+<li><a href="net.html#net_class_net_socket">TCP 嵌套字</a></li>
+<li><a href="child_process.html#child_process_child_stdout">子进程的 stdout 和 stderr</a></li>
+<li><a href="process.html#process_process_stdin">process.stdin</a></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f80488c16739e7f801012e4ec2036f75">
+
+<h4>事件: &apos;readable&apos;<span><a href="#stream_readable_1329" id="stream_readable_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="44e7b111f47dce7721c8a4ae25162296">
+
+<p>当一个数据块可以从流中被读出时，它会触发一个 <code>&apos;readable&apos;</code> 事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4d373ef3b0aad0a200ebf4bf50da5235">
+
+<p>在某些情况下，假如未准备好，监听一个 <code>&apos;readable&apos;</code> 事件会使得一些数据从底层系统被读出到内部缓冲区中。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0a6f7424348f16604a8783dc7bbbe8e0">
+
+<pre><code>var readable = getReadableStreamSomehow();
+readable.on(&apos;readable&apos;, function() {
+  // 现在有数据可以读了
+})</code></pre>
+</div>
+
+<div class="translate-section" data-hash="fd486381dd19ef4abca0f882f51d81de">
+
+<p>当内部缓冲区被排空后，一旦更多数据时，一个 <code>readable</code> 事件会被再次触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1b871fabadd094436c636865bb53f07">
+
+<h4>事件: &apos;data&apos;<span><a href="#stream_data_1329" id="stream_data_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="3a4426ce06313868e8f9c78312df3384">
+
+<ul>
+<li><code>chunk</code> {Buffer | String} 数据块。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="84920ca52548a6585a9d5954fdbf1d72">
+
+<p>绑定一个 <code>data</code> 事件监听器到一个未被明确暂停的流会将流切换到流动模式，数据会被尽可能地传递。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d1feee165918fd752e0172e830b4b206">
+
+<p>如果您想从流尽快取出所有数据，这是最理想的方式。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="28ba252fd2b972e5249030166178d692">
+
+<pre><code>var readable = getReadableStreamSomehow();
+readable.on(&apos;data&apos;, function(chunk) {
+  console.log(&apos;得到了 %d 字节的数据&apos;, chunk.length);
+})</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a46181fcedf3891d9ae75746ab4d7957">
+
+<h4>事件: &apos;end&apos;<span><a href="#stream_end_1329" id="stream_end_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="05d9ceb1d24a81c3b94145d3b013b79e">
+
+<p>该事件会在没有更多数据能够提供时被触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0ba92ad296d92124a33e4319937f24c5">
+
+<p>请注意，<code>end</code> 事件在数据被完全消费之前<strong>不会被触发</strong>。这可通过切换到流动模式，或者在到达末端前不断调用 <code>read()</code> 来实现。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e3421cc20bf365c8bc6f024616ec67b4">
+
+<pre><code>var readable = getReadableStreamSomehow();
+readable.on(&apos;data&apos;, function(chunk) {
+  console.log(&apos;得到了 %d 字节的数据&apos;, chunk.length);
+})
+readable.on(&apos;end&apos;, function() {
+  console.log(&apos;读取完毕。&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="dd925cc782cfcac8ae45620818ff1f37">
+
+<h4>事件: &apos;close&apos;<span><a href="#stream_close_1329" id="stream_close_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="df24cc8ce4df396235e849ae1dac4502">
+
+<p>当底层数据源（比如，源头的文件描述符）被关闭时触发。并不是所有流都会触发这个事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="87ff694efe419c1d6b968d6ca296b1d7">
+
+<h4>事件: &apos;error&apos;<span><a href="#stream_error_1329" id="stream_error_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="5470033cddef6120a7f2024d08492438">
+
+<p>当数据接收时发生错误时触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="de4e181bbe94ef2f75b595f44776c1ce">
+
+<h4>readable.read([size])<span><a href="#stream_readable_read_size_2658" id="stream_readable_read_size_2658">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="1230b9704868201abfe45fb33036c375">
+
+<ul>
+<li><code>size</code> {Number} 可选参数，指定要读取多少数据。</li>
+<li>返回 {String | Buffer | null}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0add557f2ca6f940c7cf5bd8a8738073">
+
+<p><code>read()</code> 方法从内部缓冲区中拉取并返回若干数据。当没有更多数据可用时，它会返回 <code>null</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8d5b1dee1f0f4537979939f1db808c3f">
+
+<p>若您传入了一个 <code>size</code> 参数，那么它会返回相当字节的数据；当 <code>size</code> 字节不可用时，它则返回 <code>null</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6881d73ef45bdb44f9597ac4af40c563">
+
+<p>若您没有指定 <code>size</code> 参数，那么它会返回内部缓冲区中的所有数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5c030cda17c111bc80505e79a4dffc8f">
+
+<p>该方法仅应在暂停模式时被调用。在流动模式中，该方法会被自动调用直到内部缓冲区排空。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f3253f86180092cc197eb395ae1fb111">
+
+<pre><code>var readable = getReadableStreamSomehow();
+readable.on(&apos;readable&apos;, function() {
+  var chunk;
+  while (null !== (chunk = readable.read())) {
+    console.log(&apos;得到了 %d 字节的数据&apos;, chunk.length);
+  }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d08f42a7a076d90aa3d6d32eabefdc40">
+
+<p>当该方法返回了一个数据块，它同时也会触发 <a href="#stream_event_data"><code>&apos;data&apos;</code> 事件</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="85c17d17b049579409fb4930021ab96a">
+
+<h4>readable.setEncoding(encoding)<span><a href="#stream_readable_setencoding_encoding_1329" id="stream_readable_setencoding_encoding_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="e7a19d3249cee389aae5116897e67091">
+
+<ul>
+<li><code>encoding</code> {String} 要使用的编码。</li>
+<li>返回: <code>this</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="525e8ae7f7ad71cde1a9b7cd22afd2cf">
+
+<p>调用此函数会使得流返回指定编码的字符串而不是 Buffer 对象。比如，当您 <code>readable.setEncoding(&apos;utf8&apos;)</code>，那么输出数据会被作为 UTF-8 数据解析，并以字符串返回。如果您 <code>readable.setEncoding(&apos;hex&apos;)</code>，那么数据会被编码成十六进制字符串格式。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e3768294835cbe6dd73a51ae1cce0505">
+
+<p>该方法能正确处理多字节字符。假如您不这么做，仅仅直接取出 Buffer 并对它们调用 <code>buf.toString(encoding)</code>，很可能会导致字节错位。因此如果您打算以字符串读取数据，请总是使用这个方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="549793a09f607bb2d188a6117cdc09a7">
+
+<pre><code>var readable = getReadableStreamSomehow();
+readable.setEncoding(&apos;utf8&apos;);
+readable.on(&apos;data&apos;, function(chunk) {
+  assert.equal(typeof chunk, &apos;string&apos;);
+  console.log(&apos;得到了 %d 个字符的字符串数据&apos;, chunk.length);
+})</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a0504bf796598c8e76341f2f5c851bba">
+
+<h4>readable.resume()<span><a href="#stream_readable_resume_1329" id="stream_readable_resume_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="27ee0d0c4259bbec3159f1dc77e9df39">
+
+<ul>
+<li>返回: <code>this</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="e4cc9395080e65c5780f48e8f1b3fa22">
+
+<p>该方法让可读流继续触发 <code>data</code> 事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c910bc90f81cc25f3fc290ba08976ed4">
+
+<p>该方法会将流切换到流动模式。如果您<em>不想</em>从流中消费数据，但您<em>想</em>得到它的 <code>end</code> 事件，您可以调用 <a href="#stream_readable_resume"><code>readable.resume()</code></a> 来启动数据流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aff6daa498fbdd06c6b3d7490ca1f2e5">
+
+<pre><code>var readable = getReadableStreamSomehow();
+readable.resume();
+readable.on(&apos;end&apos;, function(chunk) {
+  console.log(&apos;到达末端，但并未读取任何东西&apos;);
+})</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c531743f0905bee58b8359d5dd35ec34">
+
+<h4>readable.pause()<span><a href="#stream_readable_pause_1329" id="stream_readable_pause_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="27ee0d0c4259bbec3159f1dc77e9df39">
+
+<ul>
+<li>返回: <code>this</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d2486635105b8a0bcf14d8de36d0a75e">
+
+<p>该方法会使一个处于流动模式的流停止触发 <code>data</code> 事件，切换到非流动模式，并让后续可用数据留在内部缓冲区中。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a18cf4bcf84e955be58bce772a32410f">
+
+<pre><code>var readable = getReadableStreamSomehow();
+readable.on(&apos;data&apos;, function(chunk) {
+  console.log(&apos;取得 %d 字节数据&apos;, chunk.length);
+  readable.pause();
+  console.log(&apos;接下来 1 秒内不会有数据&apos;);
+  setTimeout(function() {
+    console.log(&apos;现在数据会再次开始流动&apos;);
+    readable.resume();
+  }, 1000);
+})</code></pre>
+</div>
+
+<div class="translate-section" data-hash="44636c68fe2e078d9fdfd19a5badfbbe">
+
+<h4>readable.pipe(destination, [options])<span><a href="#stream_readable_pipe_destination_options_1329" id="stream_readable_pipe_destination_options_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="779663b5a98e7fd02b732e242ac7f92a">
+
+<ul>
+<li><code>destination</code> {<a href="#stream_class_stream_writable">Writable</a> Stream} 写入数据的目标</li>
+<li><code>options</code> {Object} 导流选项<ul>
+<li><code>end</code> {Boolean} 在读取者结束时结束写入者。缺省为 <code>true</code></li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="13040edafb7d232ade0672d1aeb3be8d">
+
+<p>该方法从可读流中拉取所有数据，并写入到所提供的目标。该方法能自动控制流量以避免目标被快速读取的可读流所淹没。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3c03266f9bc6b279387058505385f97a">
+
+<p>可以导流到多个目标。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7d8a169e2c1f9bdbeca936802caa9ab7">
+
+<pre><code>var readable = getReadableStreamSomehow();
+var writable = fs.createWriteStream(&apos;file.txt&apos;);
+// 所有来自 readable 的数据会被写入到 &apos;file.txt&apos;
+readable.pipe(writable);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f6681cc47737c3db16d83e4c3fffd971">
+
+<p>该函数返回目标流，因此您可以建立导流链：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3f39058c578cbd9fd913eb3b9be7cf90">
+
+<pre><code>var r = fs.createReadStream(&apos;file.txt&apos;);
+var z = zlib.createGzip();
+var w = fs.createWriteStream(&apos;file.txt.gz&apos;);
+r.pipe(z).pipe(w);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="cc5b50618ed38dfd2139d66fe13088db">
+
+<p>例如，模拟 Unix 的 <code>cat</code> 命令：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c854294bbe4dd38af189b6c3f414b86c">
+
+<pre><code>process.stdin.pipe(process.stdout);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ec95d9acd3f4450d9deb6458d8c74f52">
+
+<p>缺省情况下当来源流触发 <code>end</code> 时目标的 <a href="#stream_writable_end_chunk_encoding_callback"><code>end()</code></a> 会被调用，所以此时 <code>destination</code> 不再可写。传入 <code>{ end: false }</code> 作为 <code>options</code> 可以让目标流保持开启状态。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b3078ca119c41ece903d51fdac6f1984">
+
+<p>这将让 <code>writer</code> 保持开启，因此最后可以写入 &quot;Goodbye&quot;。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c939aae23a2697e6f1776e00a6f4186d">
+
+<pre><code>reader.pipe(writer, { end: false });
+reader.on(&apos;end&apos;, function() {
+  writer.end(&apos;Goodbye\n&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="310f61c46be3a9dd887e129bbfec27b3">
+
+<p>请注意 <code>process.stderr</code> 和 <code>process.stdout</code> 在进程结束前都不会被关闭，无论是否指定选项。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e8ab8b5c90cdfc7325b653b7c64d22b6">
+
+<h4>readable.unpipe([destination])<span><a href="#stream_readable_unpipe_destination_1329" id="stream_readable_unpipe_destination_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="caf006fafada469081d2f6dc6a0b7d68">
+
+<ul>
+<li><code>destination</code> {<a href="#stream_class_stream_writable">Writable</a> Stream} 可选，指定解除导流的流</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="445453ed548c841cf6537deb80a45d4b">
+
+<p>该方法会移除之前调用 <code>pipe()</code> 所设定的钩子。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5c5453f57e82fb17e76fb9673f1a97b2">
+
+<p>如果不指定目标，所有导流都会被移除。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="85758b0accf0f1b1b047c001bd0b1663">
+
+<p>如果指定了目标，但并没有与之建立导流，则什么事都不会发生。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b6ee48908e7b3f442eb8b339e935f3d7">
+
+<pre><code>var readable = getReadableStreamSomehow();
+var writable = fs.createWriteStream(&apos;file.txt&apos;);
+// 来自 readable 的所有数据都会被写入 &apos;file.txt&apos;,
+// 但仅发生在第 1 秒
+readable.pipe(writable);
+setTimeout(function() {
+  console.log(&apos;停止写入到 file.txt&apos;);
+  readable.unpipe(writable);
+  console.log(&apos;自行关闭文件流&apos;);
+  writable.end();
+}, 1000);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="7947a70e2be3453687b14a541d3753ad">
+
+<h4>readable.unshift(chunk)<span><a href="#stream_readable_unshift_chunk_1329" id="stream_readable_unshift_chunk_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="5393c3359563baff776b9e9df08cde56">
+
+<ul>
+<li><code>chunk</code> {Buffer | String} 要插回读取队列开头的数据块</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="640ec8915587ab0b9e2dfa12be9cb858">
+
+<p>该方法在许多场景中都很有用，比如一个流正在被一个解析器消费，解析器可能需要将某些刚拉取出的数据“逆消费”回来源，以便流能将它传递给其它消费者。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d9fe39bcd287eaf3d15ff5839bfb288a">
+
+<p>如果您发现您需要在您的程序中频繁调用 <code>stream.unshift(chunk)</code>，请考虑实现一个 <a href="#stream_class_stream_transform">Transform</a> 流。（详见下文面向流实现者的 API。）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="27fb166d498ccfdbce8c320be0c3d19a">
+
+<pre><code>// 取出以 \n\n 分割的头部并将多余部分 unshift() 回去
+// callback 以 (error, header, stream) 形式调用
+var StringDecoder = require(&apos;string_decoder&apos;).StringDecoder;
+function parseHeader(stream, callback) {
+  stream.on(&apos;error&apos;, callback);
+  stream.on(&apos;readable&apos;, onReadable);
+  var decoder = new StringDecoder(&apos;utf8&apos;);
+  var header = &apos;&apos;;
+  function onReadable() {
+    var chunk;
+    while (null !== (chunk = stream.read())) {
+      var str = decoder.write(chunk);
+      if (str.match(/\n\n/)) {
+        // 找到头部边界
+        var split = str.split(/\n\n/);
+        header += split.shift();
+        var remaining = split.join(&apos;\n\n&apos;);
+        var buf = new Buffer(remaining, &apos;utf8&apos;);
+        if (buf.length)
+          stream.unshift(buf);
+        stream.removeListener(&apos;error&apos;, callback);
+        stream.removeListener(&apos;readable&apos;, onReadable);
+        // 现在可以从流中读取消息的主体了
+        callback(null, header, stream);
+      } else {
+        // 仍在读取头部
+        header += str;
+      }
+    }
+  }
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="dc963d2b4dc27324fdf4fbd78b34834d">
+
+<h4>readable.wrap(stream)<span><a href="#stream_readable_wrap_stream_1329" id="stream_readable_wrap_stream_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="b082172985bf02b4e33e1cfb9a05f9d4">
+
+<ul>
+<li><code>stream</code> {Stream} 一个“旧式”可读流</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9b02c0236b4c8b73d49d8d1368b32b17">
+
+<p>Node v0.10 版本之前的流并未实现现今所有流 API。（更多信息详见下文“兼容性”章节。）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6a6115a6c07c94f85faab94e652644fc">
+
+<p>如果您正在使用早前版本的 Node 库，它触发 <code>&apos;data&apos;</code> 事件并且有一个仅作查询用途的 <a href="#stream_readable_pause"><code>pause()</code></a> 方法，那么您可以使用 <code>wrap()</code> 方法来创建一个使用旧式流作为数据源的 <a href="#stream_class_stream_readable">Readable</a> 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aa473b2ac1e2908d8d3ef2608f9ff53a">
+
+<p>您可能很少需要用到这个函数，但它会作为与旧 Node 程序和库交互的简便方法存在。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="506c2c0c7f5b70af3df68c45c46f45a7">
+
+<p>例如：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e5ad1a8242dbcddd3b80aa07d2c87ff4">
+
+<pre><code>myReader.on(&apos;readable&apos;, function() {
+myReader.read(); // etc.
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d7c6979b1b0e4881a39893da009f4ada">
+
+<h3>类: stream.Writable<span><a href="#stream_stream_writable_2658" id="stream_stream_writable_2658">#</a></span></h3>
+</div>
+
+<!--type=class-->
+
+<div class="translate-section" data-hash="5b8782c867b0b60f06c0964aa67a4b4c">
+
+<p>Writable（可写）流接口是对您正在写入数据<em>至一个目标</em>的抽象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8606a9301ddcc47cb27d0de238abbe62">
+
+<p>一些可写流的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4d8c05195bd1083ca6d6be35fd8911ef">
+
+
+<ul>
+<li><a href="http.html#http_class_http_clientrequest">http requests, on the client</a></li>
+<li><a href="http.html#http_class_http_serverresponse">http responses, on the server</a></li>
+<li><a href="fs.html#fs_class_fs_writestream">fs write streams</a></li>
+<li><a href="zlib.html">zlib streams</a></li>
+<li><a href="crypto.html">crypto streams</a></li>
+<li><a href="net.html#net_class_net_socket">tcp sockets</a></li>
+<li><a href="child_process.html#child_process_child_stdin">child process stdin</a></li>
+<li><a href="process.html#process_process_stdout">process.stdout</a>, <a href="process.html#process_process_stderr">process.stderr</a></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="64cd5d6afd995cc6b28b0736784ff818">
+
+<h4>writable.write(chunk, [encoding], [callback])<span><a href="#stream_writable_write_chunk_encoding_callback_2658" id="stream_writable_write_chunk_encoding_callback_2658">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="c2fbc547812de517b4225b44bb4b3db8">
+
+
+<ul>
+<li><code>chunk</code> {String | Buffer} 要写入的数据</li>
+<li><code>encoding</code> {String} 编码，假如 <code>chunk</code> 是一个字符串</li>
+<li><code>callback</code> {Function} 数据块写入后的回调</li>
+<li>返回: {Boolean} 如果数据已被全部处理则 <code>true</code>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="7b15b54161a88830d8bede3ef86a99e4">
+
+<p>该方法向底层系统写入数据，并在数据被处理完毕后调用所给的回调。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8f4debaf4f1ff5dd28f0ec870cea6938">
+
+<p>返回值表明您是否应该立即继续写入。如果数据需要滞留在内部，则它会返回 <code>false</code>；否则，返回 <code>true</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="59ef41214268fb809f34ec2a1e99ffe3">
+
+<p>返回值所表示的状态仅供参考，您【可以】在即便返回 <code>false</code> 的时候继续写入。但是，写入的数据会被滞留在内存中，所以最好不要过分地这么做。最好的做法是等待 <code>drain</code> 事件发生后再继续写入更多数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2c0577389716e6aed0c45b98b99a1123">
+
+<h4>事件: &apos;drain&apos;<span><a href="#stream_drain_1329" id="stream_drain_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="2070dd00f08c2b194f5ad464696da416">
+
+<p>如果一个 <a href="#stream_writable_write_chunk_encoding_callback"><code>writable.write(chunk)</code></a> 调用返回 <code>false</code>，那么 <code>drain</code> 事件则表明可以继续向流写入更多数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="54afd2a77dac3f636e5fc80d5e4f8274">
+
+<pre><code>// 向所给可写流写入 1000000 次数据。
+// 注意后端压力。
+function writeOneMillionTimes(writer, data, encoding, callback) {
+  var i = 1000000;
+  write();
+  function write() {
+    var ok = true;
+    do {
+      i -= 1;
+      if (i === 0) {
+        // 最后一次！
+        writer.write(data, encoding, callback);
+      } else {
+        // 检查我们应该继续还是等待
+        // 不要传递回调，因为我们还没完成。
+        ok = writer.write(data, encoding);
+      }
+    } while (i &gt; 0 &amp;&amp; ok);
+    if (i &gt; 0) {
+      // 不得不提前停止！
+      // 一旦它排空，继续写入数据
+      writer.once(&apos;drain&apos;, write);
+    }
+  }
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2ea880db4b98f53a9a8589ff40a9107d">
+
+<h4>writable.cork()<span><a href="#stream_writable_cork_1329" id="stream_writable_cork_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="11ceeb8caa8716ea016f0b91481f0ef8">
+
+<p>强行滞留所有写入。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e42ea596a035f298ab0d166c95781ba3">
+
+<p>滞留的数据会在 <code>.uncork()</code> 或 <code>.end()</code> 调用时被写入。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="463e5393a34c3dbb8a5c7c34a180d0f8">
+
+<h4>writable.uncork()<span><a href="#stream_writable_uncork_1329" id="stream_writable_uncork_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="8ea3d600211242a4f0fb7db3fc3092d5">
+
+<p>写入所有 <code>.cork()</code> 调用之后滞留的数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0119a6b2ecd592d81efb1d6543843654">
+
+<h4>writable.end([chunk], [encoding], [callback])<span><a href="#stream_writable_end_chunk_encoding_callback_1329" id="stream_writable_end_chunk_encoding_callback_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="46db805d476f41de81e4379106ac5a56">
+
+<ul>
+<li><code>chunk</code> {String | Buffer} 可选，要写入的数据</li>
+<li><code>encoding</code> {String} 编码，假如 chunk 是一个字符串</li>
+<li><code>callback</code> {Function} 可选，流结束后的回调</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="68d8ced9b296b1e9fcddf472d605b654">
+
+<p>当没有更多数据会被写入到流时调用此方法。如果给出，回调会被用作 <code>finish</code> 事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="70a00499ee8493c39ff9e03b3f55056d">
+
+<p>在调用 <a href="#stream_writable_end_chunk_encoding_callback"><code>end()</code></a> 后调用 <a href="#stream_writable_write_chunk_encoding_callback"><code>write()</code></a> 会产生错误。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1a72c7289db8376a28ec4c5fc955365">
+
+<pre><code>// 写入 &apos;hello, &apos; 然后以 &apos;world!&apos; 结束
+http.createServer(function (req, res) {
+  res.write(&apos;hello, &apos;);
+  res.end(&apos;world!&apos;);
+  // 现在不允许继续写入了
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="56a8d2c23450697a3c45eac8f3dba753">
+
+<h4>事件: &apos;finish&apos;<span><a href="#stream_finish_1329" id="stream_finish_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="7b9120c667e632b641db54214fab394c">
+
+<p>当 <a href="#stream_writable_end_chunk_encoding_callback"><code>end()</code></a> 方法被调用，并且所有数据已被写入到底层系统，此事件会被触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5033aac49a3181dbd69d29ccaa2925b6">
+
+<pre><code>var writer = getWritableStreamSomehow();
+for (var i = 0; i &lt; 100; i ++) {
+  writer.write(&apos;hello, #&apos; + i + &apos;!\n&apos;);
+}
+writer.end(&apos;this is the end\n&apos;);
+write.on(&apos;finish&apos;, function() {
+  console.error(&apos;已完成所有写入。&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="84ec6584b0ee724aca9208ba830c5d7b">
+
+<h4>事件: &apos;pipe&apos;<span><a href="#stream_pipe_1329" id="stream_pipe_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="7be77ec14f77fc00b24c2c6090193c22">
+
+<ul>
+<li><code>src</code> {<a href="#stream_class_stream_readable">Readable</a> Stream} 导流到本可写流的来源流</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="94b5f705b218c0f6665211c19fcef122">
+
+<p>该事件发生于可读流的 <code>pipe()</code> 方法被调用并添加本可写流作为它的目标时。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="402e2c2ff9bf7b7653980ea93fe35bf7">
+
+<pre><code>var writer = getWritableStreamSomehow();
+var reader = getReadableStreamSomehow();
+writer.on(&apos;pipe&apos;, function(src) {
+  console.error(&apos;某些东西正被导流到 writer&apos;);
+  assert.equal(src, reader);
+});
+reader.pipe(writer);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c634105a0cde0b0b2a121f7c4882445b">
+
+<h4>事件: &apos;unpipe&apos;<span><a href="#stream_unpipe_1329" id="stream_unpipe_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="5160ff3ceb34eefbf8896e6fac5a9379">
+
+<ul>
+<li><code>src</code> {<a href="#stream_class_stream_readable">Readable</a> Stream} <a href="#stream_readable_unpipe_destination">unpiped</a> 本可写流的来源流</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="196b287378d11d8ad0db1a59ee4d8c15">
+
+<p>该事件发生于可读流的 <code>unpipe()</code> 方法被调用并将本可写流从它的目标移除时。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="431cc5918013581e6b17a0745e6e1bcc">
+
+<pre><code>var writer = getWritableStreamSomehow();
+var reader = getReadableStreamSomehow();
+writer.on(&apos;unpipe&apos;, function(src) {
+  console.error(&apos;某写东西停止导流到 writer 了&apos;);
+  assert.equal(src, reader);
+});
+reader.pipe(writer);
+reader.unpipe(writer);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="7299be5dc32d91d58789d97f1a51fe49">
+
+<h3>类: stream.Duplex<span><a href="#stream_stream_duplex_2658" id="stream_stream_duplex_2658">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="48319af2181f5a300ca840038c79d306">
+
+<p>双工（Duplex）流同时实现了 <a href="#stream_class_stream_readable">Readable</a> 和 <a href="#stream_class_stream_writable">Writable</a> 的接口。详见下文用例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="13557497864831b56ea3e2175d31e0d5">
+
+<p>一些双工流的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b61835baedc345adbd942b077f834afa">
+
+<ul>
+<li><a href="net.html#net_class_net_socket">TCP 嵌套字</a></li>
+<li><a href="zlib.html">zlib 流</a></li>
+<li><a href="crypto.html">crypto 流</a></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="6ba4a012e7ea7f2cf6967cde06c2b0cb">
+
+<h3>类: stream.Transform<span><a href="#stream_stream_transform_2658" id="stream_stream_transform_2658">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="fc0786697be9866ac0447e1869b496c1">
+
+<p>转换（Transform）流是一种输出由输入计算所得的<a href="#stream_class_stream_duplex">双工</a>流。它们同时实现了 <a href="#stream_class_stream_readable">Readable</a> 和 <a href="#stream_class_stream_writable">Writable</a> 的接口。详见下文用例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="797792aa3a0a4019d735c44f20442b82">
+
+<p>一些转换流的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d12a1debb31bd69431be1fe420b578c4">
+
+<ul>
+<li><a href="zlib.html">zlib 流</a></li>
+<li><a href="crypto.html">crypto 流</a></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="e048659ace3b8caf02aa1eaf69a8f60b">
+
+<h2>面向流实现者的 API<span><a href="#stream_api_2659" id="stream_api_2659">#</a></span></h2>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="d40503abba798c2532d0d654de16ae32">
+
+<p>无论实现任何形式的流，模式都是一样的：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="befce3d76bbdc01e0d5bb69b2833e72c">
+
+<ol>
+<li>在您的子类中扩充适合的父类。（<a href="util.html#util_util_inherits_constructor_superconstructor"><code>util.inherits</code></a> 方法对此很有帮助。）</li>
+<li>在您的构造函数中调用父类的构造函数，以确保内部的机制被正确初始化。</li>
+<li>实现一个或多个特定的方法，参见下面的细节。</li>
+</ol>
+</div>
+
+<div class="translate-section" data-hash="38be13af0c465187a85926e84bc68f27">
+
+<p>所扩充的类和要实现的方法取决于您要编写的流类的形式：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dcf758e5f1145fee51f56f63f3ad0c77">
+
+<table>
+  <thead>
+    <tr>
+      <th>
+        <p>使用情景</p>
+      </th>
+      <th>
+        <p>类</p>
+      </th>
+      <th>
+        <p>要实现的方法</p>
+      </th>
+    </tr>
+  </thead>
+  <tr>
+    <td>
+      <p>只读</p>
+    </td>
+    <td>
+      <p><a href="#stream_class_stream_readable_1">Readable</a></p>
+    </td>
+    <td>
+      <p><code><a href="#stream_readable_read_size_1">_read</a></code></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>只写</p>
+    </td>
+    <td>
+      <p><a href="#stream_class_stream_writable_1">Writable</a></p>
+    </td>
+    <td>
+      <p><code><a href="#stream_writable_write_chunk_encoding_callback_1">_write</a></code></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>读写</p>
+    </td>
+    <td>
+      <p><a href="#stream_class_stream_duplex_1">Duplex</a></p>
+    </td>
+    <td>
+      <p><code><a href="#stream_readable_read_size_1">_read</a></code>, <code><a href="#stream_writable_write_chunk_encoding_callback_1">_write</a></code></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>操作被写入数据，然后读出结果</p>
+    </td>
+    <td>
+      <p><a href="#stream_class_stream_transform_1">Transform</a></p>
+    </td>
+    <td>
+      <p><code>_transform</code>, <code>_flush</code></p>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+<div class="translate-section" data-hash="cd6f94e0bb47559ea4a1214fa81d27cf">
+
+<p>在您的实现代码中，十分重要的一点是绝对不要调用上文<a href="#stream_api_for_stream_consumers">面向流消费者的 API</a> 中所描述的方法，否则可能在消费您的流接口的程序中产生潜在的副作用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4911f6284f42b2bc2b22b2eaf282f5b6">
+
+<h3>类: stream.Readable<span><a href="#stream_stream_readable_2659" id="stream_stream_readable_2659">#</a></span></h3>
+</div>
+
+<!--type=class-->
+
+<div class="translate-section" data-hash="9609f29f14da66346be0896648e45995">
+
+<p><code>stream.Readable</code> 是一个可被扩充的、实现了底层方法 <a href="#stream_readable_read_size_1"><code>_read(size)</code></a> 的抽象类。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d676eee551b5d911741a88094ccdd0de">
+
+<p>请阅读前文<a href="#stream_api_for_stream_consumers">面向流消费者的 API</a> 章节了解如何在您的程序中消费流。文将解释如何在您的程序中自己实现 Readable 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="26d1b38a9ca3f30ce08b03377476503e">
+
+<h4>例子: 一个计数流<span><a href="#stream_7975" id="stream_7975">#</a></span></h4>
+</div>
+
+<!--type=example-->
+
+<div class="translate-section" data-hash="3eca1a7f5b4fcd5d037bd09f7fe279d7">
+
+<p>这是一个 Readable 流的基本例子。它将从 1 至 1,000,000 递增地触发数字，然后结束。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5c4403373dde0d9e88fc418a839a44d2">
+
+<pre><code>var Readable = require(&apos;stream&apos;).Readable;
+var util = require(&apos;util&apos;);
+util.inherits(Counter, Readable);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:82b9ddf426e8c00c9a49e4152bdc17fa --&gt;
+
+function Counter(opt) {
+  Readable.call(this, opt);
+  this._max = 1000000;
+  this._index = 1;
+}
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:e0793f568ad1ff897e49e65b3ddff560 --&gt;
+
+Counter.prototype._read = function() {
+  var i = this._index++;
+  if (i &gt; this._max)
+    this.push(null);
+  else {
+    var str = &apos;&apos; + i;
+    var buf = new Buffer(str, &apos;ascii&apos;);
+    this.push(buf);
+  }
+};</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6b463491f116ac13a501079ac6902c49">
+
+<h4>例子: SimpleProtocol v1 (Sub-optimal)<span><a href="#stream_simpleprotocol_v1_sub_optimal_1329" id="stream_simpleprotocol_v1_sub_optimal_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="070a92535ef1969e4c60b068822f0af0">
+
+<p>这个有点类似上文提到的 <code>parseHeader</code> 函数，但它被实现成一个自定义流。同样地，请注意这个实现并未将传入数据转换成字符串。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="897a851d637759e6002eba699211bcd9">
+
+<p>实际上，更好的办法是将它实现成一个 <a href="#stream_class_stream_transform">Transform</a> 流。更好的实现详见下文。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="adbd787518a3459bddb18c660076e58a">
+
+<pre><code>// 简易数据协议的解析器。
+// “header”是一个 JSON 对象，后面紧跟 2 个 \n 字符，以及
+// 消息主体。
+//
+// 注意: 使用 Transform 流能更简单地实现这个功能！
+// 直接使用 Readable 并不是最佳方式，详见 Transform
+// 章节下的备选例子。
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:92b91fe4ba0943c599f1f6f05063281e --&gt;
+
+var Readable = require(&apos;stream&apos;).Readable;
+var util = require(&apos;util&apos;);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:e1dc23787e59139adcb6395217f4e3e5 --&gt;
+
+util.inherits(SimpleProtocol, Readable);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:4d29aabd4a753ef32e5c07b5a795e855 --&gt;
+
+function SimpleProtocol(source, options) {
+  if (!(this instanceof SimpleProtocol))
+    return new SimpleProtocol(options);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:71fff3ee938970a8129dae873d7bafb9 --&gt;
+
+  Readable.call(this, options);
+  this._inBody = false;
+  this._sawFirstCr = false;
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:799ee1f184ce83a81a18b06859ce3631 --&gt;
+
+  // source 是一个可读流，比如嵌套字或文件
+  this._source = source;
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:82425d2c242c810d12229bc70dce5926 --&gt;
+
+  var self = this;
+  source.on(&apos;end&apos;, function() {
+    self.push(null);
+  });
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:2a58126aa0311fb2147d855905f037f8 --&gt;
+
+  // 当 source 可读时做点什么
+  // read(0) 不会消费任何字节
+  source.on(&apos;readable&apos;, function() {
+    self.read(0);
+  });
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:97e4325ee1de1bff19f7360c6127de91 --&gt;
+
+  this._rawHeader = [];
+  this.header = null;
+}
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:d944bcef0e5bd7b58955e7c2e7640ca3 --&gt;
+
+SimpleProtocol.prototype._read = function(n) {
+  if (!this._inBody) {
+    var chunk = this._source.read();
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:7dd79fb9f97bbd18362b6ed55be8bb79 --&gt;
+
+    if (split === -1) {
+      // 继续等待 \n\n
+      // 暂存数据块，并再次尝试
+      this._rawHeader.push(chunk);
+      this.push(&apos;&apos;);
+    } else {
+      this._inBody = true;
+      var h = chunk.slice(0, split);
+      this._rawHeader.push(h);
+      var header = Buffer.concat(this._rawHeader).toString();
+      try {
+        this.header = JSON.parse(header);
+      } catch (er) {
+        this.emit(&apos;error&apos;, new Error(&apos;invalid simple protocol data&apos;));
+        return;
+      }
+      // 现在，我们得到了一些多余的数据，所以需要 unshift
+      // 将多余的数据放回读取队列以便我们的消费者能够读取
+      var b = chunk.slice(split);
+      this.unshift(b);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:9cc80d286b7ec752e3ae5fb819e63392 --&gt;
+
+      // 并让它们知道我们完成了头部解析。
+      this.emit(&apos;header&apos;, this.header);
+    }
+  } else {
+    // 从现在开始，仅需向我们的消费者提供数据。
+    // 注意不要 push(null)，因为它表明 EOF。
+    var chunk = this._source.read();
+    if (chunk) this.push(chunk);
+  }
+};
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:ab30c3ee01c1cd6af24cd93ee043216f --&gt;
+
+// 用法:
+// var parser = new SimpleProtocol(source);
+// 现在 parser 是一个会触发 &apos;header&apos; 事件并提供已解析
+// 的头部的可读流。</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2510916cfbabeb897b0b5cccb47cfef6">
+
+<h4>new stream.Readable([options])<span><a href="#stream_new_stream_readable_options_1329" id="stream_new_stream_readable_options_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="bda1f467d2737cd4efc8b04fcbae9d11">
+
+<ul>
+<li><code>options</code> {Object}<ul>
+<li><code>highWaterMark</code> {Number} 停止从底层资源读取前内部缓冲区最多能存放的字节数。缺省为 16kb，对于 objectMode 流则是 16</li>
+<li><code>encoding</code> {String} 若给出，则 Buffer 会被解码成所给编码的字符串。缺省为 <code>null</code></li>
+<li><code>objectMode</code> {Boolean} 该流是否应该表现为对象的流。意思是说 <code>stream.read(n)</code> 返回一个单独的对象，而不是大小为 n 的 Buffer</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="980e2f3d0b366c6405a9df465734e44e">
+
+<p>请确保在扩充 Readable 类的类中调用 Readable 构造函数以便缓冲设定能被正确初始化。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="545b7d9bf601e982b4d4c63dcebd332a">
+
+<h4>readable._read(size)<span><a href="#stream_readable_read_size_2659" id="stream_readable_read_size_2659">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="60c4ecc06c69f929e699f62a28dad8f9">
+
+<ul>
+<li><code>size</code> {Number} 异步读取的字节数</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f2fc78c71fce992382b58b9cb772901b">
+
+<p>注意：<strong>实现这个函数，但【不要】直接调用它。</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ba7fbbdd02ccae32c1ed39674609db6c">
+
+<p>这个函数【不应该】被直接调用。它应该被子类所实现，并仅被 Readable 类内部方法所调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f341552208bc7c84d8d30dafb772e535">
+
+<p>所有 Readable 流的实现都必须提供一个 <code>_read</code> 方法来从底层资源抓取数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bf1eeb41d1a375edc06d8120a12b08f2">
+
+<p>该方法以下划线开头是因为它对于定义它的类是内部的，并且不应该被用户程序直接调用。但是，你<strong>应当</strong>在您的扩充类中覆盖这个方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d44e5a381eed893239f461edc78af0fa">
+
+<p>当数据可用时，调用 <code>readable.push(chunk)</code> 将它加入到读取队列。如果 <code>push</code> 返回 <code>false</code>，那么您应该停止读取。当 <code>_read</code> 被再次调用，您应该继续推出更多数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c9b27ee847444a87592418433b43078b">
+
+<p>参数 <code>size</code> 仅作查询。“read”调用返回数据的实现可以通过这个参数来知道应当抓取多少数据；其余与之无关的实现，比如 TCP 或 TLS，则可忽略这个参数，并在可用时返回数据。例如，没有必要“等到” <code>size</code> 个字节可用时才调用 <a href="#stream_readable_push_chunk_encoding"><code>stream.push(chunk)</code></a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="66e50ab91e6be522a7010dbd0ce81259">
+
+<h4>readable.push(chunk, [encoding])<span><a href="#stream_readable_push_chunk_encoding_1329" id="stream_readable_push_chunk_encoding_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="3898175726d75539c353da53b29985e5">
+
+<ul>
+<li><code>chunk</code> {Buffer | null | String} 推入读取队列的数据块</li>
+<li><code>encoding</code> {String} 字符串块的编码。必须是有效的 Buffer 编码，比如 <code>utf8</code> 或 <code>ascii</code></li>
+<li>返回 {Boolean} 是否应该继续推入</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="a39f276bca8d9d20ca8b8ebd404aeaf6">
+
+<p>注意：<strong>这个函数应该被 Readable 实现者调用，【而不是】Readable 流的消费者。</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2e54f6bd9e027535de9c87b3502c9acb">
+
+<p>函数 <code>_read()</code> 不会被再次调用，直到至少调用了一次 <code>push(chunk)</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0f064594166bfa6746341afd6592469d">
+
+<p><code>Readable</code> 类的工作方式是，将数据读入一个队列，当 <code>&apos;readable&apos;</code> 事件发生、调用 <code>read()</code> 方法时，数据会被从队列中取出。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7b0eb8e54728d5e7cbee8d4074ce51c4">
+
+<p><code>push()</code> 方法会明确地向读取队列中插入一些数据。如果调用它时传入了 <code>null</code> 参数，那么它会触发数据结束信号（EOF）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="07391de3f63f4169ea5af1538fb3da1f">
+
+<p>这个 API 被设计成尽可能地灵活。比如说，您可以包装一个低级别的具备某种暂停/恢复机制和数据回调的数据源。这种情况下，您可以通过这种方式包装低级别来源对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="517516f35d9b771620714db57511e1ce">
+
+<pre><code>// source 是一个带 readStop() 和 readStart() 方法的类，
+// 以及一个当有数据时会被调用的 `ondata` 成员、一个
+// 当数据结束时会被调用的 `onend` 成员。
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:95e3ecd4260c781a6024a021bc68e57e --&gt;
+
+util.inherits(SourceWrapper, Readable);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:6007ea5475e96279c2e93631f4336467 --&gt;
+
+function SourceWrapper(options) {
+  Readable.call(this, options);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:da7e608bbd3803cd4c5f822ebe9be93c --&gt;
+
+  this._source = getLowlevelSourceObject();
+  var self = this;
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:2cf3dadadeb5f48299a1121bf6a40a8b --&gt;
+
+  // 每当有数据时，我们将它推入到内部缓冲区中
+  this._source.ondata = function(chunk) {
+    // 如果 push() 返回 false，我们就需要暂停读取 source
+    if (!self.push(chunk))
+      self._source.readStop();
+  };
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:4d599b75f53a964c3f5d0db3a9ad12b0 --&gt;
+
+  // 当来源结束时，我们 push 一个 `null` 块以表示 EOF
+  this._source.onend = function() {
+    self.push(null);
+  };
+}
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:dab6a1aaf2a7fa07f84f58bfbd3f8a61 --&gt;
+
+// _read 会在流想要拉取更多数据时被调用
+// 本例中忽略 size 参数
+SourceWrapper.prototype._read = function(size) {
+  this._source.readStart();
+};</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d7c6979b1b0e4881a39893da009f4ada">
+
+<h3>类: stream.Writable<span><a href="#stream_stream_writable_2659" id="stream_stream_writable_2659">#</a></span></h3>
+</div>
+
+<!--type=class-->
+
+<div class="translate-section" data-hash="330ed9196f1a1d2e2da60129f13d138f">
+
+<p><code>stream.Writable</code> 是一个可被扩充的、实现了底层方法 <a href="#stream_writable_write_chunk_encoding_callback_1"><code>_write(chunk, encoding, callback)</code></a> 的抽象类。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9728a4b361fcf00d6f7e928b75b6de7d">
+
+<p>请阅读前文<a href="#stream_api_for_stream_consumers">面向流消费者的 API</a> 章节了解如何在您的程序中消费可读流。下文将解释如何在您的程序中自己实现 Writable 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cb08a022f8f1c9922d9cf14c18391cc5">
+
+<h4>new stream.Writable([options])<span><a href="#stream_new_stream_writable_options_1329" id="stream_new_stream_writable_options_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="60cf194e80c4b9ac4765b0b51c4692de">
+
+<ul>
+<li><code>options</code> {Object}<ul>
+<li><code>highWaterMark</code> {Number} <a href="#stream_writable_write_chunk_encoding_callback"><code>write()</code></a> 开始返回 <code>false</code> 的缓冲级别。缺省为 16kb，对于 <code>objectMode</code> 流则是 16</li>
+<li><code>decodeStrings</code> {Boolean} 是否在传递给 <a href="#stream_writable_write_chunk_encoding_callback_1"><code>_write()</code></a> 前将字符串解码成 Buffer。缺省为 <code>true</code></li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="621a8fef9acd91a29dd89c5a3a9c3b99">
+
+<p>请确保在扩充 Writable 类的类中调用构造函数以便缓冲设定能被正确初始化。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="39432c209cfb90373cda44a95e556006">
+
+<h4>writable._write(chunk, encoding, callback)<span><a href="#stream_writable_write_chunk_encoding_callback_2659" id="stream_writable_write_chunk_encoding_callback_2659">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="3ba018033ff1c9ce96f58544d8c7c3de">
+
+<ul>
+<li><code>chunk</code> {Buffer | String} 要被写入的数据块。总会是一个 Buffer，除非 <code>decodeStrings</code> 选项被设定为 <code>false</code>。</li>
+<li><code>encoding</code> {String} 如果数据块是字符串，则这里指定它的编码类型。如果数据块是 Buffer 则忽略此设定。请注意数据块<strong>总会是</strong>一个 Buffer，除非 <code>decodeStrings</code> 选项被明确设定为 <code>false</code>。</li>
+<li><code>callback</code> {Function} 当您处理完所给数据块时调用此函数（可选地可附上一个错误参数）。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0ba9a89d8134e67ff91cfc60f66066b2">
+
+<p>所有 Writable 流的实现必须提供一个 <a href="#stream_writable_write_chunk_encoding_callback_1"><code>_write()</code></a> 方法来将数据发送到底层资源。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="eb5399c7d28a0ce23831a3133eab8956">
+
+<p>注意：<strong>该函数【禁止】被直接调用。</strong>它应该被子类所实现，并仅被 Writable 内部方法所调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3a096743e04491c8531bdc330c0fb240">
+
+<p>使用标准的 <code>callback(error)</code> 形式来调用回调以表明写入成功完成或遇到错误。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3cb19726b2b2af64354812f7bbb2b14e">
+
+<p>如果构造函数选项中设定了 <code>decodeStrings</code> 标志，则 <code>chunk</code> 可能会是字符串而不是 Buffer，并且 <code>encoding</code> 表明了字符串的格式。这种设计是为了支持对某些字符串数据编码提供优化处理的实现。如果您没有明确地将 <code>decodeStrings</code> 选项设定为 <code>false</code>，那么您可以安全地忽略 <code>encoding</code> 参数，并假定 <code>chunk</code> 总是一个 Buffer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bf1eeb41d1a375edc06d8120a12b08f2">
+
+<p>该方法以下划线开头是因为它对于定义它的类是内部的，并且不应该被用户程序直接调用。但是，你<strong>应当</strong>在您的扩充类中覆盖这个方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b5554e142e8367fa6e46ef955f315e4c">
+
+<h3>writable._writev(chunks, callback)<span><a href="#stream_writable_writev_chunks_callback_1329" id="stream_writable_writev_chunks_callback_1329">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ea6d21ca3e8eb5e9ed67d27773e703b1">
+
+<ul>
+<li><code>chunks</code> {Array} 要写入的块。每个块都遵循这种格式：<code>{ chunk: ..., encoding: ... }</code>。</li>
+<li><code>callback</code> {Function} 当您处理完所给数据块时调用此函数（可选地可附上一个错误参数）。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="8009b4298847679a6cfacd95085b37a4">
+
+<p>注意：<strong>该函数【禁止】被直接调用。</strong>它应该被子类所实现，并仅被 Writable 内部方法所调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e37d1d1b06f6f039e0b01c1cb1d2dca1">
+
+<p>该函数的实现完全是可选的，在大多数情况下都是不必要的。如果实现，它会被以所有滞留在写入队列中的数据块调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7299be5dc32d91d58789d97f1a51fe49">
+
+<h3>类: stream.Duplex<span><a href="#stream_stream_duplex_2659" id="stream_stream_duplex_2659">#</a></span></h3>
+</div>
+
+<!--type=class-->
+
+<div class="translate-section" data-hash="51f170e427e9b46119d420f8ee804fc4">
+
+<p>“双工”（duplex）流同时兼具可读和可写特性，比如一个 TCP 嵌套字连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="77ba1327eee24492657b797a0e047dea">
+
+<p>值得注意的是，<code>stream.Duplex</code> 是一个可以像 Readable 或 Writable 一样被扩充、实现了底层方法 <code>_read(sise)</code> 和 <a href="#stream_writable_write_chunk_encoding_callback_1"><code>_write(chunk, encoding, callback)</code></a> 的抽象类。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ac57771dab6a6ae605ef5cccc8731b14">
+
+<p>由于 JavaScript 并不具备多原型继承能力，这个类实际上继承自 Readable，并寄生自 Writable，从而让用户在双工类的扩充中能同时实现低级别的 <code>_read(n)</code> 方法和 <a href="#stream_writable_write_chunk_encoding_callback_1"><code>_write(chunk, encoding, callback)</code></a> 方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c7d7197e497006c505172d70908d869f">
+
+<h4>new stream.Duplex(options)<span><a href="#stream_new_stream_duplex_options_1329" id="stream_new_stream_duplex_options_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="2a5a879409af664bf7e5d380f2e1cbe5">
+
+<ul>
+<li><code>options</code> {Object} Passed to both Writable and Readable
+constructors. Also has the following fields:<ul>
+<li><code>allowHalfOpen</code> {Boolean} Default=true.  If set to <code>false</code>, then
+the stream will automatically end the readable side when the
+writable side ends and vice versa.</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f6672eb14c4683974c98d57c30df395e">
+
+<p>请确保在扩充 Duplex 类的类中调用构造函数以便缓冲设定能被正确初始化。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6ba4a012e7ea7f2cf6967cde06c2b0cb">
+
+<h3>类: stream.Transform<span><a href="#stream_stream_transform_2659" id="stream_stream_transform_2659">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="cc8e8472f34dc4067b0f7b0dda9b43f4">
+
+<p>“转换”（transform）流实际上是一个输出与输入存在因果关系的双工流，比如 <a href="zlib.html">zlib</a> 流或 <a href="crypto.html">crypto</a> 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1655428d53942f30c6d758de623d6eb5">
+
+<p>输入和输出并无要求相同大小、相同块数或同时到达。举个例子，一个 Hash 流只会在输入结束时产生一个数据块的输出；一个 zlib 流会产生比输入小得多或大得多的输出。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7bc0fca064e4b12cb5015506a41662ea">
+
+<p>转换类必须实现 <code>_transform()</code> 方法，而不是 <a href="#stream_readable_read_size_1"><code>_read()</code></a> 和 <a href="#stream_writable_write_chunk_encoding_callback_1"><code>_write()</code></a> 方法。可选的，也可以实现 <code>_flush()</code> 方法。（详见下文。）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3859e31649eef50c97fe36755831b351">
+
+<h4>new stream.Transform([options])<span><a href="#stream_new_stream_transform_options_1329" id="stream_new_stream_transform_options_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="dc7c4fbf3985007adda6b06eb3758f1c">
+
+<ul>
+<li><code>options</code> {Object} 传递给 Writable 和 Readable 构造函数。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="45bf525fd66820aa45acd3e8d038dda5">
+
+<p>请确保在扩充 Transform 类的类中调用了构造函数，以使得缓冲设定能被正确初始化。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c3691f27aace52c203a6b4f3f07e7a44">
+
+<h4>transform._transform(chunk, encoding, callback)<span><a href="#stream_transform_transform_chunk_encoding_callback_1329" id="stream_transform_transform_chunk_encoding_callback_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="5c80c78007c596ba459ef5ac39eb3c6e">
+
+<ul>
+<li><code>chunk</code> {Buffer | String} 要被转换的数据块。总是 Buffer，除非 <code>decodeStrings</code> 选项被设定为 <code>false</code>。</li>
+<li><code>encoding</code> {String} 如果数据块是一个字符串，那么这就是它的编码类型。（数据块是 Buffer 则会忽略此参数。）</li>
+<li><code>callback</code> {Function} 当您处理完所提供的数据块时调用此函数（可选地附上一个错误参数）。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="92ca97688f5bcbea86a5ccce8bfd7e78">
+
+<p>注意：<strong>该函数【禁止】被直接调用。</strong>它应该被子类所实现，并仅被 Transform 内部方法所调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="df39ebabc83a11a6912c452f4069c436">
+
+<p>所有转换流的实现都必须提供一个 <code>_transform</code> 方法来接受输入并产生输出。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="da7b033c724d116c11a09e55cf417846">
+
+<p><code>_transform</code> 应当承担特定 Transform 类中所有处理被写入的字节、并将它们丢给接口的可写端的职责，进行异步 I/O，处理其它事情等等。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4b37678e65dc8258517e1c4b2df75242">
+
+<p>调用 <code>transform.push(outputChunk)</code> 0 或多次来从输入块生成输出，取决于您想从这个数据块输出多少数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="87f064cb7234008ab00513c7ae95a4ab">
+
+<p>仅当当前数据块被完全消费时调用回调函数。注意，任何特定的输入块都有可能或可能不会产生输出。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bf1eeb41d1a375edc06d8120a12b08f2">
+
+<p>该方法以下划线开头是因为它对于定义它的类是内部的，并且不应该被用户程序直接调用。但是，你<strong>应当</strong>在您的扩充类中覆盖这个方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c5036b213c68e9767712436372ec61d5">
+
+<h4>transform._flush(callback)<span><a href="#stream_transform_flush_callback_1329" id="stream_transform_flush_callback_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="73eaa0ec2fa5750328c215a93bdd9e22">
+
+<ul>
+<li><code>callback</code> {Function} 当您写入完毕剩下的数据后调用此函数（可选地可附上一个错误对象）。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5728f1e8eabb2f548aea04060b496065">
+
+<p>注意：<strong>该函数【禁止】被直接调用。</strong>它【可以】被子类所实现，并且如果实现，仅被 Transform 内部方法所调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e83498d170be26ca18076738fa956842">
+
+<p>在一些情景中，您的转换操作可能需要在流的末尾多发生一点点数据。例如，一个 <code>Zlib</code> 压缩流会储存一些内部状态以便更好地压缩输出，但在最后它需要尽可能好地处理剩下的东西以使数据完整。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="341d165e6f9a1407484f7c9b65befd4c">
+
+<p>在这种情况中，您可以实现一个 <code>_flush</code> 方法，它会在最后被调用，在所有写入数据被消费、但在触发 <code>end</code> 表示可读端到达末尾之前。和 <code>_transform</code> 一样，只需在写入操作完成时适当地调用 <code>transform.push(chunk)</code> 零或多次。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bf1eeb41d1a375edc06d8120a12b08f2">
+
+<p>该方法以下划线开头是因为它对于定义它的类是内部的，并且不应该被用户程序直接调用。但是，你<strong>应当</strong>在您的扩充类中覆盖这个方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5171cc3ef5c082212c1e595186987e88">
+
+<h4>例子: <code>SimpleProtocol</code> 解析器 v2<span><a href="#stream_simpleprotocol_v2_1329" id="stream_simpleprotocol_v2_1329">#</a></span></h4>
+</div>
+
+<div class="translate-section" data-hash="9a15440e71435fee4e3f1e964af389d7">
+
+<p>上文的简易协议解析器例子能够很简单地使用高级别 <a href="#stream_class_stream_transform">Transform</a> 流类实现，类似于前文 <code>parseHeader</code> 和 <code>SimpleProtocal v1</code> 示例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c305500842752904f695b39d083b58ac">
+
+<p>在这个示例中，输入会被导流到解析器中，而不是作为参数提供。这种做法更符合 Node 流的惯例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="24f775594ee602ac7b90943a19a70bae">
+
+<pre><code>var util = require(&apos;util&apos;);
+var Transform = require(&apos;stream&apos;).Transform;
+util.inherits(SimpleProtocol, Transform);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:22418c0818055544bb6f8097f23bfeff --&gt;
+
+function SimpleProtocol(options) {
+  if (!(this instanceof SimpleProtocol))
+    return new SimpleProtocol(options);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:d3b6e2613e286e415707007520ea9c3b --&gt;
+
+  Transform.call(this, options);
+  this._inBody = false;
+  this._sawFirstCr = false;
+  this._rawHeader = [];
+  this.header = null;
+}
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:e0759f379211c5242519301000ad97b4 --&gt;
+
+SimpleProtocol.prototype._transform = function(chunk, encoding, done) {
+  if (!this._inBody) {
+    // 检查数据块是否有 \n\n
+    var split = -1;
+    for (var i = 0; i &lt; chunk.length; i++) {
+      if (chunk[i] === 10) { // &apos;\n&apos;
+        if (this._sawFirstCr) {
+          split = i;
+          break;
+        } else {
+          this._sawFirstCr = true;
+        }
+      } else {
+        this._sawFirstCr = false;
+      }
+    }
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:e97904f9981d2c5c074f860e23f24a1a --&gt;
+
+    if (split === -1) {
+      // 仍旧等待 \n\n
+      // 暂存数据块并重试。
+      this._rawHeader.push(chunk);
+    } else {
+      this._inBody = true;
+      var h = chunk.slice(0, split);
+      this._rawHeader.push(h);
+      var header = Buffer.concat(this._rawHeader).toString();
+      try {
+        this.header = JSON.parse(header);
+      } catch (er) {
+        this.emit(&apos;error&apos;, new Error(&apos;invalid simple protocol data&apos;));
+        return;
+      }
+      // 并让它们知道我们完成了头部解析。
+      this.emit(&apos;header&apos;, this.header);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:31bb3371c6edccf470ad2539a443e5a3 --&gt;
+
+      // 现在，由于我们获得了一些额外的数据，先触发这个。
+      this.push(chunk.slice(split));
+    }
+  } else {
+    // 之后，仅需向我们的消费者原样提供数据。
+    this.push(chunk);
+  }
+  done();
+};
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:49fb3d6151e897882f69ee67a4f301b4 --&gt;
+
+// 用法:
+// var parser = new SimpleProtocol();
+// source.pipe(parser)
+// 现在 parser 是一个会触发 &apos;header&apos; 并带上解析后的
+// 头部数据的可读流。</code></pre>
+</div>
+
+<div class="translate-section" data-hash="cf4944a9f5af0d6434d9f71474dff38d">
+
+<h3>类: stream.PassThrough<span><a href="#stream_stream_passthrough_1329" id="stream_stream_passthrough_1329">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="49181845df309dfc116f76f4bacc9930">
+
+<p>这是 <a href="#stream_class_stream_transform">Transform</a> 流的一个简单实现，将输入的字节简单地传递给输出。它的主要用途是演示和测试，但偶尔要构建某种特殊流的时候也能派上用场。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0b49c76683ff54acc4820adc8b6e8843">
+
+<h2>流：内部细节<span><a href="#stream_7976" id="stream_7976">#</a></span></h2>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="b54f19fa0544e28fa726f749a5f43ab8">
+
+<h3>缓冲<span><a href="#stream_7977" id="stream_7977">#</a></span></h3>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="6b7e5b352fed2126c99b16589614e5d9">
+
+<p>无论 Writable 或 Readable 流都会在内部分别叫做 <code>_writableState.buffer</code> 和 <code>_readableState.buffer</code> 的对象中缓冲数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="20952475760618e4d53b7ed639032a04">
+
+<p>被缓冲的数据量取决于传递给构造函数的 <code>highWaterMark</code>（最高水位线）选项。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="30884b59f88f8e72895d3a8f1f1d6fc2">
+
+<p>Readable 流的滞留发生于当实现调用 <a href="#stream_readable_push_chunk_encoding"><code>stream.push(chunk)</code></a> 的时候。如果流的消费者没有调用 <code>stream.read()</code>，那么数据将会一直待在内部队列，直到它被消费。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="49ece3cbc244d39b13e6339c4ac39e77">
+
+<p>Writable 流的滞留发生于当用户重复调用 <a href="#stream_writable_write_chunk_encoding_callback"><code>stream.write(chunk)</code></a> 即便此时 <code>write()</code> 返回 <code>false</code> 时。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="05864b1d99f8ca83f3f2113db873fa72">
+
+<p>流，尤其是 <code>pipe()</code> 方法的初衷，是将数据的滞留量限制到一个可接受的水平，以使得不同速度的来源和目标不会淹没可用内存。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e8080e6d354bf8691f6ef8bf1b7a9f68">
+
+<h3><code>stream.read(0)</code><span><a href="#stream_stream_read_0_1329" id="stream_stream_read_0_1329">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c693e3067ab7bc3e1bc62abd086b1e02">
+
+<p>在某写情景中，您可能需要触发底层可读流机制的刷新，但不真正消费任何数据。在这中情况下，您可以调用 <code>stream.read(0)</code>，它总会返回 <code>null</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cd612066bc23847a1c4505b4f0e60fd6">
+
+<p>如果内部读取缓冲低于 <code>highWaterMark</code> 水位线，并且流当前不在读取状态，那么调用 <code>read(0)</code> 会触发一个低级 <code>_read</code> 调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="be0d68c47e508508d31ef1c02801d398">
+
+<p>虽然几乎没有必要这么做，但您可以在 Node 内部的某些地方看到它确实这么做了，尤其是在 Readable 流类的内部。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5f873a067273463071d633c7f1d63690">
+
+<h3><code>stream.push(&apos;&apos;)</code><span><a href="#stream_stream_push_1329" id="stream_stream_push_1329">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="6fa817f68990aa6c5f3f3b0804673ddc">
+
+<p>推入一个零字节字符串或 Buffer（当不在 <a href="#stream_object_mode">对象模式</a> 时）有一个有趣的副作用。因为<em>它是</em>一个对 <a href="#stream_readable_push_chunk_encoding"><code>stream.push()</code></a> 的调用，它会结束 <code>reading</code> 进程。然而，它<em>没有</em>添加任何数据到可读缓冲中，所以没有东西可以被用户消费。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e974580b633deeb49f024bc266c5c649">
+
+<p>在极少数情况下，您当时没有数据提供，但您的流的消费者（或您的代码的其它部分）会通过调用 <code>stream.read(0)</code> 得知何时再次检查。在这中情况下，您<em>可以</em>调用 <code>stream.push(&apos;&apos;)</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="389bac472a5aa85efb45b51c23ce5901">
+
+<p>到目前为止，这个功能唯一一个使用情景是在 <a href="tls.html#tls_class_cryptostream">tls.CryptoStream</a> 类中，但它将在 Node v0.12 中被废弃。如果您发现您不得不使用 <code>stream.push(&apos;&apos;)</code>，请考虑另一种方式，因为几乎可以明确表明这是某种可怕的错误。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5314a50d1843f7a633c096aa0b7c4bd4">
+
+<h3>与 Node 早期版本的兼容性<span><a href="#stream_node_1329" id="stream_node_1329">#</a></span></h3>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="17874f7342766735d2f52013528af87e">
+
+<p>在 v0.10 之前版本的 Node 中，Readable 流的接口较为简单，同时功能和实用性也较弱。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7e036e273aee528b25c4157381a1e8d">
+
+<ul>
+<li><code>&apos;data&apos;</code> 事件会开始立即开始发生，而不会等待您调用 <code>read()</code> 方法。如果您需要进行某些 I/O 来决定如何处理数据，那么您只能将数据块储存到某种缓冲区中以防它们流失。</li>
+<li><a href="#stream_readable_pause"><code>pause()</code></a> 方法仅起提议作用，而不保证生效。这意味着，即便当流处于暂停状态时，您仍然需要准备接收 <code>&apos;data&apos;</code> 事件。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f8c2423d99a2e6807165af2425ceafbe">
+
+<p>在 Node v0.10 中，下文所述的 Readable 类被加入进来。为了向后兼容考虑，Readable 流会在添加了 <code>&apos;data&apos;</code> 事件监听器、或 <a href="#stream_readable_resume"><code>resume()</code></a> 方法被调用时切换至“流动模式”。其作用是，即便您不使用新的 <code>read()</code> 方法和 <code>&apos;readable&apos;</code> 事件，您也不必担心丢失 <code>&apos;data&apos;</code> 数据块。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f899b83f47ca6057943e4f3765b758f6">
+
+<p>大多数程序会维持正常功能，然而，这也会在下列条件下引入一种边界情况：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="48f1929e9a57704422b3ea63e5698309">
+
+<ul>
+<li>没有添加 <a href="#stream_event_data"><code>&apos;data&apos;</code> 事件</a>处理器。</li>
+<li><a href="#stream_readable_resume"><code>resume()</code></a> 方法从未被调用。</li>
+<li>流未被导流到任何可写目标。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="472c460d12ec8540b032f7eb5a51533e">
+
+<p>举个例子，请留意下面代码：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="709c1ab66c7f83663c8811d5bc12d7f0">
+
+<pre><code>// 警告！不能用！
+net.createServer(function(socket) {
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:08da922ddfb188b15f60f9d8d2751a66 --&gt;
+
+  // 我们添加了一个 &apos;end&apos; 事件，但从未消费数据
+  socket.on(&apos;end&apos;, function() {
+    // 它永远不会到达这里
+    socket.end(&apos;我收到了您的来信（但我没看它）\n&apos;);
+  });
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:15718ac0ffde3852abd2837cb5ffce33 --&gt;
+
+}).listen(1337);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ac7d78ac6d0c2079dcebb5f2b21146a7">
+
+<p>在 Node v0.10 之前的版本中，传入消息数据会被简单地丢弃。然而在 Node v0.10 及之后，socket 会一直保持暂停。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8f30917f3b6204ded39433e5bf33d530">
+
+<p>对于这种情形的妥协方式是调用 <code>resume()</code> 方法来开启数据流：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8585d5f17ce4d3997ab9f4af8af2a0d1">
+
+<pre><code>// 妥协
+net.createServer(function(socket) {
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:818557d4b3cecb62fa0a224bac43a894 --&gt;
+
+  socket.on(&apos;end&apos;, function() {
+    socket.end(&apos;我收到了您的来信（但我没看它）\n&apos;);
+  });
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:d3a1f09536e7ab650311327cd3264147 --&gt;
+
+  // 开启数据流，并丢弃它们。
+  socket.resume();
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:15718ac0ffde3852abd2837cb5ffce33 --&gt;
+
+}).listen(1337);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e522e54ddc9769e09891853239578da6">
+
+<p>额外的，对于切换到流动模式的新 Readable 流，v0.10 之前风格的流可以通过 <code>wrap()</code> 方法被包装成 Readable 类。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d6543f7f4822c1f7478e6d8c4246d8b0">
+
+<h3>对象模式<span><a href="#stream_7978" id="stream_7978">#</a></span></h3>
+</div>
+
+<!--type=misc-->
+
+<div class="translate-section" data-hash="7d93986179dacea329e0e7433978c209">
+
+<p>通常情况下，流只操作字符串和 Buffer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9d564df11943ec40e8015cd6060ef09e">
+
+<p>处于<strong>对象模式</strong>的流除了 Buffer 和字符串外还能读出普通的 JavaScript 值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d9d5a2a6bc30f43590be5dd62325e059">
+
+<p>一个处于对象模式的 Readable 流调用 <code>stream.read(size)</code> 时总会返回单个项目，无论传入什么 size 参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="177b1d697c7a4a2aeba6207af74932db">
+
+<p>一个处于对象模式的 Writable 流总是会忽略传给 <code>stream.write(data, encoding)</code> 的 <code>encoding</code> 参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ee46425eddfb2cc8fdaf55e8ff6f95db">
+
+<p>特殊值 <code>null</code> 在对象模式流中依旧保持它的特殊性。也就说，对于对象模式的可读流，<code>stream.read()</code> 返回 <code>null</code> 意味着没有更多数据，同时 <a href="#stream_readable_push_chunk_encoding"><code>stream.push(null)</code></a> 会告知流数据到达末端（<code>EOF</code>）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7236f33bc0ce90f331945bb74460bfdd">
+
+<p>Node 核心不存在对象模式的流，这种设计只被某些用户态流式库所使用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="62b197c34f2cd79861f01fe7c3a63f11">
+
+<p>您应该在您的流子类构造函数的选项对象中设置 <code>objectMode</code>。在流的过程中设置 <code>objectMode</code> 是不安全的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d43dcd8f4b7ceb3c5515b395fb580d07">
+
+<h3>状态对象<span><a href="#stream_7979" id="stream_7979">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="8f389c2333cbb00280c5c994c06bf70b">
+
+<p><a href="#stream_class_stream_readable">Readable</a> 流有一个成员对象叫作 <code>_readableState</code>。
+<a href="#stream_class_stream_writable">Writable</a> 流有一个成员对象叫作 <code>_writableState</code>。
+<a href="#stream_class_stream_duplex">Duplex</a> 流二者兼备。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3ee878448ce3528993b637ae407b0d69">
+
+<p><strong>这些对象通常不应该被子类所更改。</strong>然而，如果您有一个 Duplex 或 Transform 流，它的可读端应该是 <code>objectMode</code>，但可写端却又不是 <code>objectMode</code>，那么您可以在构造函数里明确地设定合适的状态对象的标记来达到此目的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b0a8e45b6363f58d6248d2ab4ad55aad">
+
+<pre><code>var util = require(&apos;util&apos;);
+var StringDecoder = require(&apos;string_decoder&apos;).StringDecoder;
+var Transform = require(&apos;stream&apos;).Transform;
+util.inherits(JSONParseStream, Transform);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:7123a6445c6afaf75360315f05cd5634 --&gt;
+
+// 获取以 \n 分隔的 JSON 字符串数据，并丢出解析后的对象
+function JSONParseStream(options) {
+  if (!(this instanceof JSONParseStream))
+    return new JSONParseStream(options);
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:1ee7fdeecca2f4145faa196231702628 --&gt;
+
+  Transform.call(this, options);
+  this._writableState.objectMode = false;
+  this._readableState.objectMode = true;
+  this._buffer = &apos;&apos;;
+  this._decoder = new StringDecoder(&apos;utf8&apos;);
+}
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:e80bef7f89055305490b77af751dbaea --&gt;
+
+JSONParseStream.prototype._transform = function(chunk, encoding, cb) {
+  this._buffer += this._decoder.write(chunk);
+  // 以新行分割
+  var lines = this._buffer.split(/\r?\n/);
+  // 保留最后一行被缓冲
+  this._buffer = lines.pop();
+  for (var l = 0; l &lt; lines.length; l++) {
+    var line = lines[l];
+    try {
+      var obj = JSON.parse(line);
+    } catch (er) {
+      this.emit(&apos;error&apos;, er);
+      return;
+    }
+    // 推出解析后的对象到可读消费者
+    this.push(obj);
+  }
+  cb();
+};
+
+&lt;!-- endsection --&gt;
+
+&lt;!-- section:5327c37bec579bd884e1991cfe0d5226 --&gt;
+
+JSONParseStream.prototype._flush = function(cb) {
+  // 仅仅处理剩下的东西
+  var rem = this._buffer.trim();
+  if (rem) {
+    try {
+      var obj = JSON.parse(rem);
+    } catch (er) {
+      this.emit(&apos;error&apos;, er);
+      return;
+    }
+    // 推出解析后的对象到可读消费者
+    this.push(obj);
+  }
+  cb();
+};</code></pre>
+</div>
+
+<div class="translate-section" data-hash="00223a8233286c31d52dd0c65871586a">
+
+<p>状态对象包含了其它调试您的程序的流的状态时有用的信息。读取它们是可以的，但越过构造函数的选项来更改它们是<strong>不安全的</strong>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="96d11bfca45369a7fcdbb209db713007">
+
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Buffer Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/buffer.html">
+</head>
+<body class="alt apidoc" id="api-section-buffer">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="buffer.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#buffer_buffer_3742">Buffer</a><ul>
+<li><a href="#buffer_buffer_3743">类: Buffer</a><ul>
+<li><a href="#buffer_new_buffer_size_1871">new Buffer(size)</a></li>
+<li><a href="#buffer_new_buffer_array_1871">new Buffer(array)</a></li>
+<li><a href="#buffer_new_buffer_str_encoding_1871">new Buffer(str, [encoding])</a></li>
+<li><a href="#buffer_buffer_isencoding_encoding_1871">类方法: Buffer.isEncoding(encoding)</a></li>
+<li><a href="#buffer_buffer_isbuffer_obj_1871">类方法: Buffer.isBuffer(obj)</a></li>
+<li><a href="#buffer_buffer_bytelength_string_encoding_1871">类方法: Buffer.byteLength(string, [encoding])</a></li>
+<li><a href="#buffer_buffer_concat_list_totallength_1871">类方法: Buffer.concat(list, [totalLength])</a></li>
+<li><a href="#buffer_buf_length_1871">buf.length</a></li>
+<li><a href="#buffer_buf_write_string_offset_length_encoding_1871">buf.write(string, [offset], [length], [encoding])</a></li>
+<li><a href="#buffer_buf_tostring_encoding_start_end_1871">buf.toString([encoding], [start], [end])</a></li>
+<li><a href="#buffer_buf_tojson_1871">buf.toJSON()</a></li>
+<li><a href="#buffer_buf_index_1871">buf[index]</a></li>
+<li><a href="#buffer_buf_copy_targetbuffer_targetstart_sourcestart_sourceend_1871">buf.copy(targetBuffer, [targetStart], [sourceStart], [sourceEnd])</a></li>
+<li><a href="#buffer_buf_slice_start_end_1871">buf.slice([start], [end])</a></li>
+<li><a href="#buffer_buf_readuint8_offset_noassert_1871">buf.readUInt8(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readuint16le_offset_noassert_1871">buf.readUInt16LE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readuint16be_offset_noassert_1871">buf.readUInt16BE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readuint32le_offset_noassert_1871">buf.readUInt32LE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readuint32be_offset_noassert_1871">buf.readUInt32BE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readint8_offset_noassert_1871">buf.readInt8(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readint16le_offset_noassert_1871">buf.readInt16LE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readint16be_offset_noassert_1871">buf.readInt16BE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readint32le_offset_noassert_1871">buf.readInt32LE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readint32be_offset_noassert_1871">buf.readInt32BE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readfloatle_offset_noassert_1871">buf.readFloatLE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readfloatbe_offset_noassert_1871">buf.readFloatBE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readdoublele_offset_noassert_1871">buf.readDoubleLE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_readdoublebe_offset_noassert_1871">buf.readDoubleBE(offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeuint8_value_offset_noassert_1871">buf.writeUInt8(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeuint16le_value_offset_noassert_1871">buf.writeUInt16LE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeuint16be_value_offset_noassert_1871">buf.writeUInt16BE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeuint32le_value_offset_noassert_1871">buf.writeUInt32LE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeuint32be_value_offset_noassert_1871">buf.writeUInt32BE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeint8_value_offset_noassert_1871">buf.writeInt8(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeint16le_value_offset_noassert_1871">buf.writeInt16LE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeint16be_value_offset_noassert_1871">buf.writeInt16BE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeint32le_value_offset_noassert_1871">buf.writeInt32LE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writeint32be_value_offset_noassert_1871">buf.writeInt32BE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writefloatle_value_offset_noassert_1871">buf.writeFloatLE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writefloatbe_value_offset_noassert_1871">buf.writeFloatBE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writedoublele_value_offset_noassert_1871">buf.writeDoubleLE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_writedoublebe_value_offset_noassert_1871">buf.writeDoubleBE(value, offset, [noAssert])</a></li>
+<li><a href="#buffer_buf_fill_value_offset_end_1871">buf.fill(value, [offset], [end])</a></li>
+</ul>
+</li>
+<li><a href="#buffer_buffer_inspect_max_bytes_1871">buffer.INSPECT_MAX_BYTES</a></li>
+<li><a href="#buffer_slowbuffer_1871">类: SlowBuffer</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="86e09a05fbbccb8fff7fcdfdb2d177ed">
+
+<h1>Buffer<span><a href="#buffer_buffer_3742" id="buffer_buffer_3742">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ce594b668cebafbc972b509dd28eeab3">
+
+<p>纯 JavaScript 对 Unicode 友好但是无法很好地处理二进制数据。当我们面对类似 TCP 流或文件系统时，是需要处理八位流的。Node 有几种操作、创建以及消费八位流的策略。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="da155089d08554fefb471542011a9aee">
+
+<p>原始数据保存在 <code>Buffer</code> 类的实例中。一个 <code>Buffer</code> 实例类似于一个整数数组，但对应者 V8 堆之外的一个原始内存分配区域。一个 <code>Buffer</code> 的大小不可变。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3f8dc18639c8ce8d03b7e61887709bc8">
+
+<p><code>Buffer</code> 类是一个全局的类，是一个比较罕见的不需要 <code>require(&apos;buffer&apos;)</code> 就可以使用的类。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4c72fbb4715df8acbd8991f56b08cd0a">
+
+<p>在Buffers和JavaScript string转换时，需要明确的一个编码方法。下面是一些不同的string编码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0e4ebfbdf8e9b0e532a5e72ff4c9ffb1">
+
+<ul>
+<li><code>&apos;ascii&apos;</code> - 仅适用 7 bit ASCII 格式数据。这个编码方式非常快速，而且会剥离设置过高的bit。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="50cf0c6a2b7cd4c01d7ada1fd5280b63">
+
+<ul>
+<li><code>&apos;utf8&apos;</code> - 多字节编码 Unicode字符。很多网页或者其他文档的编码格式都是使用 UTF-8的。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="cc8577f010dff17fd5779a77a6ebd607">
+
+<ul>
+<li><code>&apos;utf16le&apos;</code> - 2 或者 4 字节, Little Endian (LE)  编码Unicode字符。
+代理对 (U+10000 to U+10FFFF) 是支持的.（BE和LE表示大端和小端，Little-Endian就是低位字节排放在内存的低地址端，高位字节排放在内存的高地址端；Big-Endian就是高位字节排放在内存的低地址端，低位字节排放在内存的高地址端；下同）</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c054313841ec7fc6c6181aadb1345eae">
+
+<ul>
+<li><code>&apos;ucs2&apos;</code> -  <code>&apos;utf16le&apos;</code>的别名.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="25dcf0dad0f5ba3e70126f4f337b6083">
+
+<ul>
+<li><code>&apos;base64&apos;</code> - Base64 字符串编码。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5e6016d7cae875f9f026f801614f3ebd">
+
+<ul>
+<li><code>&apos;binary&apos;</code> - 一个将原始2进制数据编码为字符串的方法，仅使用每个字符的前8bits。 这个编码方式已经被弃用而且应该被避免，尽可能的使用<code>Buffer</code>对象。这个编码方式将会在未来的Node版本中移除。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="8c847237232858f7767933247a3e4e9f">
+
+<ul>
+<li><code>&apos;hex&apos;</code> - 把每个byte编码成2个十六进制字符</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="035108074901bbc3add526701a3de715">
+
+<h2>类: Buffer<span><a href="#buffer_buffer_3743" id="buffer_buffer_3743">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="361ebfec92e4a9be72740b06860bd694">
+
+<p>Buffer 类是一个全局变量类型，用来直接处理2进制数据的。
+它能够使用多种方式构建。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1cddfd45f6a4969151d77d0ca5d39441">
+
+<h3>new Buffer(size)<span><a href="#buffer_new_buffer_size_1871" id="buffer_new_buffer_size_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="0fb1f6863b17f019d0d8dc0337d0327f">
+
+<ul>
+<li><code>size</code> Number</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d0414260239da9716198c98e01ed0ef0">
+
+<p>分配一个新的 buffer 大小是 <code>size</code> 的8位字节.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8173aa892a699174c4730092356becbb">
+
+<h3>new Buffer(array)<span><a href="#buffer_new_buffer_array_1871" id="buffer_new_buffer_array_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c3f06d965904031c1710e1be3cce3a71">
+
+<ul>
+<li><code>array</code> Array</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="b46655a24e69fc12986fab63851d36d0">
+
+<p>分配一个新的 buffer 使用一个8位字节 <code>array</code> 数组.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5e9158a325cae64d7c6b128e69c73f48">
+
+<h3>new Buffer(str, [encoding])<span><a href="#buffer_new_buffer_str_encoding_1871" id="buffer_new_buffer_str_encoding_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a51b22df077064cfd1d411117a7cbfdb">
+
+<ul>
+<li><code>str</code> String类型 - 需要存入buffer的string字符串.</li>
+<li><code>encoding</code> String类型 - 使用什么编码方式，参数可选.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="30e93aaddf4abfac2ad4bcb19510e2d5">
+
+<p>分配一个新的 buffer ，其中包含着给定的 <code>str</code>字符串.
+<code>encoding</code> 编码方式默认是：<code>&apos;utf8&apos;</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="35a600937b30342eab25a963ba6e69c8">
+
+<h3>类方法: Buffer.isEncoding(encoding)<span><a href="#buffer_buffer_isencoding_encoding_1871" id="buffer_buffer_isencoding_encoding_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="918283dbec9cf95fc2971cf3e7e143ba">
+
+<ul>
+<li><code>encoding</code> {String} 用来测试给定的编码字符串</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5054112b9886dbc78e17f626784ddc5e">
+
+<p>如果给定的编码 <code>encoding</code> 是有效的，返回 true，否则返回 false。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="10bea58893cfc414d197df6205f2b40b">
+
+<h3>类方法: Buffer.isBuffer(obj)<span><a href="#buffer_buffer_isbuffer_obj_1871" id="buffer_buffer_isbuffer_obj_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="75fb1467b03eb975385225df14d8d7f3">
+
+<ul>
+<li><code>obj</code> Object</li>
+<li>返回: Boolean</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f81ff17fc9c5f58e53ad688d7109a617">
+
+<p>测试这个 <code>obj</code> 是否是一个 <code>Buffer</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f15e65deaf6cea9bc45ce8e983c30d50">
+
+<h3>类方法: Buffer.byteLength(string, [encoding])<span><a href="#buffer_buffer_bytelength_string_encoding_1871" id="buffer_buffer_bytelength_string_encoding_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="4761408a856f89e6c5c1a6b148ecc7e0">
+
+<ul>
+<li><code>string</code> String类型</li>
+<li><code>encoding</code> String类型, 可选参数, 默认是: &apos;utf8&apos;</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d6f7b29324f10729e9aee31c54a2f90e">
+
+<p>将会返回这个字符串真实byte长度。 <code>encoding</code> 编码默认是： <code>&apos;utf8&apos;</code>.
+这个和 <code>String.prototype.length</code> 是不一样的，因为那个方法返回这个字符串中有几个字符的数量。
+（译者：当用户在写http响应头Cotent-Length的时候，千万记得一定要用 <code>Buffer.byteLength</code> 方法，不要使用 <code>String.prototype.length</code> ）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="65319ccc16919675f7a095e87c3ebfc6">
+
+<pre><code>// ½ + ¼ = ¾: 9 characters, 12 bytes</code></pre>
+</div>
+
+<div class="translate-section" data-hash="80c24309692613bb67e1a90338fe8cee">
+
+<h3>类方法: Buffer.concat(list, [totalLength])<span><a href="#buffer_buffer_concat_list_totallength_1871" id="buffer_buffer_concat_list_totallength_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3ed8ca6e9dbe28223dbf7d3271a8753e">
+
+<ul>
+<li><code>list</code> {Array}数组类型，Buffer数组，用于被连接。</li>
+<li><code>totalLength</code> {Number}类型 上述Buffer数组的所有Buffer的总大小。（译者：注意这里的totalLength不是数组长度是数组里Buffer实例的大小总和）</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="03c7074095c5038cfb2463fdf49b9f82">
+
+<p>返回一个保存着将传入buffer数组中所有buffer对象拼接在一起的buffer对象。（译者：有点拗口，其实就是将数组中所有的buffer实例通过复制拼接在一起）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f03d348c1cb11a9b41e55639dd558fb6">
+
+<p>如果传入的数组没有内容，或者 totalLength 参数是0，那将返回一个zero-length的buffer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bf6e0221904c0f75977b541754de5d06">
+
+<p>如果数组中只有一项，那么这第一项就会被返回。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ab26439f204ce02588ae8340a8ae47b7">
+
+<p>如果数组中的项多于一个，那么一个新的Buffer实例将被创建。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4716ef04d39bffe47b12fc86b9821c53">
+
+<p>如果 totalLength 参数没有提供，虽然会从buffer数组中计算读取，但是会增加一个额外的循环来计算它，所以提供一个明确的 totalLength  参数将会更快。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="79e8ea9a5f58da789dd05f6a13677e53">
+
+<h3>buf.length<span><a href="#buffer_buf_length_1871" id="buffer_buf_length_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="05d67e48923bfad369281e0f3f72c1fe">
+
+<ul>
+<li>Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="907ecea4ed7d1f4bd19f0e13fbe96e98">
+
+<p>这个buffer的bytes大小。注意这未必是这buffer里面内容的大小。<code>length</code> 的依据是buffer对象所分配的内存数值，它不会随着这个buffer对象内容的改变而改变。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ae3e587d039d0e89e0c516d6fd7a8d61">
+
+<pre><code>// 1234
+// 1234</code></pre>
+</div>
+
+<div class="translate-section" data-hash="751be4b0d26d94b055b6ab9c3a3f94f5">
+
+<h3>buf.write(string, [offset], [length], [encoding])<span><a href="#buffer_buf_write_string_offset_length_encoding_1871" id="buffer_buf_write_string_offset_length_encoding_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="10057a2f4f84e4399592903557b9746e">
+
+<ul>
+<li><code>string</code> String类型 - 将要被写入 buffer 的数据</li>
+<li><code>offset</code> Number类型, 可选参数, 默认: 0</li>
+<li><code>length</code> Number类型, 可选参数, 默认: <code>buffer.length - offset</code></li>
+<li><code>encoding</code> String类型, 可选参数, 默认: &apos;utf8&apos;</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d63b351efc83a99e84965394f48ced83">
+
+<p>根据参数 <code>offset</code> 偏移量和指定的<code>encoding</code>编码方式，将参数 <code>string</code> 数据写入buffer。
+<code>offset</code>偏移量 默认是 <code>0</code>, <code>encoding</code>编码方式默认是 <code>&apos;utf8&apos;</code>。 
+<code>length</code>长度是将要写入的字符串的bytes大小。
+返回number类型，表示多少8位字节流被写入了。如果<code>buffer</code> 没有足够的空间来放入整个string，它将只会写入部分的字符串。
+<code>length</code> 默认是 <code>buffer.length - offset</code>。
+这个方法不会出现写入部分字符。
+
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7322aa4c7ddf42205d35926238b4aa6">
+
+<pre><code>buf = new Buffer(256);
+len = buf.write(&apos;\u00bd + \u00bc = \u00be&apos;, 0);
+console.log(len + &quot; bytes: &quot; + buf.toString(&apos;utf8&apos;, 0, len));</code></pre>
+</div>
+
+<div class="translate-section" data-hash="678c06c2cbff5d09696d63d12e4315a3">
+
+<h3>buf.toString([encoding], [start], [end])<span><a href="#buffer_buf_tostring_encoding_start_end_1871" id="buffer_buf_tostring_encoding_start_end_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d27e9b220b0e1366315f011f58cc7ff6">
+
+<ul>
+<li><code>encoding</code> String类型, 可选参数, 默认: &apos;utf8&apos;</li>
+<li><code>start</code> Number类型, 可选参数, 默认: 0</li>
+<li><code>end</code> Number类型, 可选参数, 默认: <code>buffer.length</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="8edcc82a0fc352feed1a79f0b55b87a7">
+
+<p>根据 <code>encoding</code>参数（默认是 <code>&apos;utf8&apos;</code>）返回一个解码的 string 类型。还会根据传入的参数 <code>start</code> (默认是<code>0</code>) 和 <code>end</code> (默认是 <code>buffer.length</code>)作为取值范围。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="564253146b4c34c0f2778c7a728042bb">
+
+<p>查看上面<code>buffer.write()</code> 的例子.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d4bd3efd1fe30a762f24d46011fe6982">
+
+<h3>buf.toJSON()<span><a href="#buffer_buf_tojson_1871" id="buffer_buf_tojson_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="213c37b1cb5dd951f54e1ad090deebcc">
+
+<p>返回一个 JSON表示的Buffer实例。<code>JSON.stringify</code>将会默认调用来字符串序列化这个Buffer实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3948a3e3a293d36e6adf682dc4904902">
+
+<pre><code>console.log(copy);
+// &lt;Buffer 74 65 73 74&gt;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e819eb4f82585200c7cbd0dbdb4c8dad">
+
+<h3>buf[index]<span><a href="#buffer_buf_index_1871" id="buffer_buf_index_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c0c76345b55547f9526691fa8cecb4bc">
+
+<!--type=property-->
+<!--name=[index]-->
+
+</div>
+
+<div class="translate-section" data-hash="2b1fd3e94ddb1f6e8e8720e0acb6ea8b">
+
+<p>获取或者设置在指定<code>index</code>索引位置的8位字节。这个值是指单个字节，所以这个值必须在合法的范围，16进制的<code>0x00</code> 到<code>0xFF</code>，或者<code>0</code> 到<code>255</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b2560e68dc560e97eee57a133ee200cf">
+
+<p>例子: 拷贝一个 ASCII 编码的 string 字符串到一个 buffer, 一次一个 byte 进行拷贝:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="50fe1f1ecaffca8c307dffee0fe4a394">
+
+<pre><code>// node.js</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e5093bd288735044105bf5ef6f7323c7">
+
+<h3>buf.copy(targetBuffer, [targetStart], [sourceStart], [sourceEnd])<span><a href="#buffer_buf_copy_targetbuffer_targetstart_sourcestart_sourceend_1871" id="buffer_buf_copy_targetbuffer_targetstart_sourcestart_sourceend_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="9fce2dcaaa7a373e6abf36566ddb40eb">
+
+<ul>
+<li><code>targetBuffer</code> Buffer 类型对象 - 将要进行拷贝的Buffer</li>
+<li><code>targetStart</code> Number类型, 可选参数, 默认: 0</li>
+<li><code>sourceStart</code> Number类型, 可选参数, 默认: 0</li>
+<li><code>sourceEnd</code> Number类型, 可选参数, 默认: <code>buffer.length</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="824e4b7cca51ca070a2364db87ca1a3c">
+
+<p>进行buffer的拷贝，源和目标可以是重叠的。
+<code>targetStart</code> 目标开始偏移 和<code>sourceStart</code>源开始偏移 默认都是 <code>0</code>.
+<code>sourceEnd</code> 源结束位置偏移默认是源的长度 <code>buffer.length</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d4c1552cc5ff4859c4475c1115ff8673">
+
+<p>如果传递的值是<code>undefined</code>/<code>NaN</code> 或者是 out of bounds 超越边界的，就将设置为他们的默认值。（译者：这个默认值下面有的例子有说明）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8b729c34da62a294253ce19e87dde563">
+
+<p>例子: 创建2个Buffer，然后把将<code>buf1</code>的16位到19位 拷贝到 <code>buf2</code>中，并且从<code>buf2</code>的第8位开始拷贝。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f02b92d78a44fb2b4a355ea95c07ee11">
+
+<pre><code>// !!!!!!!!qrst!!!!!!!!!!!!!</code></pre>
+</div>
+
+<div class="translate-section" data-hash="84052b81728d8fa26334b5c3ff68c879">
+
+<h3>buf.slice([start], [end])<span><a href="#buffer_buf_slice_start_end_1871" id="buffer_buf_slice_start_end_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="5f5a7df97ba346d012f84de51e5a43f4">
+
+<ul>
+<li><code>start</code> Number类型, 可选参数, 默认: 0</li>
+<li><code>end</code> Number类型, 可选参数, 默认: <code>buffer.length</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="22360a840a32256c7e71494875bfd007">
+
+<p>返回一个新的buffer，这个buffer将会和老的buffer引用相同的内存地址，只是根据 <code> start</code> (默认是 <code>0</code>) 和<code>end</code> (默认是<code>buffer.length</code>)  偏移和裁剪了索引。
+负的索引是从buffer尾部开始计算的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8d73fc6d1542699965941e8c0d5ac4a5">
+
+<p><strong>修改这个新的buffer实例slice切片，也会改变原来的buffer</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0a9b4f58fc181166defd8048d5358760">
+
+<p>例子: 创建一个ASCII 字母的 Buffer，对它slice切片，然后修改源Buffer上的一个byte。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7bfc008e4c8522b868ef974b8d4329d0">
+
+<pre><code>// abc
+// !bc</code></pre>
+</div>
+
+<div class="translate-section" data-hash="08620b2f4f78b786e4f051ce1ec389eb">
+
+<h3>buf.readUInt8(offset, [noAssert])<span><a href="#buffer_buf_readuint8_offset_noassert_1871" id="buffer_buf_readuint8_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="320093fe5ba93ed84ab3f92b26e17238">
+
+<p>从这个buffer对象里，根据指定的偏移量，读取一个 unsigned 8 bit integer整形。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d6966950a00798f96a2b486bda77bb1b">
+
+<pre><code>// 0x3
+// 0x4
+// 0x23
+// 0x42</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e11bd8a7d335ed3e5f407d5f377c189e">
+
+<h3>buf.readUInt16LE(offset, [noAssert])<span><a href="#buffer_buf_readuint16le_offset_noassert_1871" id="buffer_buf_readuint16le_offset_noassert_1871">#</a></span></h3>
+<h3>buf.readUInt16BE(offset, [noAssert])<span><a href="#buffer_buf_readuint16be_offset_noassert_1871" id="buffer_buf_readuint16be_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5fa827d5cdde488d7c69f64bf9391357">
+
+<p>从这个buffer对象里，根据指定的偏移量，使用特殊的 endian字节序格式读取一个 unsigned 16 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0b48627cd3f0b690a50eac4e91d86e3b">
+
+<pre><code>// 0x0304
+// 0x0403
+// 0x0423
+// 0x2304
+// 0x2342
+// 0x4223</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8ef22513b3b4b5cba68d97ffbc99063b">
+
+<h3>buf.readUInt32LE(offset, [noAssert])<span><a href="#buffer_buf_readuint32le_offset_noassert_1871" id="buffer_buf_readuint32le_offset_noassert_1871">#</a></span></h3>
+<h3>buf.readUInt32BE(offset, [noAssert])<span><a href="#buffer_buf_readuint32be_offset_noassert_1871" id="buffer_buf_readuint32be_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f1bb17e0fbf81e50bb7ccd42b4cb3a33">
+
+<p>从这个buffer对象里，根据指定的偏移量，使用指定的 endian字节序格式读取一个 unsigned 32 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="48cab17441ffee703745172ada1cfd79">
+
+<pre><code>// 0x03042342
+// 0x42230403</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3239a8c479dca7f6a540b6e6c85244e2">
+
+<h3>buf.readInt8(offset, [noAssert])<span><a href="#buffer_buf_readint8_offset_noassert_1871" id="buffer_buf_readint8_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c881a92ecc1ac7fefa715d84e62a4e13">
+
+<p>从这个buffer对象里，根据指定的偏移量，读取一个 signed 8 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="84c65b5b697d1231d7a006e83df2deb6">
+
+<p>和 <code>buffer.readUInt8</code>一样的返回，除非buffer中包含了有作为2的补码的有符号值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="31778b7bb4e6e56cfdc1453c323b8de0">
+
+<h3>buf.readInt16LE(offset, [noAssert])<span><a href="#buffer_buf_readint16le_offset_noassert_1871" id="buffer_buf_readint16le_offset_noassert_1871">#</a></span></h3>
+<h3>buf.readInt16BE(offset, [noAssert])<span><a href="#buffer_buf_readint16be_offset_noassert_1871" id="buffer_buf_readint16be_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="37e4810c90b9f20c65089685a8e7a7af">
+
+<p>从这个buffer对象里，根据指定的偏移量，使用特殊的 endian字节序格式读取一个 signed 16 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="354ccf46a9f01c53d519ff543843d3d5">
+
+<p>和 buffer.readUInt16一样返回，除非buffer中包含了有作为2的补码的有符号值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af39fd1087f174627198261bbffd4490">
+
+<h3>buf.readInt32LE(offset, [noAssert])<span><a href="#buffer_buf_readint32le_offset_noassert_1871" id="buffer_buf_readint32le_offset_noassert_1871">#</a></span></h3>
+<h3>buf.readInt32BE(offset, [noAssert])<span><a href="#buffer_buf_readint32be_offset_noassert_1871" id="buffer_buf_readint32be_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="50d4c5a70c8846cd5e134f8decdce9bd">
+
+<p>从这个buffer对象里，根据指定的偏移量，使用指定的 endian字节序格式读取一个 signed 32 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="db2eaf72984c8a74c806fc5860fb5d9f">
+
+<p>和 buffer.readUInt32一样返回，除非buffer中包含了有作为2的补码的有符号值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9d56234ed08ff14b573f8cf274acaad1">
+
+<h3>buf.readFloatLE(offset, [noAssert])<span><a href="#buffer_buf_readfloatle_offset_noassert_1871" id="buffer_buf_readfloatle_offset_noassert_1871">#</a></span></h3>
+<h3>buf.readFloatBE(offset, [noAssert])<span><a href="#buffer_buf_readfloatbe_offset_noassert_1871" id="buffer_buf_readfloatbe_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="cf3258bc74f1da185fc44b9bcb97ed34">
+
+<p>从这个buffer对象里，根据指定的偏移量，使用指定的 endian字节序格式读取一个 32 bit float。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="91154ae22c22555925b8883ecc4cce18">
+
+<pre><code>// 0x01</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c0f5bab724efa298ecb7f472aaaf48e9">
+
+<h3>buf.readDoubleLE(offset, [noAssert])<span><a href="#buffer_buf_readdoublele_offset_noassert_1871" id="buffer_buf_readdoublele_offset_noassert_1871">#</a></span></h3>
+<h3>buf.readDoubleBE(offset, [noAssert])<span><a href="#buffer_buf_readdoublebe_offset_noassert_1871" id="buffer_buf_readdoublebe_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="274c3233c8756915aa320194af9cd46a">
+
+<ul>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+<li>Return: Number类型</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c4e6f6ab6d24152085e345f637607838">
+
+<p>从这个buffer对象里，根据指定的偏移量，使用指定的 endian字节序格式读取一个 64 bit double。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9074489222cc3ce8a7496e79cbfe046">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>offset</code>偏移量参数。
+这意味着 <code>offset</code>可能会超出buffer的末尾。默认是 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="452ecb6bb58f6deb46400d91439b7153">
+
+<pre><code>// 0.3333333333333333</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2bebccbe046a1e82ab8560329dcd3d4d">
+
+<h3>buf.writeUInt8(value, offset, [noAssert])<span><a href="#buffer_buf_writeuint8_value_offset_noassert_1871" id="buffer_buf_writeuint8_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="ec8f3d2f4eb21ae121a9646d54a50c83">
+
+<p>根据指定的offset偏移量将<code>value</code>写入buffer。注意：<code>value</code> 必须是一个合法的unsigned 8 bit integer.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e1f354a569c54b50705d31047a8c177a">
+
+<pre><code>// &lt;Buffer 03 04 23 42&gt;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a4a043dd036e0f0a16bd6a337a526bf4">
+
+<h3>buf.writeUInt16LE(value, offset, [noAssert])<span><a href="#buffer_buf_writeuint16le_value_offset_noassert_1871" id="buffer_buf_writeuint16le_value_offset_noassert_1871">#</a></span></h3>
+<h3>buf.writeUInt16BE(value, offset, [noAssert])<span><a href="#buffer_buf_writeuint16be_value_offset_noassert_1871" id="buffer_buf_writeuint16be_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0af0ecbe6148998172111f010e1f94ba">
+
+<p>根据指定的offset偏移量和指定的 endian字节序格式将<code>value</code>写入buffer。注意：<code>value</code> 必须是一个合法的unsigned 16 bit integer.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4555bbf21b5e87662b8c4d73a61e6a55">
+
+<pre><code>// &lt;Buffer de ad be ef&gt;
+// &lt;Buffer ad de ef be&gt;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="75e22ee691f89647ebc6d606829afe62">
+
+<h3>buf.writeUInt32LE(value, offset, [noAssert])<span><a href="#buffer_buf_writeuint32le_value_offset_noassert_1871" id="buffer_buf_writeuint32le_value_offset_noassert_1871">#</a></span></h3>
+<h3>buf.writeUInt32BE(value, offset, [noAssert])<span><a href="#buffer_buf_writeuint32be_value_offset_noassert_1871" id="buffer_buf_writeuint32be_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="27c495fbdb7aca7b50019d5838fc7a41">
+
+<p>根据指定的offset偏移量和指定的 endian字节序格式将<code>value</code>写入buffer。注意：<code>value</code> 必须是一个合法的unsigned 32 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3403dd28409b2defad03c7c6146aaaf5">
+
+<pre><code>// &lt;Buffer fe ed fa ce&gt;
+// &lt;Buffer ce fa ed fe&gt;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ad285ca51b400649325785351fbaa8c7">
+
+<h3>buf.writeInt8(value, offset, [noAssert])<span><a href="#buffer_buf_writeint8_value_offset_noassert_1871" id="buffer_buf_writeint8_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5570c73b1003b90880fa85bf2b482c99">
+
+<p>根据指定的offset偏移量将<code>value</code>写入buffer。注意：<code>value</code> 必须是一个合法的 signed 8 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fafece7cba759f679b0c602f35588a2a">
+
+<p>和 <code>buffer.writeUInt8</code> 一样工作，除非是把有2的补码的 signed integer 有符号整形写入<code>buffer</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bc89b2a11b788771a3f02e9e415f43ca">
+
+<h3>buf.writeInt16LE(value, offset, [noAssert])<span><a href="#buffer_buf_writeint16le_value_offset_noassert_1871" id="buffer_buf_writeint16le_value_offset_noassert_1871">#</a></span></h3>
+<h3>buf.writeInt16BE(value, offset, [noAssert])<span><a href="#buffer_buf_writeint16be_value_offset_noassert_1871" id="buffer_buf_writeint16be_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="bad612aad896ba2751a74f55464e04d1">
+
+<p>根据指定的offset偏移量和指定的 endian字节序格式将<code>value</code>写入buffer。注意：<code>value</code> 必须是一个合法的 signed 16 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cdbf3dafc230f853444942d72b1e9326">
+
+<p>和 <code>buffer.writeUInt16*</code> 一样工作，除非是把有2的补码的 signed integer 有符号整形写入<code>buffer</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="188fe6e918fb2867f8039e5cd95020cd">
+
+<h3>buf.writeInt32LE(value, offset, [noAssert])<span><a href="#buffer_buf_writeint32le_value_offset_noassert_1871" id="buffer_buf_writeint32le_value_offset_noassert_1871">#</a></span></h3>
+<h3>buf.writeInt32BE(value, offset, [noAssert])<span><a href="#buffer_buf_writeint32be_value_offset_noassert_1871" id="buffer_buf_writeint32be_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="7861d79cf7ac47a7a7cdfe3e1b1ad8de">
+
+<p>根据指定的offset偏移量和指定的 endian字节序格式将<code>value</code>写入buffer。注意：<code>value</code> 必须是一个合法的 signed 32 bit integer。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5c2fd1fcea374c2996c6c2612dba084d">
+
+<p>和 <code>buffer.writeUInt32*</code> 一样工作，除非是把有2的补码的 signed integer 有符号整形写入<code>buffer</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e194413c72baf9148d9b9a02b053d028">
+
+<h3>buf.writeFloatLE(value, offset, [noAssert])<span><a href="#buffer_buf_writefloatle_value_offset_noassert_1871" id="buffer_buf_writefloatle_value_offset_noassert_1871">#</a></span></h3>
+<h3>buf.writeFloatBE(value, offset, [noAssert])<span><a href="#buffer_buf_writefloatbe_value_offset_noassert_1871" id="buffer_buf_writefloatbe_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="40659bf8e5d2b699136f3330eb72a622">
+
+<p>根据指定的offset偏移量和指定的 endian字节序格式将<code>value</code>写入buffer。注意：当<code>value</code> 不是一个 32 bit float 类型的值时，结果将是不确定的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="74cc8473ca9f23d8c063a8e0e8979bd5">
+
+<pre><code>// &lt;Buffer 4f 4a fe bb&gt;
+// &lt;Buffer bb fe 4a 4f&gt;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a3fea6998933826560a743d6d7a2bd67">
+
+<h3>buf.writeDoubleLE(value, offset, [noAssert])<span><a href="#buffer_buf_writedoublele_value_offset_noassert_1871" id="buffer_buf_writedoublele_value_offset_noassert_1871">#</a></span></h3>
+<h3>buf.writeDoubleBE(value, offset, [noAssert])<span><a href="#buffer_buf_writedoublebe_value_offset_noassert_1871" id="buffer_buf_writedoublebe_value_offset_noassert_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a34221f104da614e54bcd998f046f4c2">
+
+<ul>
+<li><code>value</code> Number类型</li>
+<li><code>offset</code> Number类型</li>
+<li><code>noAssert</code> Boolean类型, 可选参数, 默认: false</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="e9b4f797ccdcb440b6c8ff3382e298db">
+
+<p>根据指定的offset偏移量和指定的 endian字节序格式将<code>value</code>写入buffer。注意：<code>value</code> 必须是一个有效的 64 bit double 类型的值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af4bec6f47a90784db3824653efb41a4">
+
+<p>设置参数 <code>noAssert</code>为true表示忽略验证<code>value</code>和<code>offset</code>参数。
+这意味着 <code>value</code>可能过大，或者<code>offset</code>可能会超出buffer的末尾造成<code>value</code>被丢弃。
+这个参数除了你非常有把握，否则不应该使用它。默认是 <code>false</code>。`.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b3c0e7c1c6569510d03a388ce47946dd">
+
+<pre><code>// &lt;Buffer 43 eb d5 b7 dd f9 5f d7&gt;
+// &lt;Buffer d7 5f f9 dd b7 d5 eb 43&gt;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e4437ab0fb945ba2102cd9229c90ae9c">
+
+<h3>buf.fill(value, [offset], [end])<span><a href="#buffer_buf_fill_value_offset_end_1871" id="buffer_buf_fill_value_offset_end_1871">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="b2d0ae014a20f4c5562677e07cb0d50d">
+
+<ul>
+<li><code>value</code></li>
+<li><code>offset</code> Number类型, 可选参数</li>
+<li><code>end</code> Number类型, 可选参数</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="e539373574448a3f83562165d39e58eb">
+
+<p>使用指定的value来填充这个buffer。如果 <code>offset</code> (默认是 <code>0</code>) 并且 <code>end</code> (默认是 <code>buffer.length</code>) 没有明确给出，就会填充整个buffer。
+（译者：buf.fill调用的是C语言的memset函数非常高效）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bec644f85919bcfa4ce1896577778705">
+
+<pre><code>var b = new Buffer(50);
+b.fill(&quot;h&quot;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ffef7ea545fa182cfa10057c7a9ae09d">
+
+<h2>buffer.INSPECT_MAX_BYTES<span><a href="#buffer_buffer_inspect_max_bytes_1871" id="buffer_buffer_inspect_max_bytes_1871">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="70b752b580a790e1c7844f616682a040">
+
+<ul>
+<li>Number类型, 默认: 50</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="307fa3294c0e343ed726c81b1e42e1a0">
+
+<p>设置当调用<code>buffer.inspect()</code>方法后，多少bytes将会返回。这个值可以被用户模块重写。
+（译者：这个值主要用在当我们打印console.log(buf)时，设置返回多少长度内容）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9c1064c30ce7836b7bd8a3a38aa129fb">
+
+<p>注意这个属性是<code>require(&apos;buffer&apos;)</code>模块返回的。这个属性不是在全局变量Buffer中，也不再buffer的实例里。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b6ee9073aaaddd07afa08da7ec8f9dfa">
+
+<h2>类: SlowBuffer<span><a href="#buffer_slowbuffer_1871" id="buffer_slowbuffer_1871">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="62b1d73e85a319d6977d7c1c44a6ea0c">
+
+<p>返回一个不被池管理的 <code>Buffer</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e3a5380009a1ae5e3a62773edb981462">
+
+<p>为了避免创建大量独立分配的 Buffer 带来的垃圾回收开销，默认情况下小于 4KB 的空间都是切割自一个较大的独立对象。这种策略既提高了性能也改善了内存使用，因为 V8 不需要跟踪和清理很多 <code>Persistent</code> 对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="38c55b2ad13d7579b4de28e517f3ca6e">
+
+<p>当开发者需要将池中一小块数据保留不确定的一段时间，较为妥当的办法是用 SlowBuffer 创建一个不被池管理的 Buffer 实例并将相应数据拷贝出来。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f1f41e165b1cd2af604058eadd11332b">
+
+<pre><code>socket.on(&apos;readable&apos;, function() {
+  var data = socket.read();
+  // 为需要保留的数据分配内存
+  var sb = new SlowBuffer(10);
+  // 将数据拷贝到新的空间中
+  data.copy(sb, 0, 0, 10);
+  store.push(sb);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3da792f7b50bd7492fa4a7304e2fff0b">
+
+<p>请谨慎使用，仅作为开发者频繁观察到他们的应用中过度的内存保留时的<em>最后</em>手段。
+
+</p>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

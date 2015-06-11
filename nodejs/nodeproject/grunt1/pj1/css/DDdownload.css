@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+#DDdownload{position:fixed;left:0;bottom:0;width:100%;min-width:320px;height:4.62rem;background:rgba(0, 0, 0, .7);overflow:hidden;
+-webkit-transition:bottom 300ms ease, height 300ms ease, opacity 300ms ease;
+-moz-transition:bottom 300ms ease, height 300ms ease, opacity 300ms ease;
+-ms-transition:bottom 300ms ease, height 300ms ease, opacity 300ms ease;
+-o-transition:bottom 300ms ease, height 300ms ease, opacity 300ms ease;
+transition:bottom 300ms ease, height 300ms ease, opacity 300ms ease;
+}
+#DDdownload[hide]{bottom:.2rem;height:0;opacity:0;}
+#DDdownload .ico, #DDdownload .btn, #DDdownload .close{background:url(img_d/download.png) no-repeat;background-size:12rem auto;}
+#DDdownload .ico{position:absolute;left:3.5rem;top:.55rem;width:12rem;height:3.52rem;background-position:0 0;}
+#DDdownload .btn{position:absolute;top:1.11rem;right:3.5rem;width:5.8rem;height:2.4rem;background-position:0 -3.9rem;}
+#DDdownload .btn[active]{background-position:-6.08rem -3.9rem;}
+#DDdownload .close{position:absolute;top:0;right:0;width: 1.7rem;height: 1.7rem;background-position: 0 -6.9rem;}
+#DDdownload .close[active]{background-position:-2.1rem -6.9rem;}
+
+/** 确认弹窗*/
+#DDdownload_dialog_lock, #DDdownload_dialog{
+	-webkit-transition:left 200ms ease
+	-moz-transition:left 200ms ease;
+	-ms-transition:left 200ms ease;
+	-o-transition:left 200ms ease;
+	transition:left 200ms ease;
+}
+#DDdownload_dialog_lock{position:fixed;z-index:1000;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, .5);}
+#DDdownload_dialog_lock[hide]{left:-100%;}
+#DDdownload_dialog{position:fixed;z-index:1100;top:50%;left:50%;margin:-5rem 0 0 -10rem;width:20rem;height:10rem;background:#efefef;border-radius:.5rem;}
+#DDdownload_dialog[hide]{left:-100%;}
+#DDdownload_dialog .text{display:block;padding:1.5rem 0;text-align:center;font-size:1.33rem;color:#3e3e3e;}
+#DDdownload_dialog .btn{display:block;margin:0 auto;padding:.8rem 0;width:12rem;text-align:center;font-size:1.9rem;color:#fff;background:#68b100;}
+
+@media only screen and (min-width:720px){
+	#DDdownload, #DDdownload_dialog_lock{width:720px;left:50%;margin-left:-360px;}
+}

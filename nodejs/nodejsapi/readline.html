@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Readline Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/readline.html">
+</head>
+<body class="alt apidoc" id="api-section-readline">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="readline.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#readline_readline_448">Readline</a><ul>
+<li><a href="#readline_readline_createinterface_options_448">readline.createInterface(options)</a></li>
+<li><a href="#readline_448">类: 接口</a><ul>
+<li><a href="#readline_rl_setprompt_prompt_448">rl.setPrompt(prompt)</a></li>
+<li><a href="#readline_rl_prompt_preservecursor_448">rl.prompt([preserveCursor])</a></li>
+<li><a href="#readline_rl_question_query_callback_448">rl.question(query, callback)</a></li>
+<li><a href="#readline_rl_pause_448">rl.pause()</a></li>
+<li><a href="#readline_rl_resume_448">rl.resume()</a></li>
+<li><a href="#readline_rl_close_448">rl.close()</a></li>
+<li><a href="#readline_rl_write_data_key_448">rl.write(data, [key])</a></li>
+</ul>
+</li>
+<li><a href="#readline_events_448">Events</a><ul>
+<li><a href="#readline_event_line_448">Event: &apos;line&apos;</a></li>
+<li><a href="#readline_pause_448">事件: &apos;pause&apos;</a></li>
+<li><a href="#readline_resume_448">事件: &apos;resume&apos;</a></li>
+<li><a href="#readline_close_448">事件: &apos;close&apos;</a></li>
+<li><a href="#readline_event_sigint_448">Event: &apos;SIGINT&apos;</a></li>
+<li><a href="#readline_event_sigtstp_448">Event: &apos;SIGTSTP&apos;</a></li>
+<li><a href="#readline_event_sigcont_448">Event: &apos;SIGCONT&apos;</a></li>
+</ul>
+</li>
+<li><a href="#readline_tiny_cli_448">示例: Tiny CLI</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="16ce9ec28ed393ed16bd93a587524dec">
+
+<h1>Readline<span><a href="#readline_readline_448" id="readline_readline_448">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="14ae3b8a1560651cf34fa2e5562e7f27">
+
+<pre><code>稳定度: 2 - 不稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6ffffbbafe6bbde35075a62a915f3fee">
+
+<p>要使用此模块，需要<code>require(&apos;readline&apos;)</code>.Readline程序允许逐行读取一个流内容(例如<code>process.stdin</code>).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="68761867fb363ca24fda1587ee31309c">
+
+<p>需要注意的是你一旦调用了这个模块，你的node程序将不会终止直到你关闭此接口。下面是如何让你的程序正常退出的方法:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="192da760cb91627c14e60a92c1b48a5c">
+
+<pre><code>  rl.close();
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8af54e6ec09ea0978df0b6095a7bc6e8">
+
+<h2>readline.createInterface(options)<span><a href="#readline_readline_createinterface_options_448" id="readline_readline_createinterface_options_448">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="43c7ba7f8b2101b46e86ae8025bbad42">
+
+<p>创建一个readline的接口实例. 接受一个Object类型参数，可传递以下几个值:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="35efccf04bbeba2e8f4b1f1bf0830cf7">
+
+<ul>
+<li><code>input</code> - 要监听的可读流 (必需).</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="a8b6a2eac88d54232cad994af2561d18">
+
+<ul>
+<li><code>output</code> - 要写入 readline 的可写流 (必须).</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="12cff1a6de27106ff7243e02defdf52d">
+
+<ul>
+<li><code>completer</code> - 用于 Tab 自动补全的可选函数。见下面使用的例子。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="584e56cc6f3c47e34aacc4f42689cba0">
+
+<ul>
+<li><code>terminal</code> - 如果希望 <code>input</code> 和 <code>output</code> 流像 TTY 一样对待，那么传递参数 <code>true</code> ，并且经由 ANSI/VT100 转码。
+默认情况下检查 <code>isTTY</code> 是否在 <code>output</code> 流上实例化。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="a85a274730e6c313acb1c9506529b362">
+
+<p>通过用户 <code>completer</code> 函数给定了一个当前行入口，并且期望返回一个包含两个条目的数组：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="10b44812bebc4bc499eee45cdd5e00f2">
+
+<ol>
+<li>一个匹配当前输入补全的字符串数组.</li>
+</ol>
+</div>
+
+<div class="translate-section" data-hash="2588d0178c763a463d74e1cfab5c7a41">
+
+<ol>
+<li>一个用于匹配的子字符串。</li>
+</ol>
+</div>
+
+<div class="translate-section" data-hash="9651c84db965fb7ff09524de3f616c7e">
+
+<p>最终像这种形式:
+<code>[[substr1, substr2, ...], originalsubstring]</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c870f67d58750d6f3b45e276035ffade">
+
+<pre><code>function completer(line) {
+  var completions = &apos;.help .error .exit .quit .q&apos;.split(&apos; &apos;)
+  var hits = completions.filter(function(c) { return c.indexOf(line) == 0 })
+  // show all completions if none found
+  return [hits.length ? hits : completions, line]
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="782d052ce78e98d48941db1527842baa">
+
+<p><code>completer</code> 也可以运行在异步模式下，此时接受两个参数：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="05163ccb4b97f3f027a81be61a81bd47">
+
+<pre><code>function completer(linePartial, callback) {
+  callback(null, [[&apos;123&apos;], linePartial]);
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="00dee1ae790f36229bc3e76a8d051a93">
+
+<p>为了接受用户的输入，<code>createInterface</code> 通常跟 <code>process.stdin</code> 和 <code>process.stdout</code> 一块使用：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="357b0a67d0f441fedf93f81c6369b93a">
+
+<pre><code>var readline = require(&apos;readline&apos;);
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2eb87db20983af57d2a94bbaf52c3266">
+
+<p>一旦你有一个 readline 实例，你通常会监听 &quot;line&quot; 事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b55fb89b11d7faa3102df3f4403d1244">
+
+<p>如果这个实例中<code>terminal</code>为<code>true</code>，而且<code>output</code>流定义了一个<code>output.columns</code>属性，那么<code>output</code>流将获得最好的兼容性，并且，当columns变化时(当它是TTY时，<code>process.stdout</code>会自动这样做)，会在<code>output</code>上触发一个 <code>&quot;resize&quot;</code>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fff427462ea6c1868a9cc90ea7c9752e">
+
+<h2>类: 接口<span><a href="#readline_448" id="readline_448">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="58f248b60708c29abd9bb4858754f516">
+
+<p>代表一个有输入输出流的 readline 接口的类。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1fb7fec4921c734a158c2683cdf077ba">
+
+<h3>rl.setPrompt(prompt)<span><a href="#readline_rl_setprompt_prompt_448" id="readline_rl_setprompt_prompt_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="0a3ca77e844475aaf4dbb84c97af70e5">
+
+<p>设置提示符，例如当你在命令行运行 <code>node</code> 时，你会看到 <code>&gt; </code> ，这就是 node 的提示符。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f429633d345cfa59fbad0fae51339610">
+
+<h3>rl.prompt([preserveCursor])<span><a href="#readline_rl_prompt_preservecursor_448" id="readline_rl_prompt_preservecursor_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="76ec2a9947a39e2aa8073e71a420c2d8">
+
+<p>为用户输入准备好readline，将现有的<code>setPrompt</code>选项放到新的一行，让用户有一个新的地方开始输入。将<code>preserveCursor</code>设为<code>true</code>来防止光标位置被重新设定成<code>0</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8656935fd030806e6f3fe99b59e7f6ed">
+
+<p>如果暂停，也会使用 <code>createInterface</code> 重置 <code>input</code> 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="931b55c15312aca7ce06080ac737e405">
+
+<h3>rl.question(query, callback)<span><a href="#readline_rl_question_query_callback_448" id="readline_rl_question_query_callback_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="284a9136b3d0c7eb76574e710c7ac46e">
+
+<p>预先提示指定的query，然后用户应答后触发指定的callback。
+显示指定的query给用户后，当用户的应答被输入后，就触发了指定的callback
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8b5ea2eceb4e00d0b3c7bb699f153e4b">
+
+<p>如果暂停，也会使用 <code>createInterface</code> 重置 <code>input</code> 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0cf4a24ebfd6350fbc2c885b888a388b">
+
+<p>使用示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="798c5cf1392a7196fdc6d37476d4ef2f">
+
+<pre><code>interface.question(&apos;What is your favorite food?&apos;, function(answer) {
+  console.log(&apos;Oh, so your favorite food is &apos; + answer);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0ab011e89a1d8fdd072a1359bdaaec60">
+
+<h3>rl.pause()<span><a href="#readline_rl_pause_448" id="readline_rl_pause_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="fe7b56d55528628877380544e6c564c3">
+
+<p>暂停 readline 的输入流 (<code>input</code> stream), 如果有需要稍后还可以恢复。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2ed52dd8547bbe6127d9a388a57f494f">
+
+<h3>rl.resume()<span><a href="#readline_rl_resume_448" id="readline_rl_resume_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="cd64d487664e2506801862ced308440c">
+
+<p>恢复 readline 的输入流 (<code>input</code> stream).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="36fd31224e679357e7adb465badc2440">
+
+<h3>rl.close()<span><a href="#readline_rl_close_448" id="readline_rl_close_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="13bf8a3d45d4754742133453cc8f1f27">
+
+<p>关闭接口实例 (<code>Interface</code> instance), 放弃控制输入输出流。&quot;close&quot; 事件会被触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c5ba2b188b9ff0e5e33ae02467d4742e">
+
+<h3>rl.write(data, [key])<span><a href="#readline_rl_write_data_key_448" id="readline_rl_write_data_key_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ee86b405b982131568c7549de62a9550">
+
+<p>将 <code>data</code> 写入到 <code>output</code> 流。<code>key</code> 是一个代表键序列的对象；当终端是一个 TTY 时可用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="197d3be97587ec8c126f2d2bfc7465c5">
+
+<p>如果暂停，也会重置 <code>input</code> 流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a039823b909a84b9ba191625d33e2861">
+
+<pre><code>rl.write(&apos;Delete me!&apos;);
+// 模仿 ctrl+u快捷键，删除之前所写行 
+rl.write(null, {ctrl: true, name: &apos;u&apos;});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d6941dfd1e35d6f628e23d3ce3b7b169">
+
+<h2>Events<span><a href="#readline_events_448" id="readline_events_448">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="05bba460dc5e0d825e9b1fd9422e1cdc">
+
+<h3>Event: &apos;line&apos;<span><a href="#readline_event_line_448" id="readline_event_line_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="5adf46a7dc4f7aed16b35e87dae98be4">
+
+<p><code>function (line) {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c1095c8aeb27327a1d3720d2e3755d74">
+
+<p>在 <code>input</code> 流接受了一个 <code>\n</code> 时触发，通常在用户敲击回车或者返回时接收。
+这是一个监听用户输入的利器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f787300758ed012018e1d3f2a5cc352a">
+
+<p>监听 <code>line</code> 事件的示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="eddfc6424695c71bb16bedd85cc58c48">
+
+<pre><code>rl.on(&apos;line&apos;, function (cmd) {
+  console.log(&apos;You just typed: &apos;+cmd);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="cacb3108402e9e2b2cbf924b0f973031">
+
+<h3>事件: &apos;pause&apos;<span><a href="#readline_pause_448" id="readline_pause_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b8d74aef833f088c2a9fb890e0296ffc">
+
+<p>不论何时，只要输入流被暂停就会触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="73d12d9a272915b5136c6379a78a1224">
+
+<p>同样当输入流未被暂停，但收到 <code>SIGCONT</code> 也会触发。 (详见 <code>SIGTSTP</code> 和 <code>SIGCONT</code> 事件)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e45dc2d9849df2abd26f1e44355ba1ee">
+
+<p>监听 <code>pause</code> 事件的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8c3ad47d788e5800ca191ff518fa5987">
+
+<pre><code>rl.on(&apos;pause&apos;, function() {
+  console.log(&apos;Readline 输入暂停.&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="446ed823ef86b966df9a6077dc5217a9">
+
+<h3>事件: &apos;resume&apos;<span><a href="#readline_resume_448" id="readline_resume_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a67a141effca71142cdda2864a1cbcd0">
+
+<p>不论何时，只要输入流重新启用就会触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fc76505915e0c859034f5bdbd403e3bd">
+
+<p>监听 <code>resume</code> 事件的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="17af1e23500d4fe0c553482a3bf0472c">
+
+<pre><code>rl.on(&apos;resume&apos;, function() {
+  console.log(&apos;Readline 恢复.&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d2b8af4d8afc211663a4341cca53b503">
+
+<h3>事件: &apos;close&apos;<span><a href="#readline_close_448" id="readline_close_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="63661a9ad2e77e634922c32628764994">
+
+<p>当 <code>close()</code> 被调用时触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="962b152e096d597b4476928d882bcb87">
+
+<p>当 <code>input</code>流接收到&quot;结束&quot;事件时也会被触发. 一旦触发，应当认为<code>Interface</code>实例
+ &quot;结束&quot; . 例如, 当<code>input</code>流接收到<code>^D</code>时, 分别被认为<code>EOT</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ba69ef1f7648756e7e3feaa20b770d41">
+
+<p>当 <code>input</code> 流接收到一个 <code>^C</code> 时，即使没有 <code>SIGINT</code> 监听器，也会触发这个事件，分别被称为 <code>SIGINT</code> 。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c24859520b90f9cf784ca98b839c7c6a">
+
+<h3>Event: &apos;SIGINT&apos;<span><a href="#readline_event_sigint_448" id="readline_event_sigint_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2b5fcee9f214d4e53bbf2c0ab8f3e079">
+
+<p>只要 <code>input</code>流 接收到<code>^C</code>就会被触发, 分别被认为<code>SIGINT</code>.当<code>input</code>流接收到<code>SIGINT</code>时, 
+ 如果没有 <code>SIGINT</code> 事件监听器，<code>pause</code> 将会被触发.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7f135a18651f35a74a0020d4f58e3e20">
+
+<p>监听 <code>SIGINT</code> 信号的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e55ac2bac1f25689bbf2b37a1b02062c">
+
+<pre><code>rl.on(&apos;SIGINT&apos;, function() {
+  rl.question(&apos;Are you sure you want to exit?&apos;, function(answer) {
+    if (answer.match(/^y(es)?$/i)) rl.pause();
+  });
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="68ffdadaed4d39461c5bcc19032a747a">
+
+<h3>Event: &apos;SIGTSTP&apos;<span><a href="#readline_event_sigtstp_448" id="readline_event_sigtstp_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="89f6d4551ee64b1d589388154e5b65e7">
+
+<p><strong>该功能不支持 windows 操作系统</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0e24df2e7b1c0f297197f51f4c188396">
+
+<p>只要<code>input</code>流接收到<code>^Z</code>时就被触发, 分别被认为<code>SIGTSTP</code>. 当<code>input</code>流接收到
+ <code>SIGTSTP</code>时，如果没有<code>SIGTSTP</code> 事件监听器 ,程序会被发送到后台 .
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4df31baa6942745d4bddad10f71deba6">
+
+<p>当程序使用参数 <code>fg</code> 重启，<code>pause</code> 和 <code>SIGCONT</code> 事件将会被触发。
+你可以使用两者中任一事件来恢复流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f594bea680b4f69ecdef9cc0d957ce8c">
+
+<p>在程序被发送到后台之前，如果流暂停，<code>pause</code> 和 <code>SIGCONT</code> 事件将不会被触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="949104b047538332a7ac77f4b9459181">
+
+<p>监听 <code>SIGTSTP</code> 的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a7b05c05fe027981095c355f8c2a522b">
+
+<pre><code>rl.on(&apos;SIGTSTP&apos;, function() {
+  // 这将重载 SIGTSTP并防止程序转到
+  // 后台.
+  console.log(&apos;Caught SIGTSTP.&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2eeec0e1e854306579fa776ff78ece8f">
+
+<h3>Event: &apos;SIGCONT&apos;<span><a href="#readline_event_sigcont_448" id="readline_event_sigcont_448">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d871d7a90933d8ce9373836bfef30cd3">
+
+<p><code>function () {}</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="89f6d4551ee64b1d589388154e5b65e7">
+
+<p><strong>该功能不支持 windows 操作系统</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="da07050fa4a3cee6aea9606cfc9d1c2f">
+
+<p>一旦 <code>input</code>流中含有 <code>^Z</code>并被发送到后台就会触发,分别被认为
+ <code>SIGTSTP</code>, 然后继续执行<code>fg(1)</code>. 这一事件只有在流被发送后台之前没有暂停才会触发.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0cc0433e2e6daa62656a40c1c24c3cfa">
+
+<p>监听 <code>SIGCONT</code> 的示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d870d4eb35a4030efd3cad435c61ba27">
+
+<pre><code>rl.on(&apos;SIGCONT&apos;, function() {
+  // `prompt` 将会自动恢复流
+  rl.prompt();
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="21ceb2b82228a06926a4f0578319cffd">
+
+<h2>示例: Tiny CLI<span><a href="#readline_tiny_cli_448" id="readline_tiny_cli_448">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7ad4414f244309d14fd4dffae8582f8b">
+
+<p>这里有一个使用所有方法精心设计的小命令行程序：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c1b60f630e415c81fb29feb81865b160">
+
+<pre><code>rl.on(&apos;line&apos;, function(line) {
+  switch(line.trim()) {
+    case &apos;hello&apos;:
+      console.log(&apos;world!&apos;);
+      break;
+    default:
+      console.log(&apos;Say what? I might have heard `&apos; + line.trim() + &apos;`&apos;);
+      break;
+  }
+  rl.prompt();
+}).on(&apos;close&apos;, function() {
+  console.log(&apos;Have a great day!&apos;);
+  process.exit(0);
+});</code></pre>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

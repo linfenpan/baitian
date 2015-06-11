@@ -1,0 +1,20 @@
+[
+	{
+		"target": "G:/common.min.js",
+		"root": "G:/nodeproject/compress/files/",
+		"files":[
+			"common.js",
+			"util.js",
+			"WindowLock.js"
+		]
+	},
+	{
+		"target": "common.min.css",
+		"root": "./css/"
+	},
+	{
+		"target": "./dev",
+		"root": "./files2/"
+	}
+]
+

@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>URL Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/url.html">
+</head>
+<body class="alt apidoc" id="api-section-url">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="url.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#url_url_793">URL</a><ul>
+<li><a href="#url_url_parse_urlstr_parsequerystring_slashesdenotehost_793">url.parse(urlStr, [parseQueryString], [slashesDenoteHost])</a></li>
+<li><a href="#url_url_format_urlobj_793">url.format(urlObj)</a></li>
+<li><a href="#url_url_resolve_from_to_793">url.resolve(from, to)</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="428008cda2cc67f359eae763ac850471">
+
+<h1>URL<span><a href="#url_url_793" id="url_url_793">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="21948f0f3c5d4e3bbd0424928b2180c9">
+
+<p>该模块包含用以 URL 解析的实用函数。
+使用 <code>require(&apos;url&apos;)</code> 来调用该模块。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fdca194aaccfc25ce71663a87d6b65d2">
+
+<p>不同的 URL 字符串解析后返回的对象会有一些额外的字段信息，仅当该部分出现在 URL 中才会有。以下是一个 URL 例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a28a64a38bece33c7015eaa20bda7d48">
+
+<p><code>&apos;http://user:pass@host.com:8080/p/a/t/h?query=string#hash&apos;</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6401f83b5b2fafeceb5b4a1359da53e2">
+
+<ul>
+<li><code>href</code>: 所解析的完整原始 URL。协议名和主机名都已转为小写。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="4aceac76fce1ee98ec4031341d33941e">
+
+<pre><code>例如: `&apos;http://user:pass@host.com:8080/p/a/t/h?query=string#hash&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="09327b2f10fdfd3960091434b70509e9">
+
+<ul>
+<li><code>protocol</code>: 请求协议，小写</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="e89e86c8f5b6938d152781090858811e">
+
+<pre><code>例如: `&apos;http:&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d9b7b21ae612dfe4d9ea24fd816faed2">
+
+<ul>
+<li><code>host</code>: URL主机名已全部转换成小写, 包括端口信息</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="4b393ae040a96f315262e2b0f65111fd">
+
+<pre><code>例如: `&apos;host.com:8080&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4fca47e93227e96c67fb52d58449e6f7">
+
+<ul>
+<li><code>auth</code>:URL中身份验证信息部分</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="1a730d7b939c4ea4104eb03a68f53c74">
+
+<pre><code>例如: `&apos;user:pass&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c323118dec2faf2b14307f3d65ac0125">
+
+<ul>
+<li><code>hostname</code>:主机的主机名部分, 已转换成小写</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="3e933bcbb678f89dc30fe7d0a045de8a">
+
+<pre><code>例如: `&apos;host.com&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="1e25beca46e374afdcf636782440287c">
+
+<ul>
+<li><code>port</code>: 主机的端口号部分</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="efadfa4e3929ec87daf5b955f7a2f62a">
+
+<pre><code>例如: `&apos;8080&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="412709c30867873a923cd56522d93b87">
+
+<ul>
+<li><code>pathname</code>: URL的路径部分,位于主机名之后请求查询之前, including the initial slash if present.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="7515b1058483b8318961256e1947b35c">
+
+<pre><code>例如: `&apos;/p/a/t/h&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="440c32339abf5446e656b2fe73e8582c">
+
+<ul>
+<li><code>search</code>: URL 的“查询字符串”部分，包括开头的问号。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c42c4893784ad6e80d81b599afcfe44c">
+
+<pre><code>例如: `&apos;?query=string&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="11e318257c29df85045ae3677d7fe7ac">
+
+<ul>
+<li><code>path</code>: <code>pathname</code> 和 <code>search</code> 连在一起。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="753f3fd008402c523619bac22ca448d1">
+
+<pre><code>例如: `&apos;/p/a/t/h?query=string&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9db4e284b8dd3c47dfd97af6faa0333f">
+
+<ul>
+<li><code>query</code>: 查询字符串中的参数部分（问号后面部分字符串），或者使用  <code>querystring.parse()</code> 解析后返回的对象。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="77ea65c1dfe14736ec33c7b5fb64d8a8">
+
+<pre><code>例如: `&apos;query=string&apos;` or `{&apos;query&apos;:&apos;string&apos;}`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="1ea385e1b6b21152f9f58ca2f4214715">
+
+<ul>
+<li><code>hash</code>: URL 的 “#” 后面部分（包括 # 符号） </li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="41ec38507086bc14cd06fd668ef113eb">
+
+<pre><code>例如: `&apos;#hash&apos;`</code></pre>
+</div>
+
+<div class="translate-section" data-hash="56e3bc5c8d3f14eaa1bccb28635f0690">
+
+<p>以下是 URL 模块提供的方法：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4c6831c326ae08a94dfe32c5137036d9">
+
+<h2>url.parse(urlStr, [parseQueryString], [slashesDenoteHost])<span><a href="#url_url_parse_urlstr_parsequerystring_slashesdenotehost_793" id="url_url_parse_urlstr_parsequerystring_slashesdenotehost_793">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="99076bde36249fa2abc6799f36ed24da">
+
+<p>输入 URL 字符串，返回一个对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dd1e87c9228cb5075c38e78f69a6b045">
+
+<p>将第二个参数设置为 <code>true</code> 则使用 <code>querystring</code> 模块来解析 URL 中德查询字符串部分，默认为 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="16372310e908afde94164f3e8b9258bf">
+
+<p>将第三个参数设置为 <code>true</code> 来把诸如 <code>//foo/bar</code> 这样的URL解析为
+<code>{ host: &apos;foo&apos;, pathname: &apos;/bar&apos; }</code> 而不是
+<code>{ pathname: &apos;//foo/bar&apos; }</code>。 默认为 <code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4822c8c01a5110fcc8089a34792e3dfd">
+
+<h2>url.format(urlObj)<span><a href="#url_url_format_urlobj_793" id="url_url_format_urlobj_793">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ea94dad69a85e6e49d63443e862cb405">
+
+<p>输入一个 URL 对象，返回格式化后的 URL 字符串。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="83a5dad237db5ec75e3f1796eda7c40c">
+
+<ul>
+<li><code>href</code> 属性会被忽略处理.</li>
+<li><code>protocol</code>无论是否有末尾的 <code>:</code> (冒号)，会同样的处理<ul>
+<li>这些协议包括 <code>http</code>, <code>https</code>, <code>ftp</code>, <code>gopher</code>, <code>file</code> 
+后缀是 <code>://</code> (冒号-斜杠-斜杠).</li>
+<li>所有其他的协议如 <code>mailto</code>, <code>xmpp</code>, <code>aim</code>, <code>sftp</code>, <code>foo</code>, 等
+ 会加上后缀 <code>:</code> (冒号)</li>
+</ul>
+</li>
+<li><code>auth</code> 如果有将会出现.</li>
+<li><code>hostname</code> 如果 <code>host</code> 属性没被定义，则会使用此属性.</li>
+<li><code>port</code> 如果 <code>host</code> 属性没被定义，则会使用此属性.</li>
+<li><code>host</code> 优先使用，将会替代 <code>hostname</code> 和<code>port</code></li>
+<li><code>pathname</code> 将会同样处理无论结尾是否有<code>/</code> (斜杠)</li>
+<li><code>search</code> 将会替代 <code>query</code>属性</li>
+<li><code>query</code> (object类型; 详细请看 <code>querystring</code>) 如果没有 <code>search</code>,将会使用此属性.</li>
+<li><code>search</code> 无论前面是否有 <code>?</code> (问号)，都会同样的处理</li>
+<li><code>hash</code>无论前面是否有<code>#</code> (井号, 锚点)，都会同样处理</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="6acd67974b5e80f2400cb654e0e6eaa3">
+
+<h2>url.resolve(from, to)<span><a href="#url_url_resolve_from_to_793" id="url_url_resolve_from_to_793">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="8aba1bf3db5e738a5d5e494e14942adc">
+
+<p>给定一个基础URL路径，和一个href URL路径，并且象浏览器那样处理他们可以带上锚点。 例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b0e52a2877a25a39b1c81fa28ecd3ac4">
+
+<pre><code>url.resolve(&apos;/one/two/three&apos;, &apos;four&apos;)         // &apos;/one/two/four&apos;
+url.resolve(&apos;http://example.com/&apos;, &apos;/one&apos;)    // &apos;http://example.com/one&apos;
+url.resolve(&apos;http://example.com/one&apos;, &apos;/two&apos;) // &apos;http://example.com/two&apos;</code></pre>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

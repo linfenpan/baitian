@@ -1,0 +1,1323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>process Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/process.html">
+</head>
+<body class="alt apidoc" id="api-section-process">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="process.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#process_process_1461">process</a><ul>
+<li><a href="#process_exit_codes_1461">Exit Codes</a></li>
+<li><a href="#process_exit_1461">事件: &apos;exit&apos;</a></li>
+<li><a href="#process_uncaughtexception_1461">事件: &apos;uncaughtException&apos;（未捕获错误）</a></li>
+<li><a href="#process_signal_events_1461">Signal Events</a></li>
+<li><a href="#process_process_stdout_1461">process.stdout</a></li>
+<li><a href="#process_process_stderr_1461">process.stderr</a></li>
+<li><a href="#process_process_stdin_1461">process.stdin</a></li>
+<li><a href="#process_process_argv_1461">process.argv</a></li>
+<li><a href="#process_process_execpath_1461">process.execPath</a></li>
+<li><a href="#process_process_execargv_1461">process.execArgv</a></li>
+<li><a href="#process_process_abort_1461">process.abort()</a></li>
+<li><a href="#process_process_chdir_directory_1461">process.chdir(directory)</a></li>
+<li><a href="#process_process_cwd_1461">process.cwd()</a></li>
+<li><a href="#process_process_env_1461">process.env</a></li>
+<li><a href="#process_process_exit_code_1461">process.exit([code])</a></li>
+<li><a href="#process_process_exitcode_1461">process.exitCode</a></li>
+<li><a href="#process_process_getgid_1461">process.getgid()</a></li>
+<li><a href="#process_process_setgid_id_1461">process.setgid(id)</a></li>
+<li><a href="#process_process_getuid_1461">process.getuid()</a></li>
+<li><a href="#process_process_setuid_id_1461">process.setuid(id)</a></li>
+<li><a href="#process_process_getgroups_1461">process.getgroups()</a></li>
+<li><a href="#process_process_setgroups_groups_1461">process.setgroups(groups)</a></li>
+<li><a href="#process_process_initgroups_user_extra_group_1461">process.initgroups(user, extra_group)</a></li>
+<li><a href="#process_process_version_1461">process.version</a></li>
+<li><a href="#process_process_versions_1461">process.versions</a></li>
+<li><a href="#process_process_config_1461">process.config</a></li>
+<li><a href="#process_process_kill_pid_signal_1461">process.kill(pid, [signal])</a></li>
+<li><a href="#process_process_pid_1461">process.pid</a></li>
+<li><a href="#process_process_title_1461">process.title</a></li>
+<li><a href="#process_process_arch_1461">process.arch</a></li>
+<li><a href="#process_process_platform_1461">process.platform</a></li>
+<li><a href="#process_process_memoryusage_1461">process.memoryUsage()</a></li>
+<li><a href="#process_process_nexttick_callback_1461">process.nextTick(callback)</a></li>
+<li><a href="#process_process_umask_mask_1461">process.umask([mask])</a></li>
+<li><a href="#process_process_uptime_1461">process.uptime()</a></li>
+<li><a href="#process_process_hrtime_1461">process.hrtime()</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="94d69859cace289e8bffcb76c6af6373">
+
+<h1>process<span><a href="#process_process_1461" id="process_process_1461">#</a></span></h1>
+</div>
+
+<!-- type=global -->
+
+<div class="translate-section" data-hash="e0818d3e407b69c06f7ddd9409c3bb2c">
+
+<p><code>process</code>对象是一个全局对象，可以在任何地方访问到它。
+它是<a href="events.html#events_class_events_eventemitter">EventEmitter</a>的一个实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="70e872f0dfbb95405af9e1391641467f">
+
+<h2>Exit Codes<span><a href="#process_exit_codes_1461" id="process_exit_codes_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="d38ec1e6c07234dd8e2276145d65c4ed">
+
+<p>Node 执行程序正常情况下会返回 0，这也意味着，包括所有“异步”在内的操作都已结束。（笔者注：linux terminal 下使用 echo $? 查看，win cmd 下使用 echo %ERRORLEVEL% 查看）除此之外的其他返回状态如下：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f9474b7286d4dba74ce82427e02b557a">
+
+<ul>
+<li><code>1</code> <strong>未捕获的致命异常(Uncaught Fatal Exception)</strong> - There was an uncaught exception,
+and it was not handled by a domain or an <code>uncaughtException</code> event
+handler.</li>
+<li><code>2</code> - 未使用(Unused) (reserved by Bash for builtin misuse)</li>
+<li><code>3</code> <strong>解析错误(Internal JavaScript Parse Error)</strong> - The JavaScript source code
+internal in Node&apos;s bootstrapping process caused a parse error.  This
+is extremely rare, and generally can only happen during development
+of Node itself.</li>
+<li><code>4</code> <strong>评估失败(Internal JavaScript Evaluation Failure)</strong> - The JavaScript
+source code internal in Node&apos;s bootstrapping process failed to
+return a function value when evaluated.  This is extremely rare, and
+generally can only happen during development of Node itself.</li>
+<li><code>5</code> <strong>致命错误(Fatal Error)</strong> - There was a fatal unrecoverable error in V8.
+Typically a message will be printed to stderr with the prefix <code>FATAL
+ERROR</code>.</li>
+<li><code>6</code> <strong>未正确的异常处理(Non-function Internal Exception Handler)</strong> - There was an
+uncaught exception, but the internal fatal exception handler
+function was somehow set to a non-function, and could not be called.</li>
+<li><code>7</code> <strong>异常处理函数运行时失败(Internal Exception Handler Run-Time Failure)</strong> - There was an
+uncaught exception, and the internal fatal exception handler
+function itself threw an error while attempting to handle it.  This
+can happen, for example, if a <code>process.on(&apos;uncaughtException&apos;)</code> or
+<code>domain.on(&apos;error&apos;)</code> handler throws an error.</li>
+<li><code>8</code> - 未使用(Unused).  In previous versions of Node, exit code 8 sometimes
+indicated an uncaught exception.</li>
+<li><code>9</code> - <strong>无效的参数(Invalid Argument)</strong> - Either an unknown option was specified,
+or an option requiring a value was provided without a value.</li>
+<li><code>10</code> <strong>运行时失败(Internal JavaScript Run-Time Failure)</strong> - The JavaScript
+source code internal in Node&apos;s bootstrapping process threw an error
+when the bootstrapping function was called.  This is extremely rare,
+and generally can only happen during development of Node itself.</li>
+<li><code>12</code> <strong>无效的调试参数(Invalid Debug Argument)</strong> - The <code>--debug</code> and/or <code>--debug-brk</code>
+options were set, but an invalid port number was chosen.</li>
+<li><code>&gt;128</code> <strong>信号退出(Signal Exits)</strong> - If Node receives a fatal signal such as
+<code>SIGKILL</code> or <code>SIGHUP</code>, then its exit code will be <code>128</code> plus the
+value of the signal code.  This is a standard Unix practice, since
+exit codes are defined to be 7-bit integers, and signal exits set
+the high-order bit, and then contain the value of the signal code.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="3a2174949569f8fb7419aaffd4129ba1">
+
+<h2>事件: &apos;exit&apos;<span><a href="#process_exit_1461" id="process_exit_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2c834564a64e8ad210ce0e6f3c737a1f">
+
+<p>当进程将要退出时触发。这是一个在固定时间检查模块状态（如单元测试）的好时机。需要注意的是 &apos;exit&apos; 的回调结束后，主事件循环将不再运行，所以计时器也会失效。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="62c60612c4cade1c920c3b230bfdd399">
+
+<p>监听 <code>exit</code> 事件的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e3e807dcd3c68792d6739c0651607f14">
+
+<pre><code>process.on(&apos;exit&apos;, function() {
+  // 设置一个延迟执行
+  setTimeout(function() {
+    console.log(&apos;主事件循环已停止，所以不会执行&apos;);
+  }, 0);
+  console.log(&apos;退出前执行&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="12f5e42dd2b667cfb55187d85cf34295">
+
+<h2>事件: &apos;uncaughtException&apos;（未捕获错误）<span><a href="#process_uncaughtexception_1461" id="process_uncaughtexception_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="8200167db6ae96e48bde211ae4d60368">
+
+<p>当一个异常冒泡回归到事件循环中就会触发这个事件，如果建立了一个监听器来监听这个异常，默认的行为（打印堆栈跟踪信息并退出）就不会发生。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ff8f8be2d2b4b939258db86024af8234">
+
+<p>监听 <code>uncaughtException</code> 示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="25128e1f2b23b2e7d5ff7bca4999a8ce">
+
+<pre><code>// 故意制造一个异常，而且不catch捕获它.
+nonexistentFunc();
+console.log(&apos;This will not run.&apos;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="aeed885cdfb8794f511a96c5c3598ab4">
+
+<p>注意，<code>uncaughtException</code>未捕获异常是一个非常粗略的异常处理。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ad3f191ecceec84efecc4fe387b37faf">
+
+<p>尽量不要使用它，使用 <a href="domain.html">domains</a> 来代替它，如果你已经使用了，请在不处理这个异常之后重启你的应用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="146290fe83bc56b411de59dd27b3c146">
+
+<p>请 <em>不要</em> 象使用node.js的<code>有错误回复执行</code>这样使用.一个未处理异常意味着你的应用和你的扩展Node.js自身是有未知状态的。盲目的恢复意味着<em>任何事情</em>都可能发生。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6903fa243c9dde59d22732c4d64de0e1">
+
+<p>你在升级的系统时拉掉了电源线，然后恢复了。可能10次里有9次每一偶问题，但是第10次，你的系统就会崩溃。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8c90b15c2f107a406042ac379bf45d3e">
+
+<p>你已经被警告。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd6d0b0c8acd08133e86ca244c46afdc">
+
+<h2>Signal Events<span><a href="#process_signal_events_1461" id="process_signal_events_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b347d2a19501913d9619d0235cde1122">
+
+<!--type=event-->
+<!--name=SIGINT, SIGUSR1, etc.-->
+
+</div>
+
+<div class="translate-section" data-hash="b43803249f434c358a46f4a9606ba55e">
+
+<p>当进程接收到信号时触发。信号列表详见 POSIX 标准的 sigaction（2）如 SIGINT、SIGUSR1 等。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7f135a18651f35a74a0020d4f58e3e20">
+
+<p>监听 <code>SIGINT</code> 信号的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="faddb70a97f80a39a8eafc5b2ffe734d">
+
+<pre><code>// 设置 &apos;SIGINT&apos; 信号触发事件
+process.on(&apos;SIGINT&apos;, function() {
+  console.log(&apos;收到 SIGINT 信号。  退出请使用 Ctrl + D &apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4764e68c102b94c0487192909793c55d">
+
+<p>在大多数终端下，一个发送 <code>SIGINT</code> 信号的简单方法是按下 <code>ctrl + c</code> 。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e98ce873943ad688cacbdb69eb1e70de">
+
+<h2>process.stdout<span><a href="#process_process_stdout_1461" id="process_process_stdout_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="e2fc4658e3e1634eecc5bf7910b96ae6">
+
+<p>一个指向<code>标准输出流(stdout)</code>的 <code>可写的流(Writable Stream)</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f155e7fa42e54d987deed4141bf61697">
+
+<p>举例: <code>console.log</code> 的实现
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5fbcf23111430ff12694138e032bda93">
+
+<pre><code>console.log = function(d) {
+  process.stdout.write(d + &apos;\n&apos;);
+}; </code></pre>
+</div>
+
+<div class="translate-section" data-hash="60774d6a099a57f78c6810fbf0a57b93">
+
+<p>process.stderr 和 process.stdout 不像 Node 中其他的流(Streams) 那样，他们通常是阻塞式的写入。当其引用指向 <code>普通文件</code> 或者 <code>TTY文件描述符</code> 时他们就是阻塞的（注：TTY 可以理解为终端的一种，可联想 PuTTY，详见<a href="http://baike.baidu.com/view/749979.htm">百科</a>）。当他们引用指向管道(pipes)时，他们就同其他的流(Streams)一样是非阻塞的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aef4f749d5416cdff68f4e8c74049040">
+
+<p>要检查 Node 是否正在运行一个 TTY上下文 中（注：linux 中没有运行在 tty 下的进程是 <code>守护进程</code> ），可以用使用 process.stderr、process.stdout 或 process.stdin 的 isTTY 属性：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="db23ab07640a481c63f26c85cb57e3be">
+
+<pre><code>$ node -p &quot;Boolean(process.stdout.isTTY)&quot;
+true
+$ node -p &quot;Boolean(process.stdout.isTTY)&quot; | cat
+false </code></pre>
+</div>
+
+<div class="translate-section" data-hash="bca314da663b7462728248c60df5d6c2">
+
+<p>更多信息，请查看 <a href="tty.html#tty_tty">tty 文档</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a3a89de3dc809be43c7c6dbbe50c3958">
+
+<h2>process.stderr<span><a href="#process_process_stderr_1461" id="process_process_stderr_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="8a244250495205d9bcefacf068117c63">
+
+<p>一个指向标准错误流(stderr)的 可写的流(Writable Stream)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="60774d6a099a57f78c6810fbf0a57b93">
+
+<p>process.stderr 和 process.stdout 不像 Node 中其他的流(Streams) 那样，他们通常是阻塞式的写入。当其引用指向 <code>普通文件</code> 或者 <code>TTY文件描述符</code> 时他们就是阻塞的（注：TTY 可以理解为终端的一种，可联想 PuTTY，详见<a href="http://baike.baidu.com/view/749979.htm">百科</a>）。当他们引用指向管道(pipes)时，他们就同其他的流(Streams)一样是非阻塞的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ef9914914100afd9299b3966077dba39">
+
+<h2>process.stdin<span><a href="#process_process_stdin_1461" id="process_process_stdin_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="15b2f5188914041d1248b8521e72fd97">
+
+<p>一个指向 标准输入流(stdin) 的可读流(Readable Stream)。标准输入流默认是暂停 (pause) 的，所以必须要调用 process.stdin.resume() 来恢复 (resume) 接收。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="975792ea6558ca62fa0acb011219cf24">
+
+<p>打开标准输入流，并监听两个事件的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2487ea0d2034dcf01dde5e0b24e99a9">
+
+<pre><code>process.stdin.on(&apos;end&apos;, function() {
+  process.stdout.write(&apos;end&apos;);
+});
+
+
+// gets 函数的简单实现
+function gets(cb){
+  process.stdin.resume();
+  process.stdin.setEncoding(&apos;utf8&apos;);
+
+  process.stdin.on(&apos;data&apos;, function(chunk) {
+     process.stdin.pause();
+     cb(chunk);
+  });
+}
+
+gets(function(reuslt){
+  console.log(&quot;[&quot;+reuslt+&quot;]&quot;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="1264aa02595beb6bcffe7fa51e32e3b1">
+
+<h2>process.argv<span><a href="#process_process_argv_1461" id="process_process_argv_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="cfb5e4eb1015cdce076388d6379f8ab3">
+
+<p>一个包含命令行参数的数组。第一个元素会是 &apos;node&apos;， 第二个元素将是 .Js 文件的名称。接下来的元素依次是命令行传入的参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="48523c6f6259fc27d0652dc51a9d7fa4">
+
+<pre><code>// 打印 process.argv
+process.argv.forEach(function(val, index, array) {
+  console.log(index + &apos;: &apos; + val);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9c7011b361244c871a1c0e3b4fd56a19">
+
+<p>输出将会是：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ecdd9f9d50c03f2ee133b922b5ee6b5e">
+
+<pre><code>$ node process-2.js one two=three four
+0: node
+1: /Users/mjr/work/node/process-2.js
+2: one
+3: two=three
+4: four </code></pre>
+</div>
+
+<div class="translate-section" data-hash="72b8a528fc434f77e08347ed613ab14b">
+
+<h2>process.execPath<span><a href="#process_process_execpath_1461" id="process_process_execpath_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="e4d65142930c3055336f1a744e081875">
+
+<p>开启当前进程的这个可执行文件的绝对路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c2cc8c781a8af1a04f7ebfa09f2111f4">
+
+<pre><code>/usr/local/bin/node </code></pre>
+</div>
+
+<div class="translate-section" data-hash="aaf582dfe4ae55f3369e7d7a3422ebdd">
+
+<h2>process.execArgv<span><a href="#process_process_execargv_1461" id="process_process_execargv_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1533a9bd0ae200b0dbbd9bd44c158b30">
+
+<p>与 <code>process.argv</code> 类似，不过是用于保存 node特殊(node-specific) 的命令行选项（参数）。这些特殊的选项不会出现在 <code>process.argv</code> 中，而且 process.execArgv 不会保存 <code>process.argv</code> 中保存的参数（如 0:node 1:文件名 2.3.4.参数 等），
+所有文件名之后的参数都会被忽视。这些选项可以用于派生与与父进程相同执行环境的子进程。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e0c0006a8e087d6e0812ee6cc09fbd53">
+
+<pre><code>$ node --harmony script.js --version </code></pre>
+</div>
+
+<div class="translate-section" data-hash="29252380c96078533a865abee3523ba6">
+
+<p>process.execArgv 中的特殊选项:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="83933c0a9bd3e8d7012a3097d179e398">
+
+<pre><code>[&apos;--harmony&apos;] </code></pre>
+</div>
+
+<div class="translate-section" data-hash="f5d047d620e4cceec788468d64263af6">
+
+<p>process.argv 接收到的参数:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8ad4161ad310b93d945528989c11bc2f">
+
+<pre><code>[&apos;/usr/local/bin/node&apos;, &apos;script.js&apos;, &apos;--version&apos;] </code></pre>
+</div>
+
+<div class="translate-section" data-hash="c51dc73c2e060a68a76554387d28305c">
+
+<h2>process.abort()<span><a href="#process_process_abort_1461" id="process_process_abort_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a76a170274a50a06eeec6d9d13110687">
+
+<p>这将导致 Node 触发一个abort事件，这会导致Node退出并且创建一个核心文件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="42e63a4263c92487d28eb9fdb1282e54">
+
+<h2>process.chdir(directory)<span><a href="#process_process_chdir_directory_1461" id="process_process_chdir_directory_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="23f0828f1b5076b74b3eee7bd0ae99c1">
+
+<p>改变进程的当前进程的工作目录，若操作失败则抛出异常。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="28f37bbe72719492a030730d4bae4e72">
+
+<pre><code>console.log(&apos;当前目录：&apos; + process.cwd());
+try {
+  process.chdir(&apos;/tmp&apos;);
+  console.log(&apos;新目录：&apos; + process.cwd());
+}
+catch (err) {
+  console.log(&apos;chdir: &apos; + err);
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="520e2e7f729c955b0eb8cf26b4e9a6ff">
+
+<h2>process.cwd()<span><a href="#process_process_cwd_1461" id="process_process_cwd_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fde9b04c7e4ee25577679f187243ce79">
+
+<p>返回进程当前的工作目录。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4fce92a340960298d58533fc4041813c">
+
+<pre><code>console.log(&apos;当前目录：&apos; + process.cwd());</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0869dfbceea296071f74607984f21afb">
+
+<h2>process.env<span><a href="#process_process_env_1461" id="process_process_env_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="932151fa0e50cc9fc7925e10ed595fb2">
+
+<p>一个包括用户环境的对象。详细参见 environ(7)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="47cb06e5e41f31d80f1344fcc48a24c3">
+
+<h2>process.exit([code])<span><a href="#process_process_exit_code_1461" id="process_process_exit_code_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7854058b0e41a83562fc37baa00ebc69">
+
+<p>终止当前进程并返回给定的 <code>code</code>。如果省略了 <code>code</code>，退出是会默认返回成功的状态码(&apos;success&apos; code) 也就是 <code>0</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ca3a0b514bfb12e25578c4b728b597a9">
+
+<p>退出并返回失败的状态 (&apos;failure&apos; code):
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bcd088fd53778fe257d7614c578ea20e">
+
+<pre><code>process.exit(1); </code></pre>
+</div>
+
+<div class="translate-section" data-hash="9a7404113ce9d21ce11546514c391cd9">
+
+<p>执行上述代码，用来执行 node 的 shell 就能收到值为 1 的 exit code
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6797b3befdabaa21edb10018263c9e57">
+
+<h2>process.exitCode<span><a href="#process_process_exitcode_1461" id="process_process_exitcode_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1b6cf606bcccd46293725c1481fa6653">
+
+<p>当进程既正常退出，或者通过未指定 code 的 <code>process.exit()</code> 退出时，这个属性中所存储的数字将会成为进程退出的错误码 (exit code)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2054364c79c85f6ac4a67f04d1988e96">
+
+<p>如果指名了 <code>process.exit(code)</code> 中退出的错误码 (code)，则会覆盖掉 <code>process.exitCode</code> 的设置。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="048964d76cf4f6d235911c77e6cd1aa3">
+
+<h2>process.getgid()<span><a href="#process_process_getgid_1461" id="process_process_getgid_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="667873417466d36af0727eab921560ff">
+
+<p>注意： 该函数仅适用于遵循 POSIX 标准的系统平台如 Unix、Linux等  而 Windows、
+Android 等则不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cc53d45f2c7aff2b8788732406e3fd3e">
+
+<p>获取进程的群组标识（详见getgid(2)）。获取到的是群组的数字ID，不是群组名称。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a05607121cf8240d38f84b99b6f9afdf">
+
+<pre><code>if (process.getgid) {
+  console.log(&apos;当前 gid: &apos; + process.getgid());
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="24264ae6654dd972216a3f6f9cd297aa">
+
+<h2>process.setgid(id)<span><a href="#process_process_setgid_id_1461" id="process_process_setgid_id_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="667873417466d36af0727eab921560ff">
+
+<p>注意： 该函数仅适用于遵循 POSIX 标准的系统平台如 Unix、Linux等  而 Windows、
+Android 等则不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c3b8bc48c4f5d5e72ea70abfad8b7009">
+
+<p>设置进程的群组标识（详见getgid(2)）。参数可以是一个数字ID或者群组名字符串。如果指定了一个群组名，这个方法会阻塞等待将群组名解析为数字ID。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="144b24931201ce437dfeab20e1afa574">
+
+<pre><code>if (process.getgid &amp;&amp; process.setgid) {
+  console.log(&apos;当前 gid: &apos; + process.getgid());
+  try {
+    process.setgid(501);
+    console.log(&apos;新 gid: &apos; + process.getgid());
+  }
+  catch (err) {
+    console.log(&apos;设置 gid 失败: &apos; + err);
+  }
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="872cab23943a34385f7fd3a3a3a6a418">
+
+<h2>process.getuid()<span><a href="#process_process_getuid_1461" id="process_process_getuid_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="667873417466d36af0727eab921560ff">
+
+<p>注意： 该函数仅适用于遵循 POSIX 标准的系统平台如 Unix、Linux等  而 Windows、
+Android 等则不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="65d313cd8d6b1b4ecddc5d84ddf2b7fd">
+
+<p>获取执行进程的用户ID（详见getgid(2)）。这是用户的数字ID，不是用户名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e2ac7d8ad44c59c0e4c40688d8972312">
+
+<pre><code>if (process.getuid) {
+  console.log(&apos;当前 uid: &apos; + process.getuid());
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b990d2f658469f0c3d104f25bbd1ede2">
+
+<h2>process.setuid(id)<span><a href="#process_process_setuid_id_1461" id="process_process_setuid_id_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="667873417466d36af0727eab921560ff">
+
+<p>注意： 该函数仅适用于遵循 POSIX 标准的系统平台如 Unix、Linux等  而 Windows、
+Android 等则不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d234514a252dedda5e05902100a56595">
+
+<p>设置执行进程的用户ID（详见getgid(2)）。参数可以使一个数字ID或者用户名字符串。如果指定了一个用户名，那么该方法会阻塞等待将用户名解析为数字ID。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="99124386aeafbcf27cedfe7490b14237">
+
+<pre><code>if (process.getuid &amp;&amp; process.setuid) {
+  console.log(&apos;当前 uid: &apos; + process.getuid());
+  try {
+    process.setuid(501);
+    console.log(&apos;新 uid: &apos; + process.getuid());
+  }
+  catch (err) {
+    console.log(&apos;设置 uid 失败: &apos; + err);
+  }
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f58485be94f288db955d9f23f9565949">
+
+<h2>process.getgroups()<span><a href="#process_process_getgroups_1461" id="process_process_getgroups_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="667873417466d36af0727eab921560ff">
+
+<p>注意： 该函数仅适用于遵循 POSIX 标准的系统平台如 Unix、Linux等  而 Windows、
+Android 等则不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6c4c4b5265872b3356d30da1e8a6864e">
+
+<p>返回一个保存补充组ID(supplementary group ID)的数组。POSIX 标准没有指名 如果有效组 ID（effective group ID）被包括在内的情况，而在 node.js 中则确保它始终是。（POSIX leaves it unspecified if the effective group ID is included but node.js ensures it always is.  ）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="86abf1066f8cf2c21d9b62abb856f26e">
+
+<h2>process.setgroups(groups)<span><a href="#process_process_setgroups_groups_1461" id="process_process_setgroups_groups_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="667873417466d36af0727eab921560ff">
+
+<p>注意： 该函数仅适用于遵循 POSIX 标准的系统平台如 Unix、Linux等  而 Windows、
+Android 等则不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8dc79c10353317cbb030982617e0066b">
+
+<p>设置补充分组的ID标识. 这是一个特殊的操作, 意味着你必须拥有root或者CAP_SETGID权限才可以。（译者：CAP_SETGID表示设定程序允许普通用户使用setgid函数,这与文件的setgid权限位无关）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="da93dead973471993a21cd08aa002d29">
+
+<p>这个列表可以包括分组的ID表示，或分组名或两者都有。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a31256c7d9c1b544400a254b75eceba4">
+
+<h2>process.initgroups(user, extra_group)<span><a href="#process_process_initgroups_user_extra_group_1461" id="process_process_initgroups_user_extra_group_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="667873417466d36af0727eab921560ff">
+
+<p>注意： 该函数仅适用于遵循 POSIX 标准的系统平台如 Unix、Linux等  而 Windows、
+Android 等则不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="de626618f1da0fefbee15e744ac37709">
+
+<p>读取 /etc/group 并且初始化group分组访问列表，使用改成员所在的所有分组， 这是一个特殊的操作, 意味着你必须拥有root或者CAP_SETGID权限才可以。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9f9fa5cd924c004fc60b215ba3f2e3ba">
+
+<p><code>user</code> 是一个用户名或者用户ID. <code>extra_group</code>是分组的组名或者分组ID。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7f26849428401f13b99ed07531fdc28e">
+
+<p>有时候，当你在注销权限 (dropping privileges) 的时候需要注意。例如： 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="59d8cfaa2061c667226b5a807c2746d5">
+
+<pre><code>console.log(process.getgroups());         // [ 0 ]
+process.initgroups(&apos;bnoordhuis&apos;, 1000);   // switch user
+console.log(process.getgroups());         // [ 27, 30, 46, 1000, 0 ]
+process.setgid(1000);                     // drop root gid
+console.log(process.getgroups());         // [ 27, 30, 46, 1000 ]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8c8934ef723226c68ffcd74722447150">
+
+<h2>process.version<span><a href="#process_process_version_1461" id="process_process_version_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b21b3c13767e6fdfd81527e69e40f492">
+
+<p>一个暴露编译时存储版本信息的内置变量 <code>NODE_VERSION</code> 的属性。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aa023b836619755ee9d362d034d865a8">
+
+<pre><code>console.log(&apos;版本: &apos; + process.version);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="20cb46ac2bec3f1744ce11c0895a67d1">
+
+<h2>process.versions<span><a href="#process_process_versions_1461" id="process_process_versions_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="221f5fecbab40627552eded79301ce6c">
+
+<p>一个暴露存储 node 以及其依赖包 版本信息的属性。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6bcadd3cacf05ac2e37c7527dbf75111">
+
+<pre><code>console.log(process.versions); </code></pre>
+</div>
+
+<div class="translate-section" data-hash="fb8e489d9eec7df1888e6dae4c2757ec">
+
+<p>输出：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="13aa9c9c815f2acb91ac146b092b6074">
+
+<pre><code>{ http_parser: &apos;1.0&apos;,
+  node: &apos;0.10.4&apos;,
+  v8: &apos;3.14.5.8&apos;,
+  ares: &apos;1.9.0-DEV&apos;,
+  uv: &apos;0.10.3&apos;,
+  zlib: &apos;1.2.3&apos;,
+  modules: &apos;11&apos;,
+  openssl: &apos;1.0.1e&apos; }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="5c51edaee58f052f6d91cc43e8c93e59">
+
+<h2>process.config<span><a href="#process_process_config_1461" id="process_process_config_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="92790b0243089a8959f0c8c55beb2856">
+
+<p>一个包含用来编译当前 node.exe 的配置选项的对象。内容与运行 <code>./configure</code> 脚本生成的 &quot;config.gypi&quot; 文件相同。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7a0ec8a495634e861910430933336b7">
+
+<p>最可能的输出示例如下：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="38be3e544d316601a048a2e0e9e0852f">
+
+<pre><code>{ target_defaults:
+   { cflags: [],
+     default_configuration: &apos;Release&apos;,
+     defines: [],
+     include_dirs: [],
+     libraries: [] },
+  variables:
+   { host_arch: &apos;x64&apos;,
+     node_install_npm: &apos;true&apos;,
+     node_prefix: &apos;&apos;,
+     node_shared_cares: &apos;false&apos;,
+     node_shared_http_parser: &apos;false&apos;,
+     node_shared_libuv: &apos;false&apos;,
+     node_shared_v8: &apos;false&apos;,
+     node_shared_zlib: &apos;false&apos;,
+     node_use_dtrace: &apos;false&apos;,
+     node_use_openssl: &apos;true&apos;,
+     node_shared_openssl: &apos;false&apos;,
+     strict_aliasing: &apos;true&apos;,
+     target_arch: &apos;x64&apos;,
+     v8_use_snapshot: &apos;true&apos; } }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="85553a43d6432a2df3f886b83a4abb44">
+
+<h2>process.kill(pid, [signal])<span><a href="#process_process_kill_pid_signal_1461" id="process_process_kill_pid_signal_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="229727eaea32f3eb3bbb24b033a1c960">
+
+<p>向进程发送一个信号。 <code>pid</code> 是进程的 id 而 <code>signal</code> 则是描述信号的字符串名称。信号的名称都形似 &apos;SIGINT&apos; 或者 &apos;SIGUSR1&apos;。如果没有指定参数则会默认发送 &apos;SIGTERM&apos; 信号，更多信息请查看 kill(2) 。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f8897660227fe3d5d6cc041fbc2a61ba">
+
+<p>值得注意的是，这个函数的名称虽然是 <code>process.kill</code>， 但就像 <code>kill</code> 系统调用（详见《Unix高级编程》）一样，它仅仅只是一个信号发送器。而信号的发送不仅仅只是用来杀死（kill）目标进程。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="39ad78549ed25e04e0fa9fdcaba840fd">
+
+<p>向当前进程发送信号的示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8f745e2639ad38e2a8b28f3f6ebdd00c">
+
+<pre><code>process.kill(process.pid, &apos;SIGHUP&apos;); </code></pre>
+</div>
+
+<div class="translate-section" data-hash="bb1a87c97d7c02632f487e1f264326ff">
+
+<h2>process.pid<span><a href="#process_process_pid_1461" id="process_process_pid_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a85a5c1e3337abf8b4e2c3a2d0dce392">
+
+<p>当前进程的 PID 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9437d6e1e1900b5ba7486884c12941d5">
+
+<pre><code>console.log(&apos;当前进程 id: &apos; + process.pid);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e27af35a82183a2a00a6e4e5ed4dd087">
+
+<h2>process.title<span><a href="#process_process_title_1461" id="process_process_title_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="6ed939d5dbde6800f3543e69cbf6f7c0">
+
+<p>获取/设置 (Getter/setter) &apos;ps&apos; 中显示的进程名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="35a02e5e29e6fc0ea82d070576253e49">
+
+<p>当设置该属性时，所能设置的字符串最大长度视具体平台而定，如果超过的话会自动截断。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e7df7d719b6f836b21847f3efd5452f0">
+
+<p>在 Linux 和 OS X 上，它受限于名称的字节长度加上命令行参数的长度，因为它有覆盖参数内存(argv memory)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e545a895edcfccd8eb7c3759be01a124">
+
+<p>v0.8 版本允许更长的进程标题字符串，也支持覆盖环境内存，但是存在潜在的不安全和混乱（很难说清楚）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1ed8e38d02bf6ca0d29c3693ac7299c">
+
+<h2>process.arch<span><a href="#process_process_arch_1461" id="process_process_arch_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="62eb6fa4fb08a1d8ba5e1c6d9d36b0ad">
+
+<p>返回当前 CPU 处理器的架构：&apos;arm&apos;、&apos;ia32&apos; 或者 &apos;x64&apos;.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c7f373d0d5abfe1e1a9cc7352d7cc2fe">
+
+<pre><code>console.log(&apos;当前CPU架构是：&apos; + process.arch);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b0523b1c59d221110483d9bfb1f3abfd">
+
+<h2>process.platform<span><a href="#process_process_platform_1461" id="process_process_platform_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="226fa75798abecbb1efd1fb7bf6b87e3">
+
+<p>返回当前程序运行的平台：<code>&apos;darwin&apos;</code>, <code>&apos;freebsd&apos;</code>, <code>&apos;linux&apos;</code>, <code>&apos;sunos&apos;</code> 或者 <code>&apos;win32&apos;</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8266bb1fd71103e90b2879e6a6a928e7">
+
+<pre><code>console.log(&apos;当前系统平台是： &apos; + process.platform);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="5f5680da9c4a47be3c286ad0df21c532">
+
+<h2>process.memoryUsage()<span><a href="#process_process_memoryusage_1461" id="process_process_memoryusage_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b71aa3eaea87d7bbfceed4c6e84b9da2">
+
+<p>返回一个对象，它描述了Node进程的内存使用情况单位是bytes。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="999abafc52a7d95efd614208a232190d">
+
+<pre><code>console.log(util.inspect(process.memoryUsage())); </code></pre>
+</div>
+
+<div class="translate-section" data-hash="9c7011b361244c871a1c0e3b4fd56a19">
+
+<p>输出将会是：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="abc103c4a566ca803e534e6b6a31dc47">
+
+<pre><code>{ rss: 4935680,
+  heapTotal: 1826816,
+  heapUsed: 650472 } </code></pre>
+</div>
+
+<div class="translate-section" data-hash="9a9e281d1a4d3d5f07b2634017438bc1">
+
+<p><code>heapTotal</code> 和 <code>heapUsed</code> 是根据 V8引擎的内存使用情况来的
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="14e6d0bdb152be8a7f541e19deb1deae">
+
+<h2>process.nextTick(callback)<span><a href="#process_process_nexttick_callback_1461" id="process_process_nexttick_callback_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="feee3c183e3ae8daf8d1a02eef135818">
+
+<ul>
+<li><code>callback</code> {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="50669097937caaad790da3d7ab111079">
+
+<p>在事件循环的下一次循环中调用 callback 回调函数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="91b8d4ac73e110fa7aa5f5fb060c19d1">
+
+<p>这 <em>不是</em> <code>setTimeout(fn, 0)</code> 函数的一个简单别名，因为它的效率高多了。该函数能在任何 I/O 事前之前调用我们的回调函数。但是这个函数在层次超过某个限制的时候，也会出现瑕疵，详细见 <code>process.maxTickDepth</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8fa161271be89ef13c299bd0e8ff9acc">
+
+<pre><code>console.log(&apos;开始&apos;);
+process.nextTick(function() {
+  console.log(&apos;nextTick 回调&apos;);
+});
+console.log(&apos;已设定&apos;);
+// 输出:
+// 开始
+// 已设定
+// nextTick 回调</code></pre>
+</div>
+
+<div class="translate-section" data-hash="50a700b557ef29fa9a86527d7b090c90">
+
+<p>如果你想要在【对象创建】之后而【I/O 操作】发生之前执行某些操作，那么这个函数对你而言就十分重要了。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a8def1e6111b0b01d4fbe75d22dc9233">
+
+<pre><code>// thing.startDoingStuff() 现在被调用了, 而不是之前.</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f23660f6def3fd60b6a5bfeab46847cf">
+
+<p>【注意！！】保证你的函数一定是同步执行或者一定是异步执行，这非常重要！！参考如下的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="140e946d0cbdbd121ec34265b7b1d25e">
+
+<pre><code>  fs.stat(&apos;file&apos;, cb);
+} </code></pre>
+</div>
+
+<div class="translate-section" data-hash="80dc9cd0936da39a4a1892a35bec01e5">
+
+<p>这样执行是很危险。如果你还不清楚上述行为的危害请看下面的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="22e46d19068909c589dbf076032afa33">
+
+<pre><code>maybeSync(true, function() {
+  foo();
+});
+bar(); </code></pre>
+</div>
+
+<div class="translate-section" data-hash="bfda22d4fb226da0a1eac2b8a95c81bb">
+
+<p>那么，使用刚才那个不知道是同步还是异步的操作，在编程的时候你就会发现，你不能确定到底是 foo() 先执行，还是 bar() 先执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a537a6f09c4f3bec8178cd2768b5d3d5">
+
+<p>用下面的方法就可以更好的解决：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="140e946d0cbdbd121ec34265b7b1d25e">
+
+<pre><code>  fs.stat(&apos;file&apos;, cb);
+} </code></pre>
+</div>
+
+<div class="translate-section" data-hash="c773a727d60d6afcebe5ed7941c271c4">
+
+<p>注意：nextTick 的队列会在完全执行完毕之后才调用 I/O 操作 (the nextTick queue is completely drained on each pass of the event loop <strong>before</strong> additional I/O is processed.) 。因此，递归设置 nextTick 的回调就像一个 <code>while(true) ;</code> 循环一样，将会阻止任何 I/O 操作的发生。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="47c7c826a9b9003377e6789c63e519ea">
+
+<h2>process.umask([mask])<span><a href="#process_process_umask_mask_1461" id="process_process_umask_mask_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="9d9a3153aa243b22372c4141402c953b">
+
+<p>设置或者读取进程的文件模式的创建掩码。子进程从父进程中继承这个掩码。如果设定了参数 mask 那么返回旧的掩码，否则返回当前的掩码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7ff05eb408688bc89f88881213b511b1">
+
+<pre><code>oldmask = process.umask(newmask);
+console.log(&apos;原掩码: &apos; + oldmask.toString(8) + &apos;\n&apos;
+            &apos;新掩码: &apos; + newmask.toString(8));</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ac11f163086772b79528f584e50b4d0f">
+
+<h2>process.uptime()<span><a href="#process_process_uptime_1461" id="process_process_uptime_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ac25774af1130acd2b4f88c07fc60d7f">
+
+<p>返回 Node 程序已运行的秒数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="09d182fa6178f3da2c0f2b5d33f909d4">
+
+<h2>process.hrtime()<span><a href="#process_process_hrtime_1461" id="process_process_hrtime_1461">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="8bac6979719a631a14723a56dcb394f2">
+
+<p>返回当前的高分辨时间，形式为 <code>[秒，纳秒]</code> 的元组数组。它是相对于在过去的任意时间。该值与日期无关，因此不受时钟漂移的影响。主要用途是可以通过精确的时间间隔，来衡量程序的性能。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6d6428301737c656e4e59a5310fb2774">
+
+<p>你可以将前一个 <code>process.hrtime()</code> 的结果传递给当前的 <code>process.hrtime()</code> 函数，结果会返回一个比较值，用于基准和衡量时间间隔。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c40618c80799847f7641e532daa4dd2b">
+
+<pre><code>  console.log(&apos;基准相差 %d 纳秒&apos;, diff[0] * 1e9 + diff[1]);
+  // 基准相差 1000000527 纳秒
+}, 1000);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6949f457689f76a715805ad76aa0f835">
+
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>utils Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/util.html">
+</head>
+<body class="alt apidoc" id="api-section-util">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="util.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#util_utils_1480">utils</a><ul>
+<li><a href="#util_util_debuglog_section_1480">util.debuglog(section)</a></li>
+<li><a href="#util_util_format_format_1480">util.format(format, [...])</a></li>
+<li><a href="#util_util_log_string_1480">util.log(string)</a></li>
+<li><a href="#util_util_inspect_object_options_1480">util.inspect(object, [options])</a><ul>
+<li><a href="#util_util_inspect_1480">自定义 <code>util.inspect</code> 颜色</a></li>
+<li><a href="#util_inspect_1480">自定义对象的<code>inspect()</code>方法</a></li>
+</ul>
+</li>
+<li><a href="#util_util_isarray_object_1480">util.isArray(object)</a></li>
+<li><a href="#util_util_isregexp_object_1480">util.isRegExp(object)</a></li>
+<li><a href="#util_util_isdate_object_1480">util.isDate(object)</a></li>
+<li><a href="#util_util_iserror_object_1480">util.isError(object)</a></li>
+<li><a href="#util_util_inherits_constructor_superconstructor_1480">util.inherits(constructor, superConstructor)</a></li>
+<li><a href="#util_util_debug_string_1480">util.debug(string)</a></li>
+<li><a href="#util_util_error_1480">util.error([...])</a></li>
+<li><a href="#util_util_puts_1480">util.puts([...])</a></li>
+<li><a href="#util_util_print_1480">util.print([...])</a></li>
+<li><a href="#util_util_pump_readablestream_writablestream_callback_1480">util.pump(readableStream, writableStream, [callback])</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="7ffdbb5978ce74db896c7fcaea9de2fb">
+
+<h1>utils<span><a href="#util_utils_1480" id="util_utils_1480">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="050a2049458b1f3dbf3e3f111adcfb22">
+
+<pre><code>稳定度: 4 - 冻结</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8f2dd81be517033cf66afeea8f943bbe">
+
+<p>如果你想使用模块 <code>&apos;util&apos;</code>中已定义的方法. 只需 <code>require(&apos;util&apos;)</code> 即可使用.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bd1ec80ad6885396d2b87b46d6a08622">
+
+<p><code>util</code>模块设计的主要目的是为了满足Node内部API的需求
+。这个模块中的很多方法在你编写Node程序的时候都是很有帮助的。如果你觉得提供的这些方法满足不了你的需求，那么我们鼓励你编写自己的实用工具方法。我们
+不希望<code>util</code>模块中添加任何对于Node的内部功能非必要的扩展。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="deddd2b3686ed64d236bf7a50291c773">
+
+<h2>util.debuglog(section)<span><a href="#util_util_debuglog_section_1480" id="util_util_debuglog_section_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="32797bf726f7d15c6290c49f11c96e25">
+
+<ul>
+<li><code>section</code> {String} 被调试的程序节点部分</li>
+<li>返回值: {Function} 日志处理函数</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="bf4e7e6a51ae5fdc4cb9adcaf5426dc4">
+
+<p>这个方法是在存在<code>NODE_DEBUG</code>环境变量的基础上，创建一个有条件写到stderr里的函数。如果“节点”的名字出现在这个环境变量里,那么就返回一个功能类似于<code>console.error()</code>的函数.如果不是,那么返回一个空函数.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="506c2c0c7f5b70af3df68c45c46f45a7">
+
+<p>例如：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4ceb0d2e9dd8f1bf52d212c938cb96a6">
+
+<p>var bar = 123;
+debuglog(&apos;hello from foo [%d]&apos;, bar);
+```
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="841c12a486aeca12985eeae2d550044e">
+
+<p>如果这个程序以<code>NODE_DEBUG=foo</code> 的环境运行，那么它将会输出：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cefee92825ed4220569779223fcc49f3">
+
+<pre><code>FOO 3245: hello from foo [123]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="17ef1e93428ebec32b98fa8fe18e7807">
+
+<p><code>3245</code>是进程的ID, 如果程序不以刚才那样设置的环境变量运行，那么将不会输出任何东西。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fb8af07a0bc0e884ec481501fb9ee17d">
+
+<p>多个<code>NODE_DEBUG</code>环境变量,你可以用逗号进行分割。例如，<code>NODE_DEBUG= fs, net, tls</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1785afa5e0b057aea818cd8bc131248a">
+
+<h2>util.format(format, [...])<span><a href="#util_util_format_format_1480" id="util_util_format_format_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="91ee7971cb6dbe7c7841d5c0357a625a">
+
+<p>根据第一个参数，返回一个格式化字符串，类似<code>printf</code>的格式化输出。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="eed068a3508e3b9cc687607e97338b9f">
+
+<p>第一个参数是一个字符串，包含零个或多个<em>占位符</em>。
+每一个占位符被替换为与其对应的转换后的值。
+支持的占位符有:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="da9b014604572a67a757e892ddd36dd3">
+
+<ul>
+<li><code>%s</code> - 字符串.</li>
+<li><code>%d</code> - 数字 (整型和浮点型).</li>
+<li><code>%j</code> - JSON. 如果这个参数包含循环对象的引用，将会被替换成字符串 <code>&apos;[Circular]&apos;</code>。</li>
+<li><code>%%</code> - 单独一个百分号(<code>&apos;%&apos;</code>)。不会消耗一个参数。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c2996cb0cabc702cd8d2bf9d2410599b">
+
+<p>如果占位符没有相对应的参数，占位符将不会被替换。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8b6a9f474a82c2495887bf9fe6602308">
+
+<pre><code>util.format(&apos;%s:%s&apos;, &apos;foo&apos;); // &apos;foo:%s&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="1e95291ba804f022549694a216ac10c6">
+
+<p>如果有多个参数占位符，额外的参数将会调用<code>util.inspect()</code>转换为字符串。这些字符串被连接在一起，并且以空格分隔。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ba9ecf5f8b441a986c81bee295e7f5f6">
+
+<pre><code>util.format(&apos;%s:%s&apos;, &apos;foo&apos;, &apos;bar&apos;, &apos;baz&apos;); // &apos;foo:bar baz&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f34f71da627ffc546bb170512e2ffa99">
+
+<p>如果第一个参数是一个非格式化字符串，那么<code>util.format()</code>将会把所有的参数转成字符串，以空格隔开，拼接在一块，并返回该字符串。<code>util.inspect()</code>会把每个参数都转成一个字符串。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="25dcc02c2222a4275231d90579c8598e">
+
+<pre><code>util.format(1, 2, 3); // &apos;1 2 3&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f695fcc4f18f5c6e339ccce4e3389dcf">
+
+<h2>util.log(string)<span><a href="#util_util_log_string_1480" id="util_util_log_string_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="726d139874d57d83bf5da6c193940e4d">
+
+<p>在控制台进行输出，并带有时间戳。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ba5cd1d0dee4eb1d7de5808ac9c816b8">
+
+<pre><code>示例：require(&apos;util&apos;).log(&apos;Timestamped message.&apos;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="49290ff385e98b889e7199f35d8fdd82">
+
+<h2>util.inspect(object, [options])<span><a href="#util_util_inspect_object_options_1480" id="util_util_inspect_object_options_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="1109f4d3eef77037e85144a6ac35edb4">
+
+<p>返回一个对象的字符串表现形式, 在代码调试的时候非常有用.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="258dc184e5a4c8130e86a263acb47331">
+
+<p>可以通过加入一些可选选项，来改变对象的格式化输出形式：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e8f8d3d45f5ea0449c8466bcc7d1aef5">
+
+<ul>
+<li><code>showHidden</code> - 如果设为 <code>true</code>，那么该对象的不可枚举的属性将会被显示出来。默认为<code>false</code>.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="961283759790f15496ef9cfd71e80da0">
+
+<ul>
+<li><code>depth</code> - 告诉 <code>inspect</code> 格式化对象的时候递归多少次。这个选项在格式化复杂对象的时候比较有用。 默认为
+<code>2</code>。如果想无穷递归下去，则赋值为<code>null</code>即可。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="87002282463d3e4ae824462785cdb97f">
+
+<ul>
+<li><code>colors</code> - 如果设为<code>true</code>，将会以<code>ANSI</code>颜色代码风格进行输出.
+默认是<code>false</code>。颜色是可定制的，请看下面：</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="e58f864e5d78935059b0d82a0de99ac5">
+
+<ul>
+<li><code>customInspect</code> - 如果设为 <code>false</code>，那么定义在被检查对象上的<code>inspect(depth, opts)</code> 方法将不会被调用。 默认为<code>true</code>。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="ba2e5c5a48d29e5af4a12604012adbed">
+
+<p>示例：检查<code>util</code>对象上的所有属性
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b18c78721710be6505a368795090fa2a">
+
+<pre><code>console.log(util.inspect(util, { showHidden: true, depth: null }));</code></pre>
+</div>
+
+<div class="translate-section" data-hash="861c779d7e06e5793e09df841bcb961e">
+
+<p>当被调用的时候，参数值可以提供自己的自定义<code>inspect(depth, opts)</code>方法。该方法会接收当前的递归检查深度，以及传入<code>util.inspect()</code>的其他参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4a6133be34b7ea241e0ca2c1f1352b67">
+
+<h3>自定义 <code>util.inspect</code> 颜色<span><a href="#util_util_inspect_1480" id="util_util_inspect_1480">#</a></span></h3>
+</div>
+
+<!-- type=misc -->
+
+<div class="translate-section" data-hash="e67331593b47e5b33c512bdb1b0ff48a">
+
+<p><code>util.inspect</code>彩色输出(如果启用的话) ，可以通过<code>util.inspect.styles</code> 和 <code>util.inspect.colors</code> 来全局定义。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a54599adbca30a4d73b7f925966c5603">
+
+<p><code>util.inspect.styles</code>是通过<code>util.inspect.colors</code>分配给每个风格颜色的一个映射。
+高亮风格和它们的默认值:
+ <em> <code>number</code> (黄色)
+ </em> <code>boolean</code> (黄色)
+ <em> <code>string</code> (绿色)
+ </em> <code>date</code> (洋红色)
+ <em> <code>regexp</code> (红色)
+ </em> <code>null</code> (粗体)
+ <em> <code>undefined</code> (灰色)
+ </em> <code>special</code> - 在这个时候的唯一方法 (青绿色)
+ * <code>name</code> (无风格)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3ee112e8f48b058b8ad29568e75ef607">
+
+<p>预定义的颜色代码: <code>white</code>, <code>grey</code>, <code>black</code>, <code>blue</code>, <code>cyan</code>, 
+<code>green</code>, <code>magenta</code>, <code>red</code> 和 <code>yellow</code>。
+还有 <code>bold</code>, <code>italic</code>, <code>underline</code> 和 <code>inverse</code> 代码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="440be6fb8aa71354fef5dea7fc96943d">
+
+<h3>自定义对象的<code>inspect()</code>方法<span><a href="#util_inspect_1480" id="util_inspect_1480">#</a></span></h3>
+</div>
+
+<!-- type=misc -->
+
+<div class="translate-section" data-hash="3e669407dab4df9d4b8bb939bd6a2ae8">
+
+<p>对象可以定义自己的 <code>inspect(depth)</code>方法；当使用<code>util.inspect()</code>检查该对象的时候，将会执行对象自定义的检查方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2f67cef2dc14fcc47a091e9b18eda982">
+
+<pre><code>util.inspect(obj);
+  // &quot;{nate}&quot;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="53e8daad6eb7817fc7dd12eec07bcb31">
+
+<p>您也可以返回完全不同的另一个对象，而且返回的字符串将被根据返回的对象格式化。它和<code>JSON.stringify()</code>工作原理类似:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="237e76b838a128a2faf99212684fa8b9">
+
+<pre><code>util.inspect(obj);
+  // &quot;{ bar: &apos;baz&apos; }&quot;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f7540c4eb10d670a568d050db1ea2bb5">
+
+<h2>util.isArray(object)<span><a href="#util_util_isarray_object_1480" id="util_util_isarray_object_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ea6ec473af78d910796c4ff2f4beba6d">
+
+<p>如果给定的对象是<code>数组</code>类型，就返回<code>true</code>，否则返回<code>false</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d54b11adadfb753c5dc492ca11c2be6c">
+
+<pre><code>util.isArray([])
+  // true
+util.isArray(new Array)
+  // true
+util.isArray({})
+  // false</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d93077c7b296f1169872fefca84c9be9">
+
+<h2>util.isRegExp(object)<span><a href="#util_util_isregexp_object_1480" id="util_util_isregexp_object_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4e189cb02b2cbad06d09d47e35f806cb">
+
+<p>如果给定的对象是<code>RegExp</code>类型，就返回<code>true</code>，否则返回<code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8d9463d7c3b441728cdaee8c6995c91e">
+
+<pre><code>util.isRegExp(/some regexp/)
+  // true
+util.isRegExp(new RegExp(&apos;another regexp&apos;))
+  // true
+util.isRegExp({})
+  // false</code></pre>
+</div>
+
+<div class="translate-section" data-hash="931161fabda5cc5e34b8b244fa3a1739">
+
+<h2>util.isDate(object)<span><a href="#util_util_isdate_object_1480" id="util_util_isdate_object_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="0e10fe8824ec08d1a4604ec484b4ee75">
+
+<p>如果给定的对象是<code>Date</code>类型，就返回<code>true</code>，否则返回<code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a18b5ed95ee84e4dd2f4f0edce689916">
+
+<pre><code>util.isDate(new Date())
+  // true
+util.isDate(Date())
+  // false (没有关键字 &apos;new&apos; 返回一个字符串)
+util.isDate({})
+  // false</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8d36aedca50abcc1df1990d2e2bee19a">
+
+<h2>util.isError(object)<span><a href="#util_util_iserror_object_1480" id="util_util_iserror_object_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4e7d0ccda0f08bf4e2499e2529303237">
+
+<p>如果给定的对象是<code>Error</code>类型，就返回<code>true</code>，否则返回<code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e2ac9e8dc03345e5cb9a55f6a9d340f3">
+
+<pre><code>util.isError(new Error())
+  // true
+util.isError(new TypeError())
+  // true
+util.isError({ name: &apos;Error&apos;, message: &apos;an error occurred&apos; })
+  // false</code></pre>
+</div>
+
+<div class="translate-section" data-hash="81fdd6c58be9d08b05ff8f7756b39195">
+
+<h2>util.inherits(constructor, superConstructor)<span><a href="#util_util_inherits_constructor_superconstructor_1480" id="util_util_inherits_constructor_superconstructor_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4477c32b0656b2610fd0d5967137862f">
+
+<p>通过<a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/constructor">构造函数</a>，继承原型对象上的方法。构造函数的<code>原型</code>将被设置为一个新的
+从<code>超类</code>创建的对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d27d3ddf50111db4f9c6bf7796b6c7cd">
+
+<p>你可以很方便的通过 <code>constructor.super_</code>来访问到<code>superConstructor</code> 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bb768700b523e98319d92c95c8f3c055">
+
+<pre><code>stream.on(&quot;data&quot;, function(data) {
+    console.log(&apos;Received data: &quot;&apos; + data + &apos;&quot;&apos;);
+})
+stream.write(&quot;It works!&quot;); // 输出结果：Received data: &quot;It works!&quot;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a3f76941a46977219d729ec32e53c169">
+
+<h2>util.debug(string)<span><a href="#util_util_debug_string_1480" id="util_util_debug_string_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="082abafa227eefa4d2d293287dde4ffc">
+
+<pre><code>稳定度: 0 - 已过时: 请使用 console.error() 代替</code></pre>
+</div>
+
+<div class="translate-section" data-hash="70aa4fdc0ad82574f81cea79a9524c49">
+
+<p><code>console.error</code>的已过时的前身
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="107d1fd1ab87080f18dfba53fe1973d0">
+
+<h2>util.error([...])<span><a href="#util_util_error_1480" id="util_util_error_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="8470c9173b3022a3aaa5c99b573d1213">
+
+<pre><code>稳定度: 0 - 已过时: 请使用 console.error() 代替</code></pre>
+</div>
+
+<div class="translate-section" data-hash="70aa4fdc0ad82574f81cea79a9524c49">
+
+<p><code>console.error</code>的已过时的前身
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="14669ebe2f4fa3a034d5c8324b84ba0e">
+
+<h2>util.puts([...])<span><a href="#util_util_puts_1480" id="util_util_puts_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="292d0ba9e4d38fca3ad39db7b0576fc4">
+
+<p>   稳定度: 0 - 已过时: 请使用 console.log() 代替
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fc6c6925ce3665fbb2e48ca90bb64632">
+
+<p><code>console.log</code>的已过时的前身
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="65a5b8c03e11e172f9755a1f81e3a745">
+
+<h2>util.print([...])<span><a href="#util_util_print_1480" id="util_util_print_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="34d7799b56a10685b5e6afa53049eb41">
+
+<p>   稳定度: 0 - 已过时: 请使用 console.log() 代替
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fc6c6925ce3665fbb2e48ca90bb64632">
+
+<p><code>console.log</code>的已过时的前身
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="11c756a231f455e357545d47573db5aa">
+
+<h2>util.pump(readableStream, writableStream, [callback])<span><a href="#util_util_pump_readablestream_writablestream_callback_1480" id="util_util_pump_readablestream_writablestream_callback_1480">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="697b95943d8e32d1b3c8126d4c2464d3">
+
+<p>   稳定度: 0 - 已过时: 请使用readableStream.pipe(writableStream)代替
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d10aa97ce6544f151e627e28f34da150">
+
+<p><code>stream.pipe()</code>的已过时的前身
+
+
+</p>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

@@ -1,0 +1,19 @@
+/* 放在最前面的注释.. */
+div {
+  font-weight: bold;
+  font-size: 24px;
+  display: block;
+  width: 100%;
+}
+/**by da宗熊**/
+.mmm {
+  display: block;
+  width: 100%;
+  background: url("http://www.100bt.com/bear.png") no-repeat;
+}
+.n {
+  display: block;
+  width: 100%;
+  background: url("http://www.100bt.com/bear.png") no-repeat;
+  height: 10px;
+}

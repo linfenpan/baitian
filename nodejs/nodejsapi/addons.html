@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Addons插件 Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/addons.html">
+</head>
+<body class="alt apidoc" id="api-section-addons">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="addons.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#addons_addons_1110">Addons插件</a><ul>
+<li><a href="#addons_hello_world_1110">Hello world（世界你好）</a></li>
+<li><a href="#addons_addon_patterns_1110">Addon patterns（插件方式）</a><ul>
+<li><a href="#addons_function_arguments_1110">Function arguments（函数参数）</a></li>
+<li><a href="#addons_callbacks_1110">Callbacks（回调）</a></li>
+<li><a href="#addons_object_factory_1110">Object factory（对象工厂）</a></li>
+<li><a href="#addons_function_factory_1110">Function factory（函数工厂）</a></li>
+<li><a href="#addons_wrapping_c_objects_c_1110">Wrapping C++ objects（包装c++对象）</a></li>
+<li><a href="#addons_factory_of_wrapped_objects_1110">Factory of wrapped objects（工厂包装对象）</a></li>
+<li><a href="#addons_passing_wrapped_objects_around_1110">Passing wrapped objects around（传递包装的对象）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="f8babbcd51921de1b64d3a10e0aae161">
+
+<h1>Addons插件<span><a href="#addons_addons_1110" id="addons_addons_1110">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="a25a1a7193d916d4ebab62e4a7e6d224">
+
+<p>Addons插件就是动态连接库。它类似胶水，将c、c++和Node粘贴起来。它的API（目前来说）相当复杂，涉及到了几个类库的知识。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="34127073de16a547c49a54f3c70e2285">
+
+<ul>
+<li>V8 JavaScript引擎,一个 C++ 类库. 用于和JavaScript进行交互的接口。
+创建对象, 调用函数等. 文档大部分在这里：
+<code>v8.h</code> 头文件 (<code>deps/v8/include/v8.h</code>在Node源代码目录里), 也有可用的线上文档
+<a href="http://izs.me/v8-docs/main.html">线上</a>.
+（译者：想要学习c++的addons插件编写，必须先了解v8的接口）</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="07891818de27626a53c2e6edfa3b75b0">
+
+<ul>
+<li><a href="https://github.com/joyent/libuv">libuv</a>, C语言编写的事件循环类库。任何时候需要等待一个文件描述符变为可读状态，等待一个定时器，或者等待一个接受信号都需要使用libuv类库的接口。也就是说，如果你执行任何I/O操作，libuv类库将会被用到。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="76f53262902ab3f221c845939b855667">
+
+<ul>
+<li>内部 Node 类库.最重要的接口就是 <code>node::ObjectWrap</code> 类，这个类你应该是最可能想要派生的。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="3fa6b1ff1213bcfec945b1eb85e1d7e6">
+
+<ul>
+<li>其他.请参阅 <code>deps/</code> 获得更多可用类库。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="89a26f4240db67fbe079416f8330be08">
+
+<p>Node 静态编译了所有依赖到它的可执行文件中去了。当编译你的模块时，你不必担心无法连接上述那些类库。
+（译者：换而言之，你在编译自己的addons插件时，只管在头部 #include &lt;uv.h&gt;，不必在binding.gyp中声明）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="32af1ac10a0a70b04142c10fb0cc20a2">
+
+<p>下面所有的例子都可以下载到：
+<a href="https://github.com/rvagg/node-addon-examples">下载</a> 
+这或许能成为你学习和创作自己addon插件的起点。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7154046c4d57a805eb5d402cd0842a6">
+
+<h2>Hello world（世界你好）<span><a href="#addons_hello_world_1110" id="addons_hello_world_1110">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="5ffb966b38dc42cc0a4ebbf937c12980">
+
+<p>作为开始，让我们用编写一个小的addon插件，这个addon插件的c++代码相当于下面的JavaScript代码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1a8a401406e06461c69d9b2658fedfe3">
+
+<pre><code>module.exports.hello = function() { return &apos;world&apos;; };</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b5f292700b7ff2e241f9a2e588584ac1">
+
+<p>首先我们创建一个 <code>hello.cc</code>文件:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9723cf7ef79aee1c9bbaeeb154285759">
+
+<pre><code>NODE_MODULE(hello, init)//译者：将addon插件名hello和上述init函数关联输出</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0c78fb4af2fdc16141b887b37a6d1df7">
+
+<p>注意所有Node的addons插件都必须输出一个初始化函数：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="478921479f1a877451995f9fa0192a2b">
+
+<pre><code>void Initialize (Handle&lt;Object&gt; exports);
+NODE_MODULE(module_name, Initialize)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6e450b17869bbf815b095656ef819c77">
+
+<p>在<code>NODE_MODULE</code>之后没有分号，因为它不是一个函数（请参阅<code>node.h</code>）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="20de22397bcc425f466b63c00af5a943">
+
+<p>这个<code>module_name</code>（模块名）需要和最后编译生成的2进制文件名（减去.node后缀名）相同。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="52cce42c62beb23c75889ed6bd6ac78a">
+
+<p>源代码需要生成在<code>hello.node</code>，这个2进制addon插件中。
+需要做到这些，我们要创建一个名为<code>binding.gyp</code>的文件，它描述了创建这个模块的配置，并且它的格式是类似JSON的。
+文件将被命令：<a href="https://github.com/TooTallNate/node-gyp">node-gyp</a> 编译。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fb9837ed9d494b35881bb5743865002f">
+
+<pre><code>{
+  &quot;targets&quot;: [
+    {
+      &quot;target_name&quot;: &quot;hello&quot;, //译者：addon插件名，注意这里的名字必需和上面NODE_MODULE中的一致
+      &quot;sources&quot;: [ &quot;hello.cc&quot; ]  //译者：这是需要编译的源文件
+    }
+  ]
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="5d8837eea0e7886ef35a93c402637826">
+
+<p>下一步是根据当前的操作系统平台，利用<code>node-gyp configure</code>命令，生成合适的项目文件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="83cbd64cfb6cac4cab511c6f55e5fc91">
+
+<p>现在你会有一个<code>Makefile</code> (在Unix平台) 或者一个 <code>vcxproj</code> file
+(在Windows上)，它们都在<code>build/</code> 文件夹中. 
+然后执行命令 <code>node-gyp build</code>进行编译。
+（译者：当然你可以执行 <code>node-gyp rebuild</code>一步搞定）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ea8b782a98055da2ee35f5298b844dc9">
+
+<p>现在你已经有了编译好的 <code>.node</code> 文件了，这个编译好的绑定文件会在目录 <code>build/Release/</code>下
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="508e85e5b957235494f92b68eacc1ee2">
+
+<p>现在你可以使用这个2进制addon插件在Node项目<code>hello.js</code> 中了，通过指明<code>require</code>这个刚刚创建的<code>hello.node</code>模块使用它。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1a7903c7ce4040781950c2d9c92554f1">
+
+<pre><code>console.log(addon.hello()); // &apos;world&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8b4296da4a587764c08b508a5f1e3a89">
+
+<p>请阅读下面的内容获得更多详情或者访问<a href="https://github.com/arturadib/node-qt">https://github.com/arturadib/node-qt</a>获取一个生产环境的例子。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="56a8439b88a27412bde2b0b4544ed977">
+
+<h2>Addon patterns（插件方式）<span><a href="#addons_addon_patterns_1110" id="addons_addon_patterns_1110">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="e7727a77fbe818e9ff83efc925135e56">
+
+<p>下面是一些帮助你开始编写addon插件的方式。参考这个在线的<a href="http://izs.me/v8-docs/main.html">v8 手册</a>用来帮助你调用各种v8接口， 然后是v8的 <a href="http://code.google.com/apis/v8/embed.html">嵌入式开发向导</a> ，解释几个概念，如 handles, scopes,function templates等。
+
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="47fb3fdb76e4e768fcf059a3cc9e0ee0">
+
+<p>为了能跑起来这些例子，你必须用 <code>node-gyp</code> 来编译他们。
+创建一个<code>binding.gyp</code> 文件：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="629b6cfc557bffcebb8295d4e1ab0eeb">
+
+<pre><code>{
+  &quot;targets&quot;: [
+    {
+      &quot;target_name&quot;: &quot;addon&quot;,
+      &quot;sources&quot;: [ &quot;addon.cc&quot; ]
+    }
+  ]
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="bbe1421e10ed8878f88b82e40136bd04">
+
+<p>事实上可以有多个  <code>.cc</code> 文件, 就简单的在 <code>sources</code>  数组里加上即可，例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b4aa363bdb3af220622b3ee75319bc97">
+
+<pre><code>&quot;sources&quot;: [&quot;addon.cc&quot;, &quot;myexample.cc&quot;]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="df09c6ebf2068c4c111aa37954b945ce">
+
+<p>现在你有了你的<code>binding.gyp</code>文件了，你可要开始执行configure 和 build 命令构建你的addon插件了
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c2eda95b20455abdefba1e6fe62cab54">
+
+<pre><code>$ node-gyp configure build</code></pre>
+</div>
+
+<div class="translate-section" data-hash="7e0d7974e0c1edb2e5a40973c703bf6f">
+
+<h3>Function arguments（函数参数）<span><a href="#addons_function_arguments_1110" id="addons_function_arguments_1110">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="2ca202efec5d0709d1130690f7ee4a25">
+
+<p>下面的部分说明了如何从JavaScript的函数调用获得参数然后返回一个值。这是主要的内容并且仅需要源代码<code>addon.cc</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="93b500fc16bb2d26d02ed2dcc65c7371">
+
+<pre><code>NODE_MODULE(addon, Init)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="683f73da086ef78c6f1e60a36aedef1b">
+
+<p>你可以使用下面的JavaScript代码片段来测试它
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e575de82dae957e0c26bd24f20aaee53">
+
+<pre><code>console.log( &apos;This should be eight:&apos;, addon.add(3,5) );</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d80972a865fb829c3b9df02991ac331f">
+
+<h3>Callbacks（回调）<span><a href="#addons_callbacks_1110" id="addons_callbacks_1110">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c14ef5c64d645a69f38e105b314b7595">
+
+<p>你可以传递JavaScript functions 到一个C++ function 并且执行他们，这里是 <code>addon.cc</code>文件:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="93b500fc16bb2d26d02ed2dcc65c7371">
+
+<pre><code>NODE_MODULE(addon, Init)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="eaaaa42d7d413a3a6349cb27c889b721">
+
+<p>注意这个例子对<code>Init()</code>使用了两个参数，将完整的 <code>module</code> 对象作为第二个参数传入。这允许addon插件完全的重写 <code>exports</code>，这样就可以用一个函数代替多个函数作为<code>exports</code>的属性了。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b5cb8a8b148d5d45f44ee4258a386221">
+
+<p>你可以使用下面的JavaScript代码片段来测试它
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8d7b50d1700cdcf81c67c499b6becb02">
+
+<pre><code>addon(function(msg){
+  console.log(msg); // &apos;hello world&apos;
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="66262b4f8b045bd62c536b19693b8191">
+
+<h3>Object factory（对象工厂）<span><a href="#addons_object_factory_1110" id="addons_object_factory_1110">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="b3869b4e15e2c7db8d1baae3632c69d4">
+
+<p>在这个<code>addon.cc</code>文件里用一个c++函数，你可以创建并且返回一个新的对象，这个新的对象拥有一个msg的属性，它的值是通过createObject()方法传入的
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="93b500fc16bb2d26d02ed2dcc65c7371">
+
+<pre><code>NODE_MODULE(addon, Init)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b5d6a97dff8729fa31fd8c0955f66eeb">
+
+<p>在js中测试如下:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ad61a568cc7f57aa408acc8cfed6209b">
+
+<pre><code>var obj1 = addon(&apos;hello&apos;);
+var obj2 = addon(&apos;world&apos;);
+console.log(obj1.msg+&apos; &apos;+obj2.msg); // &apos;hello world&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c2ec78362d8977bb70214aa9ba23123a">
+
+<h3>Function factory（函数工厂）<span><a href="#addons_function_factory_1110" id="addons_function_factory_1110">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d7684b66a295e8397e9423672b424b87">
+
+<p>这次将展示如何创建并返回一个JavaScript function函数，这个函数其实是通过c++包装的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="93b500fc16bb2d26d02ed2dcc65c7371">
+
+<pre><code>NODE_MODULE(addon, Init)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="aaa662c1681cd0c77fe6c381d01ebb8f">
+
+<p>测试它:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ffa43f8e5d26e3247c4542bbcf73789d">
+
+<pre><code>var fn = addon();
+console.log(fn()); // &apos;hello world&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9089915ff03d1475ab234f56f429e9f3">
+
+<h3>Wrapping C++ objects（包装c++对象）<span><a href="#addons_wrapping_c_objects_c_1110" id="addons_wrapping_c_objects_c_1110">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1e6f3cafeb820058cbc13d77de03fbd0">
+
+<p>这里将创建一个被c++包裹的对象或类<code>MyObject</code>，它是可以在JavaScript中通过<code>new</code>操作符实例化的。
+首先我们要准备主要的模块文件<code>addon.cc</code>:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cccdd90b74c9b35a6b594b8c25d98a84">
+
+<pre><code>NODE_MODULE(addon, InitAll)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="1bb7b612c5b92c8b85592a69f45670b5">
+
+<p>然后在<code>myobject.h</code>文件中创建你的包装类，它继承自 <code>node::ObjectWrap</code>:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1797f9e1973f5a70e55f1f4a6ee1251">
+
+<pre><code>#endif</code></pre>
+</div>
+
+<div class="translate-section" data-hash="10c1c386661fc1b3f94d7f5996e4a522">
+
+<p>在文件 <code>myobject.cc</code> 可以实施各种你想要暴露给js的方法。 
+这里我们暴露方法名为 <code>plusOne</code>给就是，它表示将构造函数的属性加1.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="be1f48d998617486c18f8c7fcb7e0024">
+
+<pre><code>  return scope.Close(Number::New(obj-&gt;counter_));
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4548e76b2876bd28c840e8610a4581db">
+
+<p>测试它:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c4a335665457e130c24be6cb58cfa061">
+
+<pre><code>var obj = new addon.MyObject(10);
+console.log( obj.plusOne() ); // 11
+console.log( obj.plusOne() ); // 12
+console.log( obj.plusOne() ); // 13</code></pre>
+</div>
+
+<div class="translate-section" data-hash="532e1c6b20cea2ba401f61810445cc7f">
+
+<h3>Factory of wrapped objects（工厂包装对象）<span><a href="#addons_factory_of_wrapped_objects_1110" id="addons_factory_of_wrapped_objects_1110">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="aad9ba64b2248fdde122c0ab11489921">
+
+<p>这是非常有用的，当你想创建原生的JavaScript对象时，又不想明确的使用JavaScript的<code>new</code>操作符。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b9e45584470172042fb40a0597264d34">
+
+<pre><code>var obj = addon.createObject();
+// 用上面的方式代替下面的:
+// var obj = new addon.Object();</code></pre>
+</div>
+
+<div class="translate-section" data-hash="22602a0a5d3c720d3dea86f4090ed683">
+
+<p>让我们注册在 <code>addon.cc</code> 文件中注册<code>createObject</code>方法:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cccdd90b74c9b35a6b594b8c25d98a84">
+
+<pre><code>NODE_MODULE(addon, InitAll)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0224df31a15dee5b8c06a9a968c8d85f">
+
+<p>在<code>myobject.h</code>文件中，我们现在介绍静态方法NewInstance<code>，它能够实例化对象（举个例子，它的工作就像是 在JavaScript中的</code>new` 操作符。）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1797f9e1973f5a70e55f1f4a6ee1251">
+
+<pre><code>#endif</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4bf05a2c549da5d2c486aec4aa365113">
+
+<p>这里的处理方式和上面的 <code>myobject.cc</code>很像:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="be1f48d998617486c18f8c7fcb7e0024">
+
+<pre><code>  return scope.Close(Number::New(obj-&gt;counter_));
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4548e76b2876bd28c840e8610a4581db">
+
+<p>测试它:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e37777aa0361f99c5f2584a2f2d71393">
+
+<pre><code>var obj2 = createObject(20);
+console.log( obj2.plusOne() ); // 21
+console.log( obj2.plusOne() ); // 22
+console.log( obj2.plusOne() ); // 23</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ffe6aed8e48afb4e1a7d2e347c06172a">
+
+<h3>Passing wrapped objects around（传递包装的对象）<span><a href="#addons_passing_wrapped_objects_around_1110" id="addons_passing_wrapped_objects_around_1110">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="9dbe81d8ee897d6215c9e8cfcd68b350">
+
+<p>除了包装和返回c++对象以外，你可以传递他们并且通过Node的<code>node::ObjectWrap::Unwrap</code>帮助函数解包装他们。
+在下面的<code>addon.cc</code> 文件中，我们介绍了一个函数<code>add()</code>，它能够获取2个<code>MyObject</code>对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cccdd90b74c9b35a6b594b8c25d98a84">
+
+<pre><code>NODE_MODULE(addon, InitAll)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="890cca6007664d3694346b9c58ab3a53">
+
+<p>为了使事情变得有趣，我们在 <code>myobject.h</code> 采用一个公共的方法，所以我们能够在unwrapping解包装对象之后使用私有成员的值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1797f9e1973f5a70e55f1f4a6ee1251">
+
+<pre><code>#endif</code></pre>
+</div>
+
+<div class="translate-section" data-hash="518b6d052ae2418a05dc500bae55142c">
+
+<p><code>myobject.cc</code>文件的处理方式和前面类似
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e5aafe3ca98b219a461242fbecd05e68">
+
+<pre><code>  return scope.Close(instance);
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4548e76b2876bd28c840e8610a4581db">
+
+<p>测试它:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="723bcf6c0489ab2f8e0e4f3fd184bb19">
+
+<pre><code>var obj1 = addon.createObject(10);
+var obj2 = addon.createObject(20);
+var result = addon.add(obj1, obj2);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b5bae7ce4ba0e54e2c9b6f7862af40e9">
+
+<pre><code>console.log(result); // 30</code></pre>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

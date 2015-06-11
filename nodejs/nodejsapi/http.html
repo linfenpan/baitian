@@ -1,0 +1,2062 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTTP Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/http.html">
+</head>
+<body class="alt apidoc" id="api-section-http">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="http.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#http_http_4767">HTTP</a><ul>
+<li><a href="#http_http_status_codes_4767">http.STATUS_CODES</a></li>
+<li><a href="#http_http_createserver_requestlistener_4767">http.createServer([requestListener])</a></li>
+<li><a href="#http_http_createclient_port_host_4767">http.createClient([port], [host])</a></li>
+<li><a href="#http_class_http_server_4767">Class: http.Server</a><ul>
+<li><a href="#http_request_4767">事件 : &apos;request&apos;</a></li>
+<li><a href="#http_connection_4767">事件: &apos;connection&apos;</a></li>
+<li><a href="#http_close_14301">事件: &apos;close&apos;</a></li>
+<li><a href="#http_event_checkcontinue_4767">Event: &apos;checkContinue&apos;</a></li>
+<li><a href="#http_connect_9534">事件: &apos;connect&apos;</a></li>
+<li><a href="#http_event_upgrade_9534">Event: &apos;upgrade&apos;</a></li>
+<li><a href="#http_event_clienterror_4767">Event: &apos;clientError&apos;</a></li>
+<li><a href="#http_server_listen_port_hostname_backlog_callback_4767">server.listen(port, [hostname], [backlog], [callback])</a></li>
+<li><a href="#http_server_listen_path_callback_4767">server.listen(path, [callback])</a></li>
+<li><a href="#http_server_listen_handle_callback_4767">server.listen(handle, [callback])</a></li>
+<li><a href="#http_server_close_callback_4767">server.close([callback])</a></li>
+<li><a href="#http_server_maxheaderscount_4767">server.maxHeadersCount</a></li>
+<li><a href="#http_server_settimeout_msecs_callback_4767">server.setTimeout(msecs, callback)</a></li>
+<li><a href="#http_server_timeout_4767">server.timeout</a></li>
+</ul>
+</li>
+<li><a href="#http_class_http_serverresponse_4767">Class: http.ServerResponse</a><ul>
+<li><a href="#http_close_14302">事件: &apos;close&apos;</a></li>
+<li><a href="#http_response_writecontinue_4767">response.writeContinue()</a></li>
+<li><a href="#http_response_writehead_statuscode_reasonphrase_headers_4767">response.writeHead(statusCode, [reasonPhrase], [headers])</a></li>
+<li><a href="#http_response_settimeout_msecs_callback_4767">response.setTimeout(msecs, callback)</a></li>
+<li><a href="#http_response_statuscode_4767">response.statusCode</a></li>
+<li><a href="#http_response_setheader_name_value_4767">response.setHeader(name, value)</a></li>
+<li><a href="#http_response_headerssent_4767">response.headersSent</a></li>
+<li><a href="#http_response_senddate_4767">response.sendDate</a></li>
+<li><a href="#http_response_getheader_name_4767">response.getHeader(name)</a></li>
+<li><a href="#http_response_removeheader_name_4767">response.removeHeader(name)</a></li>
+<li><a href="#http_response_write_chunk_encoding_4767">response.write(chunk, [encoding])</a></li>
+<li><a href="#http_response_addtrailers_headers_4767">response.addTrailers(headers)</a></li>
+<li><a href="#http_response_end_data_encoding_4767">response.end([data], [encoding])</a></li>
+</ul>
+</li>
+<li><a href="#http_http_request_options_callback_4767">http.request(options, callback)</a></li>
+<li><a href="#http_http_get_options_callback_4767">http.get(options, callback)</a></li>
+<li><a href="#http_class_http_agent_4767">Class: http.Agent</a><ul>
+<li><a href="#http_new_agent_options_4767">new Agent([options])</a></li>
+<li><a href="#http_agent_maxsockets_4767">agent.maxSockets</a></li>
+<li><a href="#http_agent_maxfreesockets_4767">agent.maxFreeSockets</a></li>
+<li><a href="#http_agent_sockets_4767">agent.sockets</a></li>
+<li><a href="#http_agent_freesockets_4767">agent.freeSockets</a></li>
+<li><a href="#http_agent_requests_4767">agent.requests</a></li>
+<li><a href="#http_agent_destroy_4767">agent.destroy()</a></li>
+<li><a href="#http_agent_getname_options_4767">agent.getName(options)</a></li>
+</ul>
+</li>
+<li><a href="#http_http_globalagent_4767">http.globalAgent</a></li>
+<li><a href="#http_class_http_clientrequest_4767">Class: http.ClientRequest</a><ul>
+<li><a href="#http_event_response_4767">Event &apos;response&apos;</a></li>
+<li><a href="#http_event_socket_4767">Event: &apos;socket&apos;</a></li>
+<li><a href="#http_connect_9535">事件: &apos;connect&apos;</a></li>
+<li><a href="#http_event_upgrade_9535">Event: &apos;upgrade&apos;</a></li>
+<li><a href="#http_event_continue_4767">Event: &apos;continue&apos;</a></li>
+<li><a href="#http_request_write_chunk_encoding_4767">request.write(chunk, [encoding])</a></li>
+<li><a href="#http_request_end_data_encoding_4767">request.end([data], [encoding])</a></li>
+<li><a href="#http_request_abort_4767">request.abort()</a></li>
+<li><a href="#http_request_settimeout_timeout_callback_4767">request.setTimeout(timeout, [callback])</a></li>
+<li><a href="#http_request_setnodelay_nodelay_4767">request.setNoDelay([noDelay])</a></li>
+<li><a href="#http_request_setsocketkeepalive_enable_initialdelay_4767">request.setSocketKeepAlive([enable], [initialDelay])</a></li>
+</ul>
+</li>
+<li><a href="#http_http_incomingmessage_4767">http.IncomingMessage</a><ul>
+<li><a href="#http_close_14303">事件: &apos;close&apos;</a></li>
+<li><a href="#http_message_httpversion_4767">message.httpVersion</a></li>
+<li><a href="#http_message_headers_4767">message.headers</a></li>
+<li><a href="#http_message_rawheaders_4767">message.rawHeaders</a></li>
+<li><a href="#http_message_trailers_4767">message.trailers</a></li>
+<li><a href="#http_message_rawtrailers_4767">message.rawTrailers</a></li>
+<li><a href="#http_message_settimeout_msecs_callback_4767">message.setTimeout(msecs, callback)</a></li>
+<li><a href="#http_message_method_4767">message.method</a></li>
+<li><a href="#http_message_url_4767">message.url</a></li>
+<li><a href="#http_message_statuscode_4767">message.statusCode</a></li>
+<li><a href="#http_message_socket_4767">message.socket</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="6f89301b6c64198d87f37b05da52fe95">
+
+<h1>HTTP<span><a href="#http_http_4767" id="http_http_4767">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="5a19f2c2dea69ecf2ff74a4a59a1caf5">
+
+<p>要使用HTTP服务器或客户端功能，需引用此模块<code>require(&apos;http&apos;)</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="16a4d9235cb364e71ef63e9b7848178a">
+
+<p>Node中的HTTP接口的设计支持许多HTTP协议中原本用起来很困难的特性.特别是对于很大的或者块编码的消息.这些接口很谨慎,它从来不会完全缓存整个请求(request)或响应(response),这样用户可以在请求(request)或响应(response)中使用数据流.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7cc24b32e3a96dab691960ca615cfd8c">
+
+<p>HTTP 的消息头(Headers)通过如下对象来表示:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0e5f0da13461d7130d99e94ace640aea">
+
+<pre><code>{ &apos;content-length&apos;: &apos;123&apos;,
+  &apos;content-type&apos;: &apos;text/plain&apos;,
+  &apos;connection&apos;: &apos;keep-alive&apos;,
+  &apos;host&apos;: &apos;mysite.com&apos;,
+  &apos;accept&apos;: &apos;*/*&apos; }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b852784b3bbbed9a4544461c541446f4">
+
+<p>其中键为小写字母，值是不能修改的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1c2e5e4bf49d118191e579890c6ddc7">
+
+<p>为了能全面地支持可能的HTTP应用程序，Node提供的HTTP API都很底层。它处理的只有流处理和消息解析。它把一份消息解析成报文头和报文体，但是它不解析实际的报文头和报文体。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e01a072fb9759834e607b4ca7515655c">
+
+<p>定义好的消息头允许多个值以<code>,</code>分割, 除了<code>set-cookie</code>和<code>cookie</code>,因为他们表示值的数组. 像 <code>content-length</code>这样只能有单个值的消息头直接解析, 并且只有单值可以表示成已解析好的对像.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fc38d5af81786415dfc2e47f4e009f18">
+
+<p>接收到的原始头信息以数组形式 <code>[key, value, key2, value2, ...]</code> 保存在 <code>rawHeaders</code> 属性中. 例如, 前面提到的消息对象会有 <code>rawHeaders</code> 列表如下:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8a56ee87d847c9ab3582c421a585c389">
+
+<pre><code>[ &apos;ConTent-Length&apos;, &apos;123456&apos;,
+  &apos;content-LENGTH&apos;, &apos;123&apos;,
+  &apos;content-type&apos;, &apos;text/plain&apos;,
+  &apos;CONNECTION&apos;, &apos;keep-alive&apos;,
+  &apos;Host&apos;, &apos;mysite.com&apos;,
+  &apos;accepT&apos;, &apos;*/*&apos; ]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2373ec0849a99ad16db0f32b61382b1c">
+
+<h2>http.STATUS_CODES<span><a href="#http_http_status_codes_4767" id="http_http_status_codes_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="851aa722fb53608947b18811e82db1f4">
+
+<ul>
+<li>{Object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="678cb6b725bde7f603838ed4ec7c9261">
+
+<p>全部标准HTTP响应状态码的集合和简短描述。例如<code>http.STATUS_CODES[404] === &apos;Not Found&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="71d78c3a363d453422b9183387b62cb9">
+
+<h2>http.createServer([requestListener])<span><a href="#http_http_createserver_requestlistener_4767" id="http_http_createserver_requestlistener_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="557dc8ec1c1e1cdf6787785c86705476">
+
+<p>返回一个新的web服务器对象
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4af8a2cc98a58991f415f8ee5be97d37">
+
+<p>参数 <code>requestListener</code> 是一个函数,它将会自动加入到 <code>&apos;request&apos;</code> 事件的监听队列.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0921f9a6c221f28056ff5d06d60c5c06">
+
+<h2>http.createClient([port], [host])<span><a href="#http_http_createclient_port_host_4767" id="http_http_createclient_port_host_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="6dd76ab067e708695aaa332d431924d0">
+
+<p>该函数已<strong>弃用</strong>,请用<a href="#http_http_request_options_callback">http.request()</a>代替.
+创建一个新的HTTP客户端. <code>port</code> 和<code>host</code> 表示所连接的服务器.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="991f2e4314eba134b7e123587cfaf5a9">
+
+<h2>Class: http.Server<span><a href="#http_class_http_server_4767" id="http_class_http_server_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="bb56f6791c176c4e9490f0804090defe">
+
+<p>这是一个包含下列事件的<a href="events.html#events_class_events_eventemitter">EventEmitter</a>:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a731d8eecdb05444f579013cf10be6f6">
+
+<h3>事件 : &apos;request&apos;<span><a href="#http_request_4767" id="http_request_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d504d89b9e1b6794eebe9c4d8653189a">
+
+<p><code>function (request, response) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd6954c46f73e56527bc108a5606a972">
+
+<p>每次收到一个请求时触发.注意每个连接又可能有多个请求(在<code>keep-alive</code>的连接中).<code>request</code>是<code>http.IncomingMessage</code>的一个实例.<code>response</code>是<code>http.ServerResponse</code>的一个实例
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6f49e683b9234449060f0beee3592dc2">
+
+<h3>事件: &apos;connection&apos;<span><a href="#http_connection_4767" id="http_connection_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3130f05700358dd651762964d4cc0f79">
+
+<p><code>function (socket) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3b9abc663efd8e52567b3dd2b9643e55">
+
+<p>新的TCP流建立时出发。 <code>socket</code>是一个<code>net.Socket</code>对象。
+通常用户无需处理该事件。
+特别注意，协议解析器绑定套接字时采用的方式使套接字不会出发<code>readable</code>事件。
+还可以通过<code>request.connection</code>访问<code>socket</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2b8af4d8afc211663a4341cca53b503">
+
+<h3>事件: &apos;close&apos;<span><a href="#http_close_14301" id="http_close_14301">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c005f7d2379c68d2037134ec8aa65dae">
+
+<p><code>function () { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a6d18499c55d53d4280d97ce6b51d4e9">
+
+<p>当此服务器关闭时触发
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6b92c2405d39557f4daf8d4f4b0436e9">
+
+<h3>Event: &apos;checkContinue&apos;<span><a href="#http_event_checkcontinue_4767" id="http_event_checkcontinue_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d504d89b9e1b6794eebe9c4d8653189a">
+
+<p><code>function (request, response) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af2c61303738473cdbe016bb8a68d603">
+
+<p>每当收到Expect: 100-continue的http请求时触发。
+如果未监听该事件，服务器会酌情自动发送100 Continue响应。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5f279c88679fb1f80659658cc30f5f83">
+
+<p>处理该事件时，如果客户端可以继续发送请求主体则调用<code>response.writeContinue</code>，
+如果不能则生成合适的HTTP响应（例如，400 请求无效）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1d0d45d003af790c17f3f03472821057">
+
+<p>需要注意到, 当这个事件触发并且被处理后, <code>request</code> 事件将不再会触发.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a385d91c55ee447e6f8bfe2c4698eb4d">
+
+<h3>事件: &apos;connect&apos;<span><a href="#http_connect_9534" id="http_connect_9534">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a7f035589468e38315afe00377ff9ade">
+
+<p><code>function (request, socket, head) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7bc9156afd2abccc3d375b2c22f76b01">
+
+<p>每当客户端发起CONNECT请求时出发。如果未监听该事件，客户端发起CONNECT请求时连接会被关闭。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="572d1842e959eb1cfc982adf625939aa">
+
+<ul>
+<li><code>request</code> 是该HTTP请求的参数，与request事件中的相同。</li>
+<li><code>socket</code> 是服务端与客户端之间的网络套接字。</li>
+<li><code>head</code> 是一个Buffer实例，隧道流的第一个包，该参数可能为空。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="6ed1ff9d50d8a737674be7447382ee24">
+
+<p>在这个事件被分发后，请求的套接字将不会有<code>data</code>事件监听器，也就是说你将需要绑定一个监听器到<code>data</code>事件，来处理在套接字上被发送到服务器的数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6e4162f4c63c4f85b51e2d2ba0c321f1">
+
+<h3>Event: &apos;upgrade&apos;<span><a href="#http_event_upgrade_9534" id="http_event_upgrade_9534">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a7f035589468e38315afe00377ff9ade">
+
+<p><code>function (request, socket, head) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f74f9983f15e71c2a72dc933969b9861">
+
+<p>每当一个客户端请求http升级时，该事件被分发。如果这个事件没有被监听，那么这些请求升级的客户端的连接将会被关闭。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ec74a1252665ec6598e7a980e81cc228">
+
+<ul>
+<li><code>request</code> 是该HTTP请求的参数，与request事件中的相同。</li>
+<li><code>socket</code> 是服务端与客户端之间的网络套接字。</li>
+<li><code>head</code> 是一个Buffer实例，升级后流的第一个包，该参数可能为空。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="6ed1ff9d50d8a737674be7447382ee24">
+
+<p>在这个事件被分发后，请求的套接字将不会有<code>data</code>事件监听器，也就是说你将需要绑定一个监听器到<code>data</code>事件，来处理在套接字上被发送到服务器的数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1db79e530811fc519fbde11d3200bafe">
+
+<h3>Event: &apos;clientError&apos;<span><a href="#http_event_clienterror_4767" id="http_event_clienterror_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="720e72107e35792ad2f64c0dbc086799">
+
+<p><code>function (exception, socket) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="79c298d5cfe4ca289a34971044fc7840">
+
+<p>如果一个客户端连接触发了一个 &apos;error&apos; 事件, 它就会转发到这里.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c3f35f7824a77991ee6fb4ddac48910f">
+
+<p><code>socket</code> 是导致错误的 <code>net.Socket</code> 对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="66ce1230b0e8ed498795d9454baf7aa5">
+
+<h3>server.listen(port, [hostname], [backlog], [callback])<span><a href="#http_server_listen_port_hostname_backlog_callback_4767" id="http_server_listen_port_hostname_backlog_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1f82dc53eb1ccdb05a37c54e9cce756c">
+
+<p>开始在指定的主机名和端口接收连接。如果省略主机名，服务器会接收指向任意IPv4地址的链接（<code>INADDR_ANY</code>）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="50ba48698037df03912f5a4886fa60bc">
+
+<p>监听一个 unix socket, 需要提供一个文件名而不是端口号和主机名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bed0b4a9d97d9c397f601f6d6aa0fe48">
+
+<p>积压量 <code>backlog</code> 为连接等待队列的最大长度。实际长度由您的操作系统通过 sysctl 设置决定，比如 Linux 上的 <code>tcp_max_syn_backlog</code> 和 <code>somaxconn</code>。该参数缺省值为 511（不是 512）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2b0742eb2731c4e402efbd40d09876e1">
+
+<p>这个函数是异步的。最后一个参数<code>callback</code>会被作为事件监听器添加到 <a href="net.html#net_event_listening">&apos;listening&apos;</a>事件。另见<a href="net.html#net_server_listen_port_host_backlog_callback">net.Server.listen(port)</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ea96ac8cfe7103bc7860faeff6c13809">
+
+<h3>server.listen(path, [callback])<span><a href="#http_server_listen_path_callback_4767" id="http_server_listen_path_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="0e97c81434ca640c24289a87e35fa4ad">
+
+<p>启动一个 UNIX 套接字服务器在所给路径 <code>path</code> 上监听连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="56ea5af2ea078488ad41b9d940de3b56">
+
+<p>该函数是异步的.最后一个参数<code>callback</code>将会加入到[<code>listening</code>][]事件的监听队列中.又见<a href="net.html#net_server_listen_path_callback">net.Server.listen(path)</a>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="38791e5df388e8941cc5952b18405806">
+
+<h3>server.listen(handle, [callback])<span><a href="#http_server_listen_handle_callback_4767" id="http_server_listen_handle_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="77243d535077126c3d70fb90b3f59de4">
+
+<ul>
+<li><code>handle</code>处理器 {Object}</li>
+<li><code>callback</code>回调函数 {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c2a75ad83b4c9c7db282f7ef55a7a7d7">
+
+<p><code>handle</code> 变量可以被设置为server 或者 socket(任一以下划线开头的成员 <code>_handle</code>), 或者一个 <code>{fd: &lt;n&gt;}</code> 对象
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7aee7b7633990f2c8b6a0a271e8b226">
+
+<p>这将使服务器用指定的句柄接受连接，但它假设文件描述符或者句柄已经被绑定在特定的端口或者域名套接字。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ac30103f7bf2cc030495bb3d55e50465">
+
+<p>Windows 不支持监听一个文件描述符。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="674ec54e29772b0b195271154f944a68">
+
+<p>这个函数是异步的。最后一个参数<code>callback</code>会被作为事件监听器添加到<a href="net.html#event_listening_">&apos;listening&apos;</a>事件。另见<a href="net.html#net_server_listen_handle_callback">net.Server.listen()</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f7907ff9a0ecbf199c48b188bc048cb4">
+
+<h3>server.close([callback])<span><a href="#http_server_close_callback_4767" id="http_server_close_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="352def57241b1b675d1f7872ffe7ac57">
+
+<p>禁止服务端接收新的连接. 查看 <a href="net.html#net_server_close_callback">net.Server.close()</a>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9b798c3ff1801a0ec3c55fd53d2b0a66">
+
+<h3>server.maxHeadersCount<span><a href="#http_server_maxheaderscount_4767" id="http_server_maxheaderscount_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a0c236f1918649d6ffd44abd62953b64">
+
+<p>最大请求头数目限制, 默认 1000 个. 如果设置为0, 则代表不做任何限制.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f8180a64bc3efd218a9b21198f0f2f54">
+
+<h3>server.setTimeout(msecs, callback)<span><a href="#http_server_settimeout_msecs_callback_4767" id="http_server_settimeout_msecs_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="38e8631f19078488f07590474eaf7fe3">
+
+<ul>
+<li><code>msecs</code> {Number}</li>
+<li><code>callback</code> {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0da1703cca4fcc759d84c397a3bb0dcb">
+
+<p>为套接字设定超时值。如果一个超时发生，那么Server对象上会分发一个<code>&apos;timeout&apos;</code>事件，同时将套接字作为参数传递。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a71871484ee878bee7e15b167030fe93">
+
+<p>如果在Server对象上有一个<code>&apos;timeout&apos;</code>事件监听器，那么它将被调用，而超时的套接字会作为参数传递给这个监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a04c76997503beb1fbeb28cf125905ad">
+
+<p>默认情况下，服务器的超时时间是2分钟，超时后套接字会自动销毁。
+但是如果为‘timeout’事件指定了回调函数，你需要负责处理套接字超时。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="19060fabb61bd3f67c8d8516c4ff8498">
+
+<h3>server.timeout<span><a href="#http_server_timeout_4767" id="http_server_timeout_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f92f700127388eda7e7013330ca752b6">
+
+<ul>
+<li>{Number} 默认 120000 (2 分钟)</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="7a01b9cdefbcc718063db76f95920172">
+
+<p>一个套接字被判断为超时之前的闲置毫秒数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e8a51c87c0fc27b59f3384f48c364946">
+
+<p>注意套接字的超时逻辑在连接时被设定，所以更改这个值只会影响<em>新创建的</em>连接，而不会影响到现有连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3e52dfa75cc7bf31ad0096deac05668c">
+
+<p>设置为0将阻止之后建立的连接的一切自动超时行为。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c5690fb85169d6125fae2769e6af5090">
+
+<h2>Class: http.ServerResponse<span><a href="#http_class_http_serverresponse_4767" id="http_class_http_serverresponse_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2732a36ec3aa0a528528b8bd6714c4c8">
+
+<p>这是一个由HTTP服务器内部创建的对象（不是由用户自行创建）。它将作为第二个参数传递到<code>&apos;request&apos;</code>事件中。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a661aff28852d32b4015e45f93481f7d">
+
+<p>该响应实现了 <a href="stream.html#stream_writable_stream">Writable Stream</a> 接口。这是一个包含下列事件的
+<a href="events.html#events_class_events_eventemitter">EventEmitter</a> ：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2b8af4d8afc211663a4341cca53b503">
+
+<h3>事件: &apos;close&apos;<span><a href="#http_close_14302" id="http_close_14302">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c005f7d2379c68d2037134ec8aa65dae">
+
+<p><code>function () { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6f9e2561890816d81d3374f425c1e684">
+
+<p>需要注意的是，底层链接在<code>response.end()</code>被调用或可以冲洗掉之前就被终结了。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6ede9f4d464fe0d50a0be0b45c70e517">
+
+<h3>response.writeContinue()<span><a href="#http_response_writecontinue_4767" id="http_response_writecontinue_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="54113143742375ed24a091b14215ba69">
+
+<p>发送一个 HTTP/1.1 100 Continue 消息至客户端，表明请求体可以被发送。可以再服务器上查看<a href="#http_event_checkcontinue">&apos;checkContinue&apos;</a>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0c3e1877477908b669b785a163de2b68">
+
+<h3>response.writeHead(statusCode, [reasonPhrase], [headers])<span><a href="#http_response_writehead_statuscode_reasonphrase_headers_4767" id="http_response_writehead_statuscode_reasonphrase_headers_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="8e531546a5983b76a3db13a29219de54">
+
+<p>向请求回复响应头. statusCode是一个三位是的HTTP状态码, 例如 <code>404</code>. 
+最后一个参数, <code>headers</code>, 是响应头的内容.
+可以选择性的，把人类可读的‘原因短句’作为第二个参数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="82fd6c29ac99fd5380368530d57f9a7d">
+
+<pre><code>var body = &apos;hello world&apos;;
+response.writeHead(200, {
+  &apos;Content-Length&apos;: body.length,
+  &apos;Content-Type&apos;: &apos;text/plain&apos; });</code></pre>
+</div>
+
+<div class="translate-section" data-hash="319cdf5edf0ca8b7a604e4f5dceee49d">
+
+<p>这个方法只能在当前请求中使用一次，并且必须在<code>response.end()</code>之前调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="51ea774b55b7c230b43e7214f504c4f4">
+
+<p>如果你在调用这之前调用了<code>response.write()</code>或者 <code>response.end()</code> , 
+就会调用这个函数，并且 不明/容易混淆 的头将会被使用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6ded6142d3e95ea95be93b8019c45ebe">
+
+<p>注意：Content-Length 是以字节(byte)计，而不是以字符(character)计。之前的例子奏效的原因是字符串&apos;hello world&apos;只包含了单字节的字符。如果body包含了多字节编码的字符，就应当使用Buffer.byteLength()来确定在多字节字符编码情况下字符串的字节数。需要进一步说明的是Node不检查Content-Lenth属性和已传输的body长度是否吻合。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1b9a0ffff1b39dda8a7f9f305b6bd35d">
+
+<h3>response.setTimeout(msecs, callback)<span><a href="#http_response_settimeout_msecs_callback_4767" id="http_response_settimeout_msecs_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="38e8631f19078488f07590474eaf7fe3">
+
+<ul>
+<li><code>msecs</code> {Number}</li>
+<li><code>callback</code> {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="caff2bc8c4c7222d7f1d8ac5c03b0f77">
+
+<p>设定套接字的超时时间为<code>msecs</code>。如果提供了回调函数，会将其添加为响应对象的<code>&apos;timeout&apos;</code>事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c4eca1e3b8976b2f2c95a3a39ce30eac">
+
+<p>如果请求、响应、服务器均未添加<code>&apos;timeout&apos;</code>事件监听，套接字将在超时时被销毁。
+如果监听了请求、响应、服务器之一的<code>&apos;timeout&apos;</code>事件，需要自行处理超时的套接字。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9c152b453df8cbe7f169eaa857d6ac55">
+
+<h3>response.statusCode<span><a href="#http_response_statuscode_4767" id="http_response_statuscode_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="2320bd228da997466d17f2026b2d35f0">
+
+<p>当使用默认headers时（没有显式地调用 <code>response.writeHead()</code> 来修改headers），这个属性决定headers更新时被传回客户端的HTTP状态码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8a082f16b6ddcab0e3ea1cd8eb34a336">
+
+<pre><code>response.statusCode = 404;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="d44db328ec008ed0860d1049fb9118fa">
+
+<p>当响应头被发送回客户端，那么这个属性则表示已经被发送出去的状态码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d10259569fa8fe6d1e4f8af2040fd037">
+
+<h3>response.setHeader(name, value)<span><a href="#http_response_setheader_name_value_4767" id="http_response_setheader_name_value_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="98cefd5db90c542ae6dd28ed7207e44e">
+
+<p>为默认或者已存在的头设置一条单独的头内容。如果这个头已经存在于
+将被送出的头中，将会覆盖原来的内容。如果我想设置更多的头，
+就使用一个相同名字的字符串数组
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f7a389e747a9805bd6154fc23fd79a8d">
+
+<pre><code>response.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e81c4e4f2b7b93b481e13a8553c2ae1b">
+
+<p>或者
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7c5d22102ec36e1b22a45c4a2c349735">
+
+<pre><code>response.setHeader(&quot;Set-Cookie&quot;, [&quot;type=ninja&quot;, &quot;language=javascript&quot;]);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="5e4324365e7a3285a0f44647e5b8273d">
+
+<h3>response.headersSent<span><a href="#http_response_headerssent_4767" id="http_response_headerssent_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a6bc6007d3cc1d9485735d458869e9b9">
+
+<p>布尔型值(只读).如果headers发送完毕,则为true,反之为false
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="75c1e66b9c1b0f44079933f88b362cf3">
+
+<h3>response.sendDate<span><a href="#http_response_senddate_4767" id="http_response_senddate_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="329d41b3eace93f38a5cd339ce5cf672">
+
+<p>若为true,则当headers里没有Date值时自动生成Date并发送.默认值为true
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="de4a16d8ae40f2fdd92b57a8ac9d229a">
+
+<p>只有在测试环境才禁用它; 因为 HTTP 要求响应包含 <code>Date</code> 头.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a22dac5f925b607afd469adf97f89f95">
+
+<h3>response.getHeader(name)<span><a href="#http_response_getheader_name_4767" id="http_response_getheader_name_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="71b260b547dcd93da7d6af36e5c8430e">
+
+<p>读取一个在队列中但是还没有被发送至客户端的header。需要注意的是 name 参数是不区分
+大小写的。它只能在header还没被冲洗掉之前调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2f97c21fe8ae3ed8e0c7da14b5e6dc58">
+
+<pre><code>var contentType = response.getHeader(&apos;content-type&apos;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b6dcd6b162957d5be0d53fb88b7be87a">
+
+<h3>response.removeHeader(name)<span><a href="#http_response_removeheader_name_4767" id="http_response_removeheader_name_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ed46db8684ab8d609828f1164c50746f">
+
+<p>取消掉一个在队列内等待发送的header。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="db9e7370e663b3152aacf6f7d8e675dd">
+
+<pre><code>response.removeHeader(&quot;Content-Encoding&quot;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9b2e806b895f4253ecca1de6b0e25824">
+
+<h3>response.write(chunk, [encoding])<span><a href="#http_response_write_chunk_encoding_4767" id="http_response_write_chunk_encoding_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="da02d0ad244849ac6cfebf89c3a7f08a">
+
+<p>如果这个方法被调用但是 <code>response.writeHead()</code> 没有被调用，它将切换到默认header模式并更新默认的headers。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c03b64371e48a93980a34137b01bdfd3">
+
+<p>它将发送一个响应体的数据块。这个方法可能被调用很多次以防止继承部分响应体。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b9c01ed0978424d2cf11b1f76f2aa0d8">
+
+<p><code>chunk</code>可以是字符串或者缓存。如果<code>chunk</code> 是一个字符串，
+第二个参数表明如何将这个字符串编码为一个比特流。默认的
+<code>encoding</code>是<code>&apos;utf8&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f616d634f8041f6de55204b52ee1b7a4">
+
+<p><strong>注意</strong>: 这是底层的 HTTP 报文，高级的多部分报文编码无法使用。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6684f3dee79fb9fd8e8225445e81b830">
+
+<p>当第一次 <code>response.write()</code> 被调用时，将会发送缓存的header信息和第一个报文给客户端。
+第二次<code>response.write()</code>被调用时，Node假设你将发送数据流，然后分别地发送。这意味着响应
+是缓存到第一次报文的数据块中。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="662e9ecf9ba2783888e8cd306c0b1a4a">
+
+<p>如果所有数据被成功刷新到内核缓冲区，则返回<code>true</code>。如果所有或部分数据在用户内存里还处于队列中，则返回<code>false</code>。当缓冲区再次被释放时，<code>&apos;drain&apos;</code>事件会被分发。
+
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cd87d31d085d16e9cc64446f36edf1bc">
+
+<h3>response.addTrailers(headers)<span><a href="#http_response_addtrailers_headers_4767" id="http_response_addtrailers_headers_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="14b3662e62bc20e775bbb06162ea5f3c">
+
+<p>这个方法添加HTTP尾随headers（一个在消息末尾的header）给响应。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5296f0ba953e8e4003db75cfa486ea3a">
+
+<p> <strong>只有</strong> 当数据块编码被用于响应时尾随才会被触发。如果不是（例如，请求是HTTP/1.0 ），他们将会被自动丢弃。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1c4845daa842df72b84df4ef40255e94">
+
+<p>需要注意的是如果要触发尾随消息HTTP要求一个报文头场列表和<code>Trailer</code>报头一起发送，例如：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="18721eabfb80cfdba87c9bc0c1736c65">
+
+<pre><code>response.writeHead(200, { &apos;Content-Type&apos;: &apos;text/plain&apos;,
+                          &apos;Trailer&apos;: &apos;Content-MD5&apos; });
+response.write(fileData);
+response.addTrailers({&apos;Content-MD5&apos;: &quot;7895bf4b8828b55ceaf47747b4bca667&quot;});
+response.end();</code></pre>
+</div>
+
+<div class="translate-section" data-hash="add8bdbd9c6e73f439029094c4512b64">
+
+<h3>response.end([data], [encoding])<span><a href="#http_response_end_data_encoding_4767" id="http_response_end_data_encoding_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f1ab5e26515387337d1c37f948505d4f">
+
+<p>当所有的响应报头和报文被发送完成时这个方法将信号发送给服务器；服务器会认为这个消息完成了。
+每次响应完成之后必须调用该方法。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ca2229721e5ed856a729cf50f8ec5f48">
+
+<p>如果指定了参数 <code>data</code> , 就相当于先调用 <code>response.write(data, encoding)</code> 之后再调用 <code>response.end()</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="60c581463a254c178e73b6b2a264f171">
+
+<h2>http.request(options, callback)<span><a href="#http_http_request_options_callback_4767" id="http_http_request_options_callback_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a8a777b53cda4dec251c580d5ae82404">
+
+<p>Node维护几个连接每个服务器的HTTP请求。
+这个函数允许后台发布请求。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f2b3e9c7bcc6ecd7a8e5d02b97839202">
+
+<p><code>options</code>可以是一个对象或一个字符串。如果<code>options</code>是一个字符串, 它将自动使用<a href="url.html#url_url_parse_urlstr_parsequerystring_slashesdenotehost">url.parse()</a>解析。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ebcc39462e6620a8cf432194084a5483">
+
+<p>Options:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5d4d95c9e51ca7adf5cb52979d0fc4e8">
+
+<ul>
+<li><code>host</code>：请求发送到的服务器的域名或IP地址。默认为<code>&apos;localhost&apos;</code>。</li>
+<li><code>hostname</code>：用于支持<code>url.parse()</code>。<code>hostname</code>比<code>host</code>更好一些</li>
+<li><code>port</code>：远程服务器的端口。默认值为80。</li>
+<li><code>localAddress</code>：用于绑定网络连接的本地接口。</li>
+<li><code>socketPath</code>：Unix域套接字（使用host:port或socketPath）</li>
+<li><code>method</code>：指定HTTP请求方法的字符串。默认为<code>&apos;GET&apos;</code>。</li>
+<li><code>path</code>：请求路径。默认为<code>&apos;/&apos;</code>。如果有查询字符串，则需要包含。例如<code>&apos;/index.html?page=12&apos;</code>。请求路径包含非法字符时抛出异常。目前，只否决空格，不过在未来可能改变。</li>
+<li><code>headers</code>：包含请求头的对象。</li>
+<li><code>auth</code>：用于计算认证头的基本认证，即<code>&apos;user:password&apos;</code></li>
+<li><code>agent</code>：控制<a href="#http_class_http_agent">Agent</a>的行为。当使用了一个Agent的时候，请求将默认为<code>Connection: keep-alive</code>。可能的值为：<ul>
+<li><code>undefined</code>（默认）：在这个主机和端口上使用[全局Agent][]。</li>
+<li><code>Agent</code>对象：在<code>Agent</code>中显式使用passed。</li>
+<li><code>false</code>：在对Agent进行资源池的时候，选择停用连接，默认请求为：<code>Connection: close</code>。</li>
+</ul>
+</li>
+<li><code>keepAlive</code>：{Boolean} 保持资源池周围的套接字在未来被用于其它请求。默认值为<code>false</code></li>
+<li><code>keepAliveMsecs</code>：{Integer} 当使用HTTP KeepAlive的时候，通过正在保持活动的套接字发送TCP KeepAlive包的频繁程度。默认值为<code>1000</code>。仅当<code>keepAlive</code>被设置为<code>true</code>时才相关。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="9b530c706b03801d1a15ee7d75d6b903">
+
+<p><code>http.request()</code> 返回一个 <code>http.ClientRequest</code>类的实例。<code>ClientRequest</code>实例是一个可写流对象。如果需要用POST请求上传一个文件的话，就将其写入到<code>ClientRequest</code>对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="19314f0817606e41787722b6f8728f24">
+
+<pre><code>// write data to request body
+req.write(&apos;data\n&apos;);
+req.write(&apos;data\n&apos;);
+req.end();</code></pre>
+</div>
+
+<div class="translate-section" data-hash="ee6cbb16cb4e744d31e4774b54c56e8b">
+
+<p>注意，例子里的<code>req.end()</code>被调用了。使用<code>http.request()</code>方法时都必须总是调用<code>req.end()</code>以表明这个请求已经完成，即使响应body里没有任何数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4c5bad435d0b5e9fbc938799e4ec433f">
+
+<p>如果在请求期间发生错误（DNS解析、TCP级别的错误或实际HTTP解析错误
+
+</p>
+<p>），在返回的请求对象会触发一个<code>&apos;error&apos;</code>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1ddf0499cd65aa57566e64422a0669ae">
+
+<p>有一些特殊的标题应该注意。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6821221a85f413adad9ea8c4811f05c0">
+
+<ul>
+<li>发送 &apos;Connection: keep-alive&apos;将会告知Node保持连接直到下一个请求发送。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="b130c827ad15bb32ee43f9d1e2748b4e">
+
+<ul>
+<li>发送 &apos;Content-length&apos; 头将会禁用默认的 chunked 编码.</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0df6bba53bcecf06f2d54f34b0cc9875">
+
+<ul>
+<li>发送 &apos;Expect&apos;报头会立即发送请求报头.
+通常当发送 &apos;Expect: 100-continue&apos;时，你会同时发送一个超时和监听继续的事件。
+查看 RFC2616 第 8.2.3 章节获得更多信息。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="822e4465f9b620fedd8b47e669e2ef26">
+
+<ul>
+<li>发送一个授权报头将会覆盖使用 <code>auth</code> 选项来完成基本授权。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f01c4f92a3cd72793182403212b6e4b8">
+
+<h2>http.get(options, callback)<span><a href="#http_http_get_options_callback_4767" id="http_http_get_options_callback_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="64e0f24721b5992949910387ce8b33fa">
+
+<p>因为大部分的请求是没有报文体的GET请求，所以Node提供了这种便捷的方法。该方法与<code>http.request()</code>的唯一区别是它设置的是GET方法并自动调用<code>req.end()</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0cb9f2e0ff9403eb48a2cfe3a43bd097">
+
+<pre><code>http.get(&quot;http://www.google.com/index.html&quot;, function(res) {
+  console.log(&quot;响应：&quot; + res.statusCode);
+}).on(&apos;error&apos;, function(e) {
+  console.log(&quot;错误：&quot; + e.message);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a1387a3dd99495457b22080cc524b1f4">
+
+<h2>Class: http.Agent<span><a href="#http_class_http_agent_4767" id="http_class_http_agent_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ded34452f627cbe9d82712e43ba4cc9b">
+
+<p>HTTP Agent 是用于把套接字做成资源池，用于HTTP客户端请求。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="44918fae3fe09883fe11a8082d6c5398">
+
+<p>HTTP Agent 也把客户端的请求默认为使用Connection:keep-alive。如果没有HTTP请求正在等待成为空闲的套接字的话，那么套接字将关闭。这意味着Node的资源池在负载的情况下对keep-alive有利，但是仍然不需要开发人员使用KeepAlive来手动关闭HTTP客户端。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a12bf241c44c9d7579abd38b0c175817">
+
+<p>如果你选择使用HTTP KeepAlive，那么你可以创建一个标志设为<code>true</code>的Agent对象。（见下面的<a href="#http_new_agent_options">构造函数选项</a>。）然后，Agent将会在资源池中保持未被使用的套接字，用于未来使用。它们将会被显式标记，以便于不保持Node进程的运行。但是当KeepAlive agent没有被使用时，显式地<a href="#http_agent_destroy"><code>destroy()</code></a> KeepAlive agent仍然是个好主意，这样套接字们会被关闭。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5507997d145df828713c4cdd3091b220">
+
+<p>当套接字触发了close事件或者特殊的agentRemove事件的时候，套接字们从agent的资源池中移除。这意味着如果你打算保持一个HTTP请求长时间开启，并且不希望它保持在资源池中，那么你可以按照下列几行的代码做事：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5d62c28ad325a66818041cdfa7da80c8">
+
+<pre><code>http.get(options, function(res) {
+  // 做点事
+}).on(&quot;socket&quot;, function (socket) {
+  socket.emit(&quot;agentRemove&quot;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a02d33786c7b40181f16f2e78cd9bd92">
+
+<p>另外，你可以直接使用<code>agent:false</code>选择完全停用资源池。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f9dbd9e2b8d42245e6e79a9eaac368b4">
+
+<pre><code>http.get({
+  hostname: &apos;localhost&apos;,
+  port: 80,
+  path: &apos;/&apos;,
+  agent: false  // 仅仅为了这一个请求，而创建一个新的agent
+}, function (res) {
+  // 为响应做些事
+})</code></pre>
+</div>
+
+<div class="translate-section" data-hash="372cd02698dbbd7246560233ef148d21">
+
+<h3>new Agent([options])<span><a href="#http_new_agent_options_4767" id="http_new_agent_options_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="6d65cb3c343d60e544e329938d50b59e">
+
+<ul>
+<li><code>options</code> {Object} 设置于agent上的配置选项的集合。可以有下列字段：<ul>
+<li><code>keepAlive</code> {Boolean} 保持在资源池周围套接未来字被其它请求使用。默认值为<code>false</code></li>
+<li><code>keepAliveMsecs</code> {Integer} 当使用HTTP KeepAlive时, 通过正在被保持活跃的套接字来发送TCP KeepAlive包的频繁程度。默认值为<code>1000</code>。仅当<code>keepAlive</code>设置为<code>true</code>时有效。</li>
+<li><code>maxSockets</code> {Number} 每台主机允许的套接字的数目的最大值。默认值为<code>Infinity</code>。</li>
+<li>在空闲状态下还依然开启的套接字的最大值。仅当<code>keepAlive</code>设置为<code>true</code>的时候有效。默认值为<code>256</code>。</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="4501cf81df061c4fbb11c508029fafcd">
+
+<p>被<code>http.request</code>使用的默认的<code>http.globalAgent</code>有设置为它们各自的默认值的全部这些值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="04c8177141df80813b6637798e610099">
+
+<p>要配置这些值，你必须创建一个你自己的<code>Agent</code>对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5dd2c005f5d1cafb261b27bdc25e50a8">
+
+<pre><code>var http = require(&apos;http&apos;);
+var keepAliveAgent = new http.Agent({ keepAlive: true });
+keepAliveAgent.request(options, onResponseCallback);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="505af22a121e157f8a054eba53694187">
+
+<h3>agent.maxSockets<span><a href="#http_agent_maxsockets_4767" id="http_agent_maxsockets_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="216ab81cb47e7f94acdbd2d3a24d1639">
+
+<p>默认设置为Infinity。决定每台主机上的agent可以拥有的并发套接字的打开的数量。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="58d6879476be61aae5a5a146fe0e7ff4">
+
+<h3>agent.maxFreeSockets<span><a href="#http_agent_maxfreesockets_4767" id="http_agent_maxfreesockets_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="4742740c1da68bf13d86f7655f4865a1">
+
+<p>默认设置为256。对于支持HTTP KeepAlive的Agent，这设置了在空闲状态下仍然打开的套接字数目的最大值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5a030fdf9ab4c3441dfcceb214aeab91">
+
+<h3>agent.sockets<span><a href="#http_agent_sockets_4767" id="http_agent_sockets_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1250d2508ab6fe5d858acf875c683297">
+
+<p>一个保存当前被代理使用的套接字的数组对象。
+请不要修改。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dcfaf8acd076c61eeb62e2c0011e5a0e">
+
+<h3>agent.freeSockets<span><a href="#http_agent_freesockets_4767" id="http_agent_freesockets_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="9297ed3c35d65dc405c5278ab6225b33">
+
+<p>一个当使用HTTP KeepAlive时保存当前等待用于代理的数组对象。
+请不要修改。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="77f2ff5bcd7341e582fb599dc832d62b">
+
+<h3>agent.requests<span><a href="#http_agent_requests_4767" id="http_agent_requests_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="bfc586714f690ae1589985e001016ea4">
+
+<p>一个保存还没有指定套接字的请求队列对象。
+请不要修改。 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b3e5101e8050086991a91418398d8719">
+
+<h3>agent.destroy()<span><a href="#http_agent_destroy_4767" id="http_agent_destroy_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="849929009f9ff490fe0e30abbd7e4d82">
+
+<p>销毁被此agent占用的任何套接字
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="338c4d93aacd841fbab536e693ab05ca">
+
+<p>通常并不需要这样做。然而当我们知道不会再用到一个保持连接的代理是，最好还是把它关掉。否贼
+套接字在服务器结束他们之前保持打开相当长的一段时间。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5130db15fc70b90a74a39814c4f8d0c2">
+
+<h3>agent.getName(options)<span><a href="#http_agent_getname_options_4767" id="http_agent_getname_options_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="aa954789816aa9c4c99a5e50643fb421">
+
+<p>通过设置请求选项获得一个独一无二的名称，来决定是否一个连接是否可以再生。
+在http代理中，它将返回host:port:localAddress`。在https代理中，这个名称
+包含CA, cert, ciphers,和其他HTTPS/TLS特殊选项来决定一个套接字是否可以再生。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6e3bc59099c069c249af31d41ef6083b">
+
+<h2>http.globalAgent<span><a href="#http_http_globalagent_4767" id="http_http_globalagent_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="8b5fb2f40af80480e741859b03a7da49">
+
+<p>超全局的代理实例，是http客户端的默认请求。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="03933b7c3834d856ef98fef7b398b77b">
+
+<h2>Class: http.ClientRequest<span><a href="#http_class_http_clientrequest_4767" id="http_class_http_clientrequest_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2b6c5dc8c1c8c106561f1a684bb5b756">
+
+<p>该对象在内部创建，并由<code>http.request()</code>返回。它表示着一个 <em>正在处理</em> 的请求，其头部已经进入请求队列。该头部仍然可以通过 <code>setHeader(name, value)</code>, <code>getHeader(name)</code>,<code>removeHeader(name)</code> 等API进行修改。实际的头部将会随着第一个数据块发送，或在连接关闭时发送。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3b05db3f12a9dded369a6a193a27dd55">
+
+<p>为了获得响应对象，给请求对象添加一个<code>&apos;response&apos;</code>监听器。当接收到响应头时，请求对象将会触发<code>&apos;response&apos;</code>。<code>&apos;response&apos;</code>事件执行时有一个参数，该参数为<code>http.IncomingMessage</code>的一个实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e1c2399a468eaf21ac5e11d7e51fabc1">
+
+<p>在<code>&apos;response&apos;</code>事件期间，可以为响应对象添加监听器，尤其是监听<code>&apos;data&apos;</code>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2d537861f0d1b34cecaa64871bc8c68f">
+
+<p>如果没有添加<code>&apos;response&apos;</code>处理函数，响应将被完全忽略。然而，如果你添加了一个<code>&apos;response&apos;</code>事件处理函数，那么你 <strong>必须</strong> 消费掉响应对象的数据：可以在<code>&apos;readable&apos;</code>事件时调用<code>response.read()</code>，可以添加一个<code>&apos;data&apos;</code>处理函数，也可以调用<code>.resume()</code>方法。数据被消费掉后，<code>&apos;end&apos;</code>事件被触发。如果数据未被读取，它将会消耗内存，最终产生&apos;process out of memory&apos;错误。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9935aa64f8b945ebf9b997af9a3ea59b">
+
+<p>注意:Node不会检查Content-Length和被传输的body长度是否相同.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="56d2e1e59efa81aae7fc85f7760ef5f0">
+
+<p>该请求实现了 <a href="stream.html#stream_writable_stream">Writable Stream</a> 接口。这是一个包含下列事件的
+<a href="events.html#events_class_events_eventemitter">EventEmitter</a> ：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7bfa0434a7a6ac6941abf7e9e1686423">
+
+<h3>Event &apos;response&apos;<span><a href="#http_event_response_4767" id="http_event_response_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="737f88eabd7042e0cdff4cdb4a45a4f0">
+
+<p><code>function (response) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="71cfa6d5fa5dd3df5fba3087597554b2">
+
+<p>当接收到请求的响应时触发，该事件只被触发一次。<code>response</code>参数是<code>http.IncomingMessage</code>的一个实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ebcc39462e6620a8cf432194084a5483">
+
+<p>Options:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ca541abb101cae73caa8388a0f88e123">
+
+<ul>
+<li><code>host</code>: 请求要发送的域名或服务器的IP地址。</li>
+<li><code>port</code>: 远程服务器的端口。</li>
+<li><code>socketPath</code>: Unix Domain Socket （使用host:port和socketPath其中之一）</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="609bea529bcbd65b259610f5578ac100">
+
+<h3>Event: &apos;socket&apos;<span><a href="#http_event_socket_4767" id="http_event_socket_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3130f05700358dd651762964d4cc0f79">
+
+<p><code>function (socket) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b6fdc7221f5cea125f7414a86ce8c8ed">
+
+<p>触发于一个套接字被赋予为这个请求的时候。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a385d91c55ee447e6f8bfe2c4698eb4d">
+
+<h3>事件: &apos;connect&apos;<span><a href="#http_connect_9535" id="http_connect_9535">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="5d64f4f9eea183a598e1fb5567dd581c">
+
+<p><code>function (response, socket, head) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2f0de05202c064c9030df195d4e337b2">
+
+<p>每次服务器使用 CONNECT 方法响应一个请求时被触发。如果该事件未被监听，接收 CONNECT 方法的客户端将关闭它们的连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="042b4ad5384ec4f37133a5a921149266">
+
+<p>如下是一对客户端/服务端代码,向你演示如何监听<code>connect</code>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8616352566fb05ed3820ecc9d81dee68">
+
+<pre><code>    // make a request over an HTTP tunnel
+    socket.write(&apos;GET / HTTP/1.1\r\n&apos; +
+                 &apos;Host: www.google.com:80\r\n&apos; +
+                 &apos;Connection: close\r\n&apos; +
+                 &apos;\r\n&apos;);
+    socket.on(&apos;data&apos;, function(chunk) {
+      console.log(chunk.toString());
+    });
+    socket.on(&apos;end&apos;, function() {
+      proxy.close();
+    });
+  });
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6e4162f4c63c4f85b51e2d2ba0c321f1">
+
+<h3>Event: &apos;upgrade&apos;<span><a href="#http_event_upgrade_9535" id="http_event_upgrade_9535">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="5d64f4f9eea183a598e1fb5567dd581c">
+
+<p><code>function (response, socket, head) { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1073e5bfbb500c3175fc16a680fb8efc">
+
+<p>每次服务器返回<code>upgrade</code>响应时触发。如果该事件未被监听，客户端收到<code>upgrade</code>后将关闭连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="244ca3cec16c65196fe7aee3390edeeb">
+
+<p>如下是一对客户端/服务端代码,向你演示如何监听<code>upgrade</code>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5fd73592b68e4686d1be56767ea7522e">
+
+<pre><code>  req.on(&apos;upgrade&apos;, function(res, socket, upgradeHead) {
+    console.log(&apos;got upgraded!&apos;);
+    socket.end();
+    process.exit(0);
+  });
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0283b654ce286f09b5e0c547227a1433">
+
+<h3>Event: &apos;continue&apos;<span><a href="#http_event_continue_4767" id="http_event_continue_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c005f7d2379c68d2037134ec8aa65dae">
+
+<p><code>function () { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0feda51beeab427cdd24881337a6e100">
+
+<p>当服务器发送<code>100 Continue</code>响应时触发，通常是因为请求包含<code>Expect: 100-continue</code>。该指令表示客户端应发送请求体。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e0820a696878d373b834f28229db7b89">
+
+<h3>request.write(chunk, [encoding])<span><a href="#http_request_write_chunk_encoding_4767" id="http_request_write_chunk_encoding_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ab261a92ffb28e09e827774f567a5412">
+
+<p>发送一块请求体。调用该方法多次，用户可以流式地发送请求体至服务器——在这种情况下，创建请求时建议使用<code>[&apos;Transfer-Encoding&apos;, &apos;chunked&apos;]</code>头。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="72e04f11d087557a9f2ca86d1e9d4ac3">
+
+<p><code>chunk</code> 参数必须是 <a href="buffer.html#buffer_buffer">Buffer</a> 或者 string.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4c162b50f03d25affd35be836d66e61a">
+
+<p><code>encoding</code> 参数是可选的, 并且只能在 <code>chunk</code> 是 string 类型的时候才能设置.
+默认是 <code>&apos;utf8&apos;</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0a374ec3f97b9431dd1e846ec743141e">
+
+<h3>request.end([data], [encoding])<span><a href="#http_request_end_data_encoding_4767" id="http_request_end_data_encoding_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1132e8c650a0173fc452868b5567c6ae">
+
+<p>结束发送请求。如果请求体的某些部分还发送，该函数将会把它们flush到流中。如果该请求是分块的，该方法将会发送终结符<code>0\r\n\r\n</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6f29e9faadb7fda2a43e2e765a736c1b">
+
+<p>如果指定了<code>data</code>,那么等价于
+先调用<code>request.write(data, encoding)</code>,再调用  <code>request.end()</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="275cee2f53f3969d75207bced9fa5a23">
+
+<h3>request.abort()<span><a href="#http_request_abort_4767" id="http_request_abort_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="91b94c444ef815a0d3179598e6e049e4">
+
+<p>终止一个请求. (从 v0.3.8 开始新加.)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ff50ee16ccf5ef0e6f787ec6d258a876">
+
+<h3>request.setTimeout(timeout, [callback])<span><a href="#http_request_settimeout_timeout_callback_4767" id="http_request_settimeout_timeout_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="efdbee72f2e3461d61da9df3591cb882">
+
+<p>一旦一个套接字被分配给该请求并且完成连接，<a href="net.html#net_socket_settimeout_timeout_callback">socket.setTimeout()</a>将会被调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aeb46f1f6872defb5d4ae9da702ec9ea">
+
+<h3>request.setNoDelay([noDelay])<span><a href="#http_request_setnodelay_nodelay_4767" id="http_request_setnodelay_nodelay_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="5968e7787ee568b295e69bc4f414f320">
+
+<p>一旦一个套接字被分配给该请求并且完成连接，<a href="net.html#net_socket_setnodelay_nodelay">socket.setNoDelay()</a>将会被调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f0ea0ae41a8a39fd94d7d7a02320e270">
+
+<h3>request.setSocketKeepAlive([enable], [initialDelay])<span><a href="#http_request_setsocketkeepalive_enable_initialdelay_4767" id="http_request_setsocketkeepalive_enable_initialdelay_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f642cfa3557a6c65c3838bc5d42dd0f0">
+
+<p>一旦一个套接字被分配到这个请求，而且成功连接，那么<a href="net.html#net_socket_setkeepalive_enable_initialdelay">socket.setKeepAlive()</a>就会被调用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="11f863673f90bed37b9e32479d2a4347">
+
+<h2>http.IncomingMessage<span><a href="#http_http_incomingmessage_4767" id="http_http_incomingmessage_4767">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ce7f7fb1b707f4deb18a24030a0b824b">
+
+<p>一个 <code>IncomingMessage</code>对象是由 <code>http.Server</code>或<code>http.ClientRequest</code>创建的，并作为第一参数分别传递给<code>&apos;request&apos;</code>和<code>&apos;response&apos;</code> 事件。它也可以被用来访问应答的状态，头文件和数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0f158f9979b1488d9d8f36f3b4547950">
+
+<p>它实现了 <a href="stream.html#stream_readable_stream">Readable Stream</a> 接口以及以下额外的事件，方法和属性。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2b8af4d8afc211663a4341cca53b503">
+
+<h3>事件: &apos;close&apos;<span><a href="#http_close_14303" id="http_close_14303">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c005f7d2379c68d2037134ec8aa65dae">
+
+<p><code>function () { }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2b7947acf58ecb48d093810224833097">
+
+<p>表示在<code>response.end()</code>被调用或强制刷新之前，底层的连接已经被终止了。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="61b9e77a48b4e5e01724eb47afa8cc48">
+
+<p>跟<code>&apos;end&apos;</code>一样，这个事件对于每个应答只会触发一次。详见[http.ServerResponse][]的 <code>&apos;close&apos;</code>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d839374d240da90cf90964a2351f2517">
+
+<h3>message.httpVersion<span><a href="#http_message_httpversion_4767" id="http_message_httpversion_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="e5103046341f73e40b34e26a615d8cf4">
+
+<p>客户端向服务器发出请求时，客户端发送的HTTP版本；或是服务器向客户端返回应答时，服务器的HTTP版本。通常是 <code>&apos;1.1&apos;</code>或<code>&apos;1.0&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2309a4e29e4505057f50af514aed51c0">
+
+<p>另外，<code>response.httpVersionMajor</code>是第一个整数，<code>response.httpVersionMinor</code>是第二个整数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="098812a14c22d2f55eed5ba943b06fd9">
+
+<h3>message.headers<span><a href="#http_message_headers_4767" id="http_message_headers_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="7d9c1ac00c71eb2b864644d4c6000fa1">
+
+<p>请求/响应 头对象.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b02b3b75a254afcd0c81250692ddb029">
+
+<p>只读的头文件名称和值的映射。头文件名称全小写。示例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cd13eedd27ef15a9cc7d89a1ca6370f3">
+
+<pre><code>// 输出类似这样：
+//
+// { &apos;user-agent&apos;: &apos;curl/7.22.0&apos;,
+//   host: &apos;127.0.0.1:8000&apos;,
+//   accept: &apos;*/*&apos; }
+console.log(request.headers);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e11812cee79a3dc9105e6359f8e40d2a">
+
+<h3>message.rawHeaders<span><a href="#http_message_rawheaders_4767" id="http_message_rawheaders_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="56ff7117c28def27bb2a641d51cf4fde">
+
+<p>接收到的原始请求/响应头字段列表。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cc52eddb31f6a76b2a0ef2c9e5bdebba">
+
+<p>注意键和值在同一个列表中，它并非一个元组列表。于是，偶数偏移量为键，奇数偏移量为对应的值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7e635170fa78a509e4ef3853b479f8e2">
+
+<p>头名称没有转换为小写，也没有合并重复的头。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2c4c22884158140548572258385b0efa">
+
+<pre><code>// Prints something like:
+//
+// [ &apos;user-agent&apos;,
+//   &apos;this is invalid because there can be only one&apos;,
+//   &apos;User-Agent&apos;,
+//   &apos;curl/7.22.0&apos;,
+//   &apos;Host&apos;,
+//   &apos;127.0.0.1:8000&apos;,
+//   &apos;ACCEPT&apos;,
+//   &apos;*/*&apos; ]
+console.log(request.rawHeaders);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f272871866fb72d2799ef82b32381587">
+
+<h3>message.trailers<span><a href="#http_message_trailers_4767" id="http_message_trailers_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="e1fbf2c2142a604b1e759f588df53029">
+
+<p>请求/响应的尾部对象，只在&apos;end&apos;事件时是存在的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1344786cfb27260c39b5b3166188d15e">
+
+<h3>message.rawTrailers<span><a href="#http_message_rawtrailers_4767" id="http_message_rawtrailers_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3eeb32c72522a5262787d2a196c17e79">
+
+<p>接收到的原始的请求/响应尾部键和值，只在&apos;end&apos;事件时存在。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5978aea0dcea3d1c4f06dc41b381d1a8">
+
+<h3>message.setTimeout(msecs, callback)<span><a href="#http_message_settimeout_msecs_callback_4767" id="http_message_settimeout_msecs_callback_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="38e8631f19078488f07590474eaf7fe3">
+
+<ul>
+<li><code>msecs</code> {Number}</li>
+<li><code>callback</code> {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="444855078b98b0908f9bf0b86b8aaec0">
+
+<p>调用message.connection.setTimeout(msecs, callback)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="83cabe4d20d5405a5c133afc2ab437ec">
+
+<h3>message.method<span><a href="#http_message_method_4767" id="http_message_method_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ea443a2687783e31c82dfe7b1f8d2200">
+
+<p><strong>仅对从<code>http.Server</code>获得到的请求(request)有效.</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f786fa09b885b5ef657aef0ac1a6ac24">
+
+<p>请求（request）方法如同一个只读的字符串，比如‘GET’、‘DELETE’。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="766da50234123c15379c947ad3047afe">
+
+<h3>message.url<span><a href="#http_message_url_4767" id="http_message_url_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ea443a2687783e31c82dfe7b1f8d2200">
+
+<p><strong>仅对从<code>http.Server</code>获得到的请求(request)有效.</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="206353944ece6f1dbb1b9aa72d60377c">
+
+<p>请求的URL字符串.它仅包含实际HTTP请求中所提供的URL.加入请求如下:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a78fd7d792e4d27da305bacd68dc8e44">
+
+<pre><code>GET /status?name=ryan HTTP/1.1\r\n
+Accept: text/plain\r\n
+\r\n</code></pre>
+</div>
+
+<div class="translate-section" data-hash="89d3e99c0757251ce45293762d9e697a">
+
+<p>则<code>request.url</code> 为:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="026d1bbf0f0b58e0b21845d370708800">
+
+<pre><code>&apos;/status?name=ryan&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0b00c3459ce1384a77bc86163da6dd13">
+
+<p>如果你想要将URL分解出来,你可以用<code>require(&apos;url&apos;).parse(request.url)</code>.  例如:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ff62d32f50b77c9ec9fe08082a0939ac">
+
+<pre><code>node&gt; require(&apos;url&apos;).parse(&apos;/status?name=ryan&apos;)
+{ href: &apos;/status?name=ryan&apos;,
+  search: &apos;?name=ryan&apos;,
+  query: &apos;name=ryan&apos;,
+  pathname: &apos;/status&apos; }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="fd67c25f35214ce6746c86e332ee4acc">
+
+<p>如果你想要提取出从请求字符串(query string)中的参数,你可以用<code>require(&apos;querystring&apos;).parse</code>函数, 或者将<code>true</code>作为第二个参数传递给<code>require(&apos;url&apos;).parse</code>.  例如:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd5a47688e0038a65787f287476cbcd8">
+
+<pre><code>node&gt; require(&apos;url&apos;).parse(&apos;/status?name=ryan&apos;, true)
+{ href: &apos;/status?name=ryan&apos;,
+  search: &apos;?name=ryan&apos;,
+  query: { name: &apos;ryan&apos; },
+  pathname: &apos;/status&apos; }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6fc0887c7c0f5caa068cc86bd3ebf826">
+
+<h3>message.statusCode<span><a href="#http_message_statuscode_4767" id="http_message_statuscode_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="927a1f84974bf9a371e3af169530dc6e">
+
+<p><strong>仅对从<code>http.ClientRequest</code>获得的响应(response)有效.</strong>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f6ab7e6d0fdee3726ad593ef9dd972a8">
+
+<p>三位数的HTTP响应状态码. 例如 <code>404</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fc545b5ca348cd9cae2c26a379f32ba8">
+
+<h3>message.socket<span><a href="#http_message_socket_4767" id="http_message_socket_4767">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="9d6f0f526bf33380ecf928ba8be7a321">
+
+<p>与此连接(connection)关联的<code>net.Socket</code>对象.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="60b154d52e830ab2976a3d912550987e">
+
+<p>通过https的支持，使用 request.connection.verifyPeer()方法和request.connection.getPeerCertificate()方法来得到客户端的身份信息。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="68b2051da2524ed3b7e9c0a1278de691">
+
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

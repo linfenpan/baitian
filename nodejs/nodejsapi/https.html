@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTTPS Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/https.html">
+</head>
+<body class="alt apidoc" id="api-section-https">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="https.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#https_https_493">HTTPS</a><ul>
+<li><a href="#https_https_server_493">类: https.Server</a><ul>
+<li><a href="#https_server_settimeout_msecs_callback_493">server.setTimeout(msecs, callback)</a></li>
+<li><a href="#https_server_timeout_493">server.timeout</a></li>
+</ul>
+</li>
+<li><a href="#https_https_createserver_options_requestlistener_493">https.createServer(options, [requestListener])</a><ul>
+<li><a href="#https_server_listen_port_host_backlog_callback_493">server.listen(port, [host], [backlog], [callback])</a></li>
+<li><a href="#https_server_listen_path_callback_493">server.listen(path, [callback])</a></li>
+<li><a href="#https_server_listen_handle_callback_493">server.listen(handle, [callback])</a></li>
+<li><a href="#https_server_close_callback_493">server.close([callback])</a></li>
+</ul>
+</li>
+<li><a href="#https_https_request_options_callback_493">https.request(options, callback)</a></li>
+<li><a href="#https_https_get_options_callback_493">https.get(options, callback)</a></li>
+<li><a href="#https_https_agent_493">类: https.Agent</a></li>
+<li><a href="#https_https_globalagent_493">https.globalAgent</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="07261a42681237f06d09d55ce6107170">
+
+<h1>HTTPS<span><a href="#https_https_493" id="https_https_493">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f1f7f8b012a1cbbfdb25706239b2b3a1">
+
+<p>HTTPS 是建立在 TLS/SSL 之上的 HTTP 协议。在 Node 中被实现为单独的模块。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f503023340b5ab0b81c07b7d6c84d74d">
+
+<h2>类: https.Server<span><a href="#https_https_server_493" id="https_https_server_493">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b26670334d23de7759ba90c76ca0b784">
+
+<p>该类是 <code>tls.Server</code> 的子类，并且发生和 <code>http.Server</code> 一样的事件。更多信息详见 <code>http.Server</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f8180a64bc3efd218a9b21198f0f2f54">
+
+<h3>server.setTimeout(msecs, callback)<span><a href="#https_server_settimeout_msecs_callback_493" id="https_server_settimeout_msecs_callback_493">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ea41dec0bd2100bbecdfdf32ceeacfdc">
+
+<p>详见 <a href="http.html#http_server_settimeout_msecs_callback">http.Server#setTimeout()</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="19060fabb61bd3f67c8d8516c4ff8498">
+
+<h3>server.timeout<span><a href="#https_server_timeout_493" id="https_server_timeout_493">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="92b7524bbd341a5a80145070521a1150">
+
+<p>详见 <a href="http.html#http_server_timeout">http.Server#timeout</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="367f2a1857ffbb2bf0d968f48b0917ce">
+
+<h2>https.createServer(options, [requestListener])<span><a href="#https_https_createserver_options_requestlistener_493" id="https_https_createserver_options_requestlistener_493">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="091f7c9de49ab026c159c822e776f084">
+
+<p>返回一个新的 HTTPS Web 服务器对象。其中 <code>options</code> 类似于 <a href="tls.html#tls_tls_createserver_options_secureconnectionlistener">tls.createServer()</a>；<code>requestListener</code> 是一个会被自动添加到 <code>request</code> 事件的函数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="179ffac60d1394f5c58226c5ca36c040">
+
+<pre><code>https.createServer(options, function (req, res) {
+  res.writeHead(200);
+  res.end(&quot;hello world\n&quot;);
+}).listen(8000);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3a2d5fe857d8f9541136a124c2edec6c">
+
+<p>或者
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="179ffac60d1394f5c58226c5ca36c040">
+
+<pre><code>https.createServer(options, function (req, res) {
+  res.writeHead(200);
+  res.end(&quot;hello world\n&quot;);
+}).listen(8000);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="b247153295e27ca55036f651923be510">
+
+<h3>server.listen(port, [host], [backlog], [callback])<span><a href="#https_server_listen_port_host_backlog_callback_493" id="https_server_listen_port_host_backlog_callback_493">#</a></span></h3>
+<h3>server.listen(path, [callback])<span><a href="#https_server_listen_path_callback_493" id="https_server_listen_path_callback_493">#</a></span></h3>
+<h3>server.listen(handle, [callback])<span><a href="#https_server_listen_handle_callback_493" id="https_server_listen_handle_callback_493">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="83209d15c5fb0d2db87b666a1461a12b">
+
+<p>详见 <a href="http.html#http_server_listen_port_hostname_backlog_callback">http.listen()</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f7907ff9a0ecbf199c48b188bc048cb4">
+
+<h3>server.close([callback])<span><a href="#https_server_close_callback_493" id="https_server_close_callback_493">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="8cbc476e6130412ff50eb27cc40f4018">
+
+<p>详见 <a href="http.html#http_server_close_callback">http.close()</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b9c83f1ea2a91b87b256b54838a996aa">
+
+<h2>https.request(options, callback)<span><a href="#https_https_request_options_callback_493" id="https_https_request_options_callback_493">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="0693c2910b2e0da2a1d673585a614aa5">
+
+<p>向一个安全 Web 服务器发送请求。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1970bd60eeec46ba2db61c33b748d34d">
+
+<p><code>options</code> 可以是一个对象或字符串。如果 <code>options</code> 是字符串，它会自动被 <a href="url.html#url.parse">url.parse()</a> 解析。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="adcbb389daf2715cbdbf2c27d6efa2df">
+
+<p>所有来自 <a href="http.html#http_http_request_options_callback">http.request()</a> 的选项都是经过验证的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6f846646c763c83ec9ca9029809e3b97">
+
+<pre><code>req.on(&apos;error&apos;, function(e) {
+  console.error(e);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="84fba0cfac08dde748f2756f3319c8a4">
+
+<p>options 参数有如下选项
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3f11da8a888f3ec6c20e6d5185d9f77e">
+
+<ul>
+<li><code>host</code>：发送请求的服务器的域名或 IP 地址，缺省为 <code>&apos;localhost&apos;</code>。</li>
+<li><code>hostname</code>：为了支持 <code>url.parse()</code>，<code>hostname</code> 优先于 <code>host</code>。</li>
+<li><code>port</code>：远程服务器的端口，缺省为 443。</li>
+<li><code>method</code>：指定 HTTP 请求方法的字符串，缺省为 `&apos;GET&apos;。</li>
+<li><code>path</code>：请求路径，缺省为 <code>&apos;/&apos;</code>。如有查询字串则应包含，比如 <code>&apos;/index.html?page=12&apos;</code>。</li>
+<li><code>headers</code>：包含请求头的对象。</li>
+<li><code>auth</code>：基本认证，如 <code>&apos;user:password&apos;</code> 来计算 Authorization 头。</li>
+<li><code>agent</code>：控制 <a href="#https_class_https_agent">Agent</a> 行为。当使用 Agent 时请求会缺省为 <code>Connection: keep-alive</code>。可选值有：<ul>
+<li><code>undefined</code>（缺省）：为该主机和端口使用 <a href="#https_https_globalagent">globalAgent</a>。</li>
+<li><code>Agent</code> 对象：明确使用传入的 <code>Agent</code>。</li>
+<li><code>false</code>：不使用 Agent 连接池，缺省请求 <code>Connection: close</code>。</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="1c42946465c6cad791279b77dfe16584">
+
+<p>下列来自 <a href="tls.html#tls_tls_connect_options_callback">tls.connect()</a> 的选项也能够被指定，但一个 <a href="#https_https_globalagent">globalAgent</a> 会忽略它们。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="777fe308b732371437e704e85adba766">
+
+<ul>
+<li><code>pfx</code>：证书，SSL 所用的私钥或 CA 证书。缺省为 <code>null</code>。</li>
+<li><code>key</code>：SSL 所用私钥。缺省为 <code>null</code>。</li>
+<li><code>passphrase</code>：私钥或 pfx 的口令字符串，缺省为 <code>null</code>。</li>
+<li><code>cert</code>：所用公有 x509 证书，缺省为 <code>null</code>。</li>
+<li><code>ca</code>：用于检查远程主机的证书颁发机构或包含一系列证书颁发机构的数组。</li>
+<li><code>ciphers</code>：描述要使用或排除的密码的字符串，格式请参阅 <a href="http://www.openssl.org/docs/apps/ciphers.html#CIPHER_LIST_FORMAT">http://www.openssl.org/docs/apps/ciphers.html#CIPHER_LIST_FORMAT</a>。</li>
+<li><code>rejectUnauthorized</code>：如为 <code>true</code> 则服务器证书会使用所给 CA 列表验证。如果验证失败则会触发 <code>&apos;error&apos;</code> 时间。验证过程发生于连接层，在 HTTP 请求发送<em>之前</em>。缺省为 <code>true</code>。</li>
+<li><code>secureProtocol</code>：所用 SSL 方法，比如 <code>SSLv3_method</code> 强制使用 SSL version 3。可取值取决于您安装的 OpenSSL 并被定义在 <a href="http://www.openssl.org/docs/ssl/ssl.html#DEALING_WITH_PROTOCOL_METHODS">SSL_METHODS</a> 常量。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="09842de60f917191a98cc49250387889">
+
+<p>要指定这些选项，使用一个自定义 <code>Agent</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1aa0bc899bd3466d7ba05b7454ff4555">
+
+<pre><code>var req = https.request(options, function(res) {
+  ...
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4362f1b8d3cd5d16d9bb82432bc4c806">
+
+<p>或不使用 <code>Agent</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1aa0bc899bd3466d7ba05b7454ff4555">
+
+<pre><code>var req = https.request(options, function(res) {
+  ...
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="118835b9e2a038580bc7fc99b7148ca8">
+
+<h2>https.get(options, callback)<span><a href="#https_https_get_options_callback_493" id="https_https_get_options_callback_493">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="3ae3e7bb5cdedf48e3fd3a8e00d5fb84">
+
+<p>类似 <code>http.get()</code> 但为 HTTPS。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1970bd60eeec46ba2db61c33b748d34d">
+
+<p><code>options</code> 可以是一个对象或字符串。如果 <code>options</code> 是字符串，它会自动被 <a href="url.html#url.parse">url.parse()</a> 解析。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dd7a30212cd3d0720a2e19b397e1dcb6">
+
+<pre><code>}).on(&apos;error&apos;, function(e) {
+  console.error(e);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="1590c8f037192610eb3900be65dff3e6">
+
+<h2>类: https.Agent<span><a href="#https_https_agent_493" id="https_https_agent_493">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2c0310c97601d5cd492cc2fc3098be66">
+
+<p>类似于 <a href="http.html#http_class_http_agent">http.Agent</a> 的 HTTPS Agent 对象。详见 <a href="#https_https_request_options_callback">https.request()</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af2120804f31d8e2677be881feff5624">
+
+<h2>https.globalAgent<span><a href="#https_https_globalagent_493" id="https_https_globalagent_493">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="8b414e2f7c6a265838a29491a98e2ad1">
+
+<p>所有 HTTPS 客户端请求的全局 <a href="#https_class_https_agent">https.Agent</a> 实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="73984bc74fe6ddb3da928a8a1934911b">
+
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

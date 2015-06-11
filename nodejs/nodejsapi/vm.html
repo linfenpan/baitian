@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>执行 JavaScript Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/vm.html">
+</head>
+<body class="alt apidoc" id="api-section-vm">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="vm.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#vm_javascript_532">执行 JavaScript</a><ul>
+<li><a href="#vm_vm_runinthiscontext_code_options_532">vm.runInThisContext(code, [options])</a></li>
+<li><a href="#vm_vm_createcontext_sandbox_532">vm.createContext([sandbox])</a></li>
+<li><a href="#vm_vm_iscontext_sandbox_532">vm.isContext(sandbox)</a></li>
+<li><a href="#vm_vm_runincontext_code_contextifiedsandbox_options_532">vm.runInContext(code, contextifiedSandbox, [options])</a></li>
+<li><a href="#vm_vm_runinnewcontext_code_sandbox_options_532">vm.runInNewContext(code, [sandbox], [options])</a></li>
+<li><a href="#vm_script_532">类: Script</a><ul>
+<li><a href="#vm_new_vm_script_code_options_532">new vm.Script(code, options)</a></li>
+<li><a href="#vm_script_runinthiscontext_options_532">script.runInThisContext([options])</a></li>
+<li><a href="#vm_script_runincontext_contextifiedsandbox_options_532">script.runInContext(contextifiedSandbox, [options])</a></li>
+<li><a href="#vm_script_runinnewcontext_sandbox_options_532">script.runInNewContext([sandbox], [options])</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="b43139672c5e66564b0868a2ca9edfb4">
+
+<h1>执行 JavaScript<span><a href="#vm_javascript_532" id="vm_javascript_532">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<!--name=vm-->
+
+<div class="translate-section" data-hash="c76ce3986104b565ff5b24a734445f1e">
+
+<p>你可以这样引入此模块：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="09a1b5b8e631bcc619146728e630cbca">
+
+<pre><code>var vm = require(&apos;vm&apos;);</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c7dc867d22736e1d1a4813d6b3d9fd1e">
+
+<p>JavaScript 代码可以被编译并立即执行，也可以在编译后保存，留到稍后执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cef415d4a899a99b9271b16f38faac87">
+
+<h2>vm.runInThisContext(code, [options])<span><a href="#vm_vm_runinthiscontext_code_options_532" id="vm_vm_runinthiscontext_code_options_532">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4594aa4ac12d9eb154237713d637277f">
+
+<p><code>vm.runInThisContext()</code> 对 <code>code</code> 进行编译、运行并返回结果。
+ 被运行的代码没有对本地作用域 (local scope) 的访问权限，但是可以访问当前的 <code>global</code> 对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="609299c70cbd4cd970ce061e12c496eb">
+
+<p>使用 <code>vm.runInThisContext</code> 和 <code>eval</code> 分别执行相同的代码：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="13d0ecbc18ceb0bf829120078fa5904b">
+
+<pre><code>// vmResult: &apos;vm&apos;, localVar: &apos;initial value&apos;
+// evalResult: &apos;eval&apos;, localVar: &apos;eval&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="02b66232c7d48d62539352387cb122b5">
+
+<p><code>vm.runInThisContext</code> 无法访问本地作用域，因此 <code>localVar</code> 没有被改变。
+<code>eval</code> 可以访问本地作用域，因此 <code>localVar</code> 被改变。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6d69ba3a377181590921a7d23a92e438">
+
+<p>这种情况下 <code>vm.runInThisContext</code> 可以看作一种 <a href="http://es5.github.io/#x10.4.2">间接的 <code>eval</code> 调用</a>，
+如 <code>(0,eval)(&apos;code&apos;)</code>。但是 <code>vm.runInThisContext</code> 也提供下面几个额外的参数：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0f101b9438c653fd4fbcde361a874709">
+
+<ul>
+<li><code>filename</code>: 允许您更改显示在站追踪 (stack trace) 中的文件名</li>
+<li><code>displayErrors</code>: 是否在抛出异常前输出带高亮错误代码行的错误信息到 stderr。
+将会捕捉所有在编译 <code>code</code> 的过程中产生的语法错误以及执行过程中产生的运行时错误。
+默认为 <code>true</code></li>
+<li><code>timeout</code>: 以毫秒为单位规定 <code>code</code> 允许执行的时间。在执行过程中被终止时会有 <code>Error</code> 抛出。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f25650bbd9c4f8c94046f9dc571cbf66">
+
+</div>
+
+<div class="translate-section" data-hash="6e625c5309f2af13b73c9e77f115f948">
+
+<h2>vm.createContext([sandbox])<span><a href="#vm_vm_createcontext_sandbox_532" id="vm_vm_createcontext_sandbox_532">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="ecab1900389e87cf98ecfb5a4f56d15b">
+
+<p>如提供 <code>sandbox</code> 对象则将沙箱 (sandbox) 对象 “上下文化 (contextify)” 供 <code>vm.runInContext</code> 或者 <code>script.runInContext</code> 使用。
+以此方式运行的脚本将以 <code>sandbox</code> 作为全局对象，该对象将在保留其所有的属性的基础上拥有标准 <a href="http://es5.github.io/#x15.1">全局对象</a> 所拥有的内置对象和函数。
+在由 vm 模块运行的脚本之外的地方 <code>sandbox</code> 将不会被改变。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="661478c5ded4f2a21ad05c110d3670a4">
+
+<p>如果没有提供沙箱对象，则返回一个新建的、没有任何对象被上下文化的可用沙箱。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="400e5e8ba9907bf0787ca376d713b53a">
+
+<p>此函数可用于创建可执行多个脚本的沙箱，
+比如，在模拟浏览器的时候可以使用该函数创建一个用于表示 window 全局对象的沙箱，
+并将所有 <code>&lt;script&gt;</code> 标签放入沙箱执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="56bfa138fc610a8f789331546c8b03be">
+
+</div>
+
+<div class="translate-section" data-hash="ad9c65079cbeabb898c8bad53bf1816b">
+
+<h2>vm.isContext(sandbox)<span><a href="#vm_vm_iscontext_sandbox_532" id="vm_vm_iscontext_sandbox_532">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="eed1f9a4c2844e1ac04d0df6ef58d1b5">
+
+<p>返回沙箱对象是否已经通过 <code>vm.createContext</code> 上下文化 (contextified)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1c98d5ac2bbdcfa163bfe40dd24ee0f0">
+
+<h2>vm.runInContext(code, contextifiedSandbox, [options])<span><a href="#vm_vm_runincontext_code_contextifiedsandbox_options_532" id="vm_vm_runincontext_code_contextifiedsandbox_options_532">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fa184a5cb74ab47677cc6fea4003a563">
+
+<p><code>vm.runInContext</code> 编译 <code>code</code> 放入 <code>contextifiedSandbox</code> 执行并返回执行结果。
+被执行的代码对 本地作用域 (local scope) 没有访问权。
+<code>contextifiedSandbox</code> 必须在使用前通过 <code>vm.createContext</code> 上下文化，用作 <code>code</code> 的全局对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8cc73c1c974d1adc1aa700fbad4e282f">
+
+<p><code>vm.runInContext</code> 使用与 <code>vm.runInThisContext</code> 相同的 选项 (<code>options</code>)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="339865f40e0d7a83d2b7fe6b82985ca5">
+
+<p>示例：在同一个上下文中编译并执行不同的脚本
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9dfcd128dd799669beacd6b1b7aa4cd9">
+
+<pre><code>// { globalVar: 1024 }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3e8dce856944020c5cb4ab86a9e759c0">
+
+<p>执行不可信代码 (untrusted code) 是一件充满技巧而且需要非常小心的工作。
+<code>vm.runInContext</code> 十分好用，但是安全地运行不可信代码还需要将这些代码放入单独的进程里面执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b330dbed331f9ce62bafc21689c44ba2">
+
+<h2>vm.runInNewContext(code, [sandbox], [options])<span><a href="#vm_vm_runinnewcontext_code_sandbox_options_532" id="vm_vm_runinnewcontext_code_sandbox_options_532">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="27f695659467f99036fe515ba21eda86">
+
+<p><code>vm.runInNewContext</code> 首先编译 <code>code</code>，若提供 <code>sandbox</code> 则将 <code>sandbox</code> 上下文化，若未提供则创建一个新的沙箱并上下文化，
+然后将代码放入沙箱作为全局对象的上下文内执行并返回结果。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="888ea2385178d1ddd8cb100c4f6f36c7">
+
+<p><code>vm.runInNewContext</code> 使用与 <code>vm.runInThisContext</code> 相同的 选项 (<code>options</code>)
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e3bc7ba80d2570cdebcff7e840b6ba8e">
+
+<p>示例: 编译并执行一段“自增一个全局变量然后创建一个全局变量”的代码。这些被操作的全局变量会被保存在沙箱中。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="225e89f941d5299244d35575fe5feb63">
+
+<pre><code>// { animal: &apos;cat&apos;, count: 3, name: &apos;kitty&apos; }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c4ae78408e68d845002b193c18741afc">
+
+<p>执行不可信代码 (untrusted code) 是一件充满技巧而且需要非常小心的工作。
+<code>vm.runInNewContext</code> 十分好用，但是安全地运行不可信代码还需要将这些代码放入单独的进程里面执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="acc1952ca28e8fbcaa29e4d5bf734cca">
+
+<h2>类: Script<span><a href="#vm_script_532" id="vm_script_532">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="438b478dccdd9cc0b26b450ab6d76df1">
+
+<p>用于存放预编译脚本的类，可将预编译代码放入沙箱执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="700d0a4f6cb5a70eba3380219dbfb66f">
+
+<h3>new vm.Script(code, options)<span><a href="#vm_new_vm_script_code_options_532" id="vm_new_vm_script_code_options_532">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="76484e75cdf6ef7a681b0474c93485b3">
+
+<p>创建一个新的 <code>Script</code> 用于编译 <code>code</code> 但是不执行。使用被创建的 <code>vm.Script</code> 用来表示完成编译的代码。
+这份可以在后面的代码中执行多次。
+返回的脚本是未绑定任何全局对象 (上下文 context) 的，全局对象仅在每一次执行的时候被绑定，执行结束后即释放绑定。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b3e456a6adeedc60b138a29d51e4b84d">
+
+<p>创建脚本的选项 (option) 有：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6f8cf003b75c45993938f9b329bf6a44">
+
+<ul>
+<li><code>filename</code>: 允许您更改显示在站追踪 (stack trace) 中的文件名</li>
+<li><code>displayErrors</code>: 是否在抛出异常前输出带高亮错误代码行的错误信息到 stderr。
+仅捕捉所有在编译过程中产生的语法错误（运行时错误由运行脚本选项控制）。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="19bfe99987f158dd35b7f5944a08b77e">
+
+<h3>script.runInThisContext([options])<span><a href="#vm_script_runinthiscontext_options_532" id="vm_script_runinthiscontext_options_532">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3b9e4615ae99c3ecd4499b5d57407ee1">
+
+<p>类似 <code>vm.runInThisContext</code> 只是作为预编译的 <code>Script</code> 对象方法。
+<code>script.runInThisContext</code> 执行被编译的 <code>script</code> 并返回结果。
+被运行的代码没有对本地作用域 (local scope) 的访问权限，但是可以访问当前的 <code>global</code> 对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7991dab9c9f47ce307a4964143bd29d7">
+
+<p>示例: 使用 <code>script.runInThisContext</code> 编译代码并多次执行: 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fb25ecab99590847c89f324d4d1cfa9d">
+
+<pre><code>// 1000</code></pre>
+</div>
+
+<div class="translate-section" data-hash="09aee9e51f01da0be49bc9fe5e7b65f2">
+
+<p>运行脚本的选项 (option) 有: 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="46d9e5f771a30da2160930ef88a56573">
+
+<ul>
+<li><code>displayErrors</code>: 是否在抛出异常前输出带高亮错误代码行的错误信息到 stderr。
+仅捕捉所有执行过程中产生的运行时错误（语法错误会在 <code>Script</code> 示例创建时就发生，因此不可能创建出带语法错误的 <code>Script</code> 对象）。</li>
+<li><code>timeout</code>: 以毫秒为单位规定 <code>code</code> 允许执行的时间。在执行过程中被终止时会有 <code>Error</code> 抛出。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d1f9787da6923d54eaf4012254eaaffd">
+
+<h3>script.runInContext(contextifiedSandbox, [options])<span><a href="#vm_script_runincontext_contextifiedsandbox_options_532" id="vm_script_runincontext_contextifiedsandbox_options_532">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="877c90e2d147628db5feb4e0b52a5610">
+
+<p>类似 <code>vm.runInContext</code> 只是作为预编译的 <code>Script</code> 对象方法。
+<code>script.runInContext</code> 在 <code>contextifiedSandbox</code> 中执行 <code>script</code> 编译出的代码，并返回结果。
+被运行的代码没有对本地作用域 (local scope) 的访问权限。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="0d0372ec540066cdf2118016972c3382">
+
+<p><code>script.runInContext</code> 使用与 <code>script.runInThisContext</code> 相同的 选项 (option)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="af63b6e9faed9f500e3adccb79e30d92">
+
+<p>示例: 编译一段“自增一个全局变量然后创建一个全局变量”的代码，然后多次执行此代码，
+被操作的全局变量会被保存在沙箱中。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="55aa3ea2ddec665b30f7c5accaf5fb41">
+
+<pre><code>// { animal: &apos;cat&apos;, count: 12, name: &apos;kitty&apos; }</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c13c124a8f3261f059bac842fcdb9cd4">
+
+<p>执行不可信代码 (untrusted code) 是一件充满技巧而且需要非常小心的工作。
+<code>script.runInContext</code> 十分好用，但是安全地运行不可信代码还需要将这些代码放入单独的进程里面执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="045cfd08ac382f7cb4fe853bcc702fbc">
+
+<h3>script.runInNewContext([sandbox], [options])<span><a href="#vm_script_runinnewcontext_sandbox_options_532" id="vm_script_runinnewcontext_sandbox_options_532">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="6c279a3398de00c9e197789a93d8600b">
+
+<p>类似 <code>vm.runInNewContext</code> 但是作为预编译的 <code>Script</code> 对象方法。
+若提供 <code>sandbox</code> 则 <code>script.runInNewContext</code> 将 <code>sandbox</code> 上下文化，若未提供，则创建一个新的上下文化的沙箱，
+然后将代码放入沙箱作为全局对象的上下文内执行并返回结果。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="5ba46a82cbcaeb31647a2e5b013a5ea8">
+
+<p><code>script.runInNewContext</code> 使用与 <code>script.runInThisContext</code> 相同的 选项 (option)。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3b91494e2eb236933a7230352ff6636d">
+
+<p>示例: 编译一段“写入一个全局变量”的代码，然后将代码放入不同的上下文 (context) 执行，这些被操作的全局变量会被保存在沙箱中。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7c1c26b23d5283ae1338ef3d69c0a724">
+
+<pre><code>// [{ globalVar: &apos;set&apos; }, { globalVar: &apos;set&apos; }, { globalVar: &apos;set&apos; }]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="95f260b74df7d8b4752b276984d184d5">
+
+<p>执行不可信代码 (untrusted code) 是一件充满技巧而且需要非常小心的工作。
+<code>script.runInNewContext</code> 十分好用，但是安全地运行不可信代码还需要将这些代码放入单独的进程里面执行。
+
+</p>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

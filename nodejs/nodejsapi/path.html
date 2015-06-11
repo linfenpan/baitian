@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>路径 (Path) Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/path.html">
+</head>
+<body class="alt apidoc" id="api-section-path">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="path.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#path_path_1144">路径 (Path)</a><ul>
+<li><a href="#path_path_normalize_p_1144">path.normalize(p)</a></li>
+<li><a href="#path_path_join_path1_path2_1144">path.join([path1], [path2], [...])</a></li>
+<li><a href="#path_path_resolve_from_to_1144">path.resolve([from ...], to)</a></li>
+<li><a href="#path_path_isabsolute_path_1144">path.isAbsolute(path)</a></li>
+<li><a href="#path_path_relative_from_to_1144">path.relative(from, to)</a></li>
+<li><a href="#path_path_dirname_p_1144">path.dirname(p)</a></li>
+<li><a href="#path_path_basename_p_ext_1144">path.basename(p, [ext])</a></li>
+<li><a href="#path_path_extname_p_1144">path.extname(p)</a></li>
+<li><a href="#path_path_sep_1144">path.sep</a></li>
+<li><a href="#path_path_delimiter_1144">path.delimiter</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="d2b2d157862c44d6de70ad4960129684">
+
+<h1>路径 (Path)<span><a href="#path_path_1144" id="path_path_1144">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="90a6d1cb7d27d9e1a0cedcd13d9dfc26">
+
+<p>本模块包含一套用于处理和转换文件路径的工具集。几乎所有的方法仅对字符串进行转换，
+文件系统是不会检查路径是否真实有效的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9525e484bf031c68a2f07b25bcb93de0">
+
+<p>通过 <code>require(&apos;path&apos;)</code> 来加载此模块。以下是本模块所提供的方法：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1139f7f0b81c7db2040c5e33b96abaca">
+
+<h2>path.normalize(p)<span><a href="#path_path_normalize_p_1144" id="path_path_normalize_p_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="f0be7e00794213a615d82738cbac6ae4">
+
+<p>规范化字符串路径，注意 <code>&apos;..&apos;</code> 和 `&apos;.&apos; 部分
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd24fd8355c42bef572678a3a4677506">
+
+<p>当发现有多个连续的斜杠时，会替换成一个；
+当路径末尾包含斜杠时，会保留；
+在 Windows 系统会使用反斜杠。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e76eac10741e6d5f655708f882644904">
+
+<pre><code>path.normalize(&apos;/foo/bar//baz/asdf/quux/..&apos;)
+// returns
+&apos;/foo/bar/baz/asdf&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="035a136326902cc99f01e2647f72cd5f">
+
+<h2>path.join([path1], [path2], [...])<span><a href="#path_path_join_path1_path2_1144" id="path_path_join_path1_path2_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b35b36b13787799f771577132c53a194">
+
+<p>组合参数中的所有路径，返回规范化后的路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1a59c94acc454262fec6390695b0fb32">
+
+<p>参数必须是字符串。在 v0.8 版本非字符串参数会被悄悄忽略。
+在 v0.10 及以后版本将会抛出一个异常。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bd0d92821c64149b920be443fab3c031">
+
+<pre><code>path.join(&apos;foo&apos;, {}, &apos;bar&apos;)
+// 抛出异常
+TypeError: Arguments to path.join must be strings</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6e3df22db88a9ad0059f02bb7b7a5a6c">
+
+<h2>path.resolve([from ...], to)<span><a href="#path_path_resolve_from_to_1144" id="path_path_resolve_from_to_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4304abd87ee407676d4adbbcae222002">
+
+<p>将 <code>to</code> 参数解析为一个绝对路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2bb1882a4a149c931bb06786dc41dc8">
+
+<p>如果<code>to</code>不是一个相对于<code>from</code> 参数的绝对路径，<code>to</code>会被添加到<code>from</code>的右边，直到找出一个绝对路径为止。如果使用<code>from</code>路径且仍没有找到绝对路径时，使用当时路径作为目录。返回的结果已经规范化，得到的路径会去掉结尾的斜杠，除非得到的当前路径为root目录。非字符串参数将被忽略。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bda6bdd9d9024de64704df368a99b266">
+
+<p>另一种思考方式就是像在shell里面用一系列的‘cd’命令一样.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a76915a2070d5bb1e7f0d1705e2a2bf3">
+
+<pre><code>path.resolve(&apos;foo/bar&apos;, &apos;/tmp/file/&apos;, &apos;..&apos;, &apos;a/../subfile&apos;)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2697e2ebca47c97e2683b923a7d1e181">
+
+<p>相当于:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fbde0e402e1f2cbee737ad86720dbb43">
+
+<pre><code>cd foo/bar
+cd /tmp/file/
+cd ..
+cd a/../subfile
+pwd</code></pre>
+</div>
+
+<div class="translate-section" data-hash="7b84905812d21464a74655d96253cd4d">
+
+<p>不同的是，不同的路径不需要存在的，也可能是文件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd05d7f6bfc90e815087880e8e915b43">
+
+<p>示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c4074e1fba9c8c2f3284c82b38b4c9a2">
+
+<pre><code>path.resolve(&apos;wwwroot&apos;, &apos;static_files/png/&apos;, &apos;../gif/image.gif&apos;)
+// 如果当前工作目录为 /home/myself/node，它返回：
+&apos;/home/myself/node/wwwroot/static_files/gif/image.gif&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="cc1c3547f6178d7e6bc49e57f939c84c">
+
+<h2>path.isAbsolute(path)<span><a href="#path_path_isabsolute_path_1144" id="path_path_isabsolute_path_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="2ace2bd0fa87ac468c3bc9537a80a293">
+
+<p>判定<code>path</code>是否为绝对路径。一个绝对路径总是指向一个相同的位置，无论当前工作目录是在哪里。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="08e387b535fdce53e13969224f9465fb">
+
+<p>Posix 示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fc41c7000c41aa0bf481d913bf63a8c8">
+
+<pre><code>path.isAbsolute(&apos;/foo/bar&apos;) // true
+path.isAbsolute(&apos;/baz/..&apos;)  // true
+path.isAbsolute(&apos;qux/&apos;)     // false
+path.isAbsolute(&apos;.&apos;)        // false</code></pre>
+</div>
+
+<div class="translate-section" data-hash="15eb7516b1374a9bd1a4a62a2ad77393">
+
+<p>Windows 示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3ed1a2fec784a2a26a1579878398c331">
+
+<pre><code>path.isAbsolute(&apos;//server&apos;)  // true
+path.isAbsolute(&apos;C:/foo/..&apos;) // true
+path.isAbsolute(&apos;bar\\baz&apos;)   // false
+path.isAbsolute(&apos;.&apos;)         // false</code></pre>
+</div>
+
+<div class="translate-section" data-hash="0b6a7e3369acf0d7e9e8a1efe89bb215">
+
+<h2>path.relative(from, to)<span><a href="#path_path_relative_from_to_1144" id="path_path_relative_from_to_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="dd37749b7f72bee314dc17d21277081c">
+
+<p>解决从<code>from</code>到<code>to</code>的相对路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="df2fc3075fa236546e2e9f53abe9dbab">
+
+<p>有时我们有2个绝对路径, 我们需要从中找出相对目录的起源目录。这完全是<code>path.resolve</code>的相反实现,我们可以看看是什么意思:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="72fb2f724ceb1f44b3e769b4d8a16eb7">
+
+<pre><code>path.resolve(from, path.relative(from, to)) == path.resolve(to)</code></pre>
+</div>
+
+<div class="translate-section" data-hash="fd05d7f6bfc90e815087880e8e915b43">
+
+<p>示例:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b50082bdf612871222a04c2842037d8c">
+
+<pre><code>path.relative(&apos;/data/orandea/test/aaa&apos;, &apos;/data/orandea/impl/bbb&apos;)
+// 返回
+&apos;../../impl/bbb&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="418da72257679d7fe43d2410cd3d425b">
+
+<h2>path.dirname(p)<span><a href="#path_path_dirname_p_1144" id="path_path_dirname_p_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="9619253f11ea48e59433d5feedc47027">
+
+<p>返回路径中文件夹的名称.  类似于Unix的<code>dirname</code> 命令.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ec24091367e74246760496a5a428263f">
+
+<pre><code>path.dirname(&apos;/foo/bar/baz/asdf/quux&apos;)
+// returns
+&apos;/foo/bar/baz/asdf&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="728ba38b599926b2032ee5aca619da54">
+
+<h2>path.basename(p, [ext])<span><a href="#path_path_basename_p_ext_1144" id="path_path_basename_p_ext_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="fd1c053ef0847bc88b63a74dcc29c2dd">
+
+<p>返回路径中的最后哦一部分.  类似于Unix 的 <code>basename</code> 命令.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7ad24dd30accfa25803f013e0c774a19">
+
+<pre><code>path.basename(&apos;/foo/bar/baz/asdf/quux.html&apos;, &apos;.html&apos;)
+// returns
+&apos;quux&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="3b8215556e331aebb8f5c86c25d91bf8">
+
+<h2>path.extname(p)<span><a href="#path_path_extname_p_1144" id="path_path_extname_p_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="4cbc0f0bc97fb3a9a4e51eca50fb9069">
+
+<p>返回路径中文件的扩展名, 在从最后一部分中的最后一个&apos;.&apos;到字符串的末尾。
+如果在路径的最后一部分没有&apos;.&apos;，或者第一个字符是&apos;.&apos;，就返回一个
+空字符串。 例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bdadac5885a7a580b8d58526a6a27e41">
+
+<pre><code>path.extname(&apos;index&apos;)
+// returns
+&apos;&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="06ea66b43bae9ae7a51ae1b41e5c8889">
+
+<h2>path.sep<span><a href="#path_path_sep_1144" id="path_path_sep_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="c22c3c5cf90b46e29176b6a41a0009df">
+
+<p>特定平台的文件分隔工具. <code>&apos;\\&apos;</code> 或者 <code>&apos;/&apos;</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81ac465d53ea2880b60c7baf44265d5a">
+
+<p>*nix 上的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6faea28a941ecc9cc2ac83d691baf72d">
+
+<pre><code>&apos;foo/bar/baz&apos;.split(path.sep)
+// returns
+[&apos;foo&apos;, &apos;bar&apos;, &apos;baz&apos;]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9e1a4994b7d7e6ce52033aa3f8b5930d">
+
+<p>Windows 上的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aaa81f8a5d8f11162a2dd0ffc48c28fd">
+
+<pre><code>&apos;foo\\bar\\baz&apos;.split(path.sep)
+// returns
+[&apos;foo&apos;, &apos;bar&apos;, &apos;baz&apos;]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="e68eff1a9560918e05a2e819916a7c42">
+
+<h2>path.delimiter<span><a href="#path_path_delimiter_1144" id="path_path_delimiter_1144">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="39444af0792ad1ecb5884b2f540d40b5">
+
+<p>特定平台的路径分隔符, <code>;</code> 或者 <code>&apos;:&apos;</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81ac465d53ea2880b60c7baf44265d5a">
+
+<p>*nix 上的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="15b9c5a114461679312fc3c625d620ef">
+
+<pre><code>process.env.PATH.split(path.delimiter)
+// returns
+[&apos;/usr/bin&apos;, &apos;/bin&apos;, &apos;/usr/sbin&apos;, &apos;/sbin&apos;, &apos;/usr/local/bin&apos;]</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9e1a4994b7d7e6ce52033aa3f8b5930d">
+
+<p>Windows 上的例子:
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c1f5f72de6df3890500a25110308f1f7">
+
+<pre><code>console.log(process.env.PATH)
+// &apos;C:\Windows\system32;C:\Windows;C:\Program Files\nodejs\&apos;</code></pre>
+</div>
+
+<div class="translate-section" data-hash="65e9cab8836f77236ecd5ec67c8238c8">
+
+<pre><code>process.env.PATH.split(path.delimiter)
+// returns
+[&apos;C:\Windows\system32&apos;, &apos;C:\Windows&apos;, &apos;C:\Program Files\nodejs\&apos;]</code></pre>
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

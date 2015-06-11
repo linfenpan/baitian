@@ -1,0 +1,157 @@
+extends layout
+
+block title
+	title 我的第一个#{title}测试
+
+block content
+	h1 静态视图助手
+	p #{myName} //-这玩意竟然不存在..
+	br/
+	
+	h1= title
+	p Welcomen to #{title}
+	p(class="author") Author: #{author}
+	
+	//- 变量测试
+	br/
+	h1 My Var Testing:
+	- var friend = 10
+	case friend
+		when 0
+			p you have not friends
+		default
+			p you have #{friend} friends
+	
+	//- for 循环测试
+	br/
+	h1 Code:"For" Test
+	- for(var i = 0; i < 3; i++)
+		li item#{i}
+	
+	//- html默认转码
+	br/
+	h1 html转码
+	p= 'This code is <escaped>!'
+	p!= 'This code is <strong>not</strong> escaped!'
+	- var user = {name: '<strong>用户名</strong>'};
+	p 你的名字：!{user.name}
+	br/
+	
+	//-条件判断
+	- var user = {name: "熊叔爱吃鱼", sex: "boy"};
+	h1 If条件判断
+	#user
+		//- 会发现，if是支持两种写法的
+		if(user.name)
+			p 名字:#{user.name}
+		if user.sex == "boy"
+			p.sex 性别:#{user.sex}男
+		else
+			p.sex 性别:#{user.sex}女
+	br/
+	
+	//- 测试include方法，可include css和js
+	include ./testInclude.jade
+	br/
+	
+	//- each测试
+	h1 Each测试
+	ul
+		- each val in [1, 2, 3, 4, 5]
+			li 读取内容#{val}
+	br/
+	ul
+		- each val, i in ["zero", "one", "two"]
+			li= i + ":" + val
+	br/
+	ul
+		- each val, i in {1: "one", 2: "two", 3: "three"}
+			li= i + ":" + val
+	br/
+	-var values = [];
+	ul
+		- each val, i in values.length ? values : ["There is no value"]
+			li= val
+	br/
+	ul
+		-var n = 0;
+		while n < 4
+			li= n++
+	br/
+	
+	//- 纯文本，木有标签
+	| 文本纯洁到你不相信<strong>小纯洁</strong>
+	p
+		|只有独立一行，才会有作用哦！
+	p 包含<strong>一个标签</strong>看看
+	br/
+	
+	//- 脚本的script木有"."会报错哦~
+	script.
+		alert(1);
+
+//- 自定义函数
+mixin list
+	ul
+		li foo
+		li bar
+		li baz
+	
+//- 带参数
+mixin pet(name)
+	li.pet= name
+
+//- 读取block内容
+mixin article(title)
+	h1.article
+		p.title= title
+	if block
+		block
+	else
+		p No article content is provided
+
+//- 读取属性，通过attributes读取之~
+mixin link(href, name)
+	//- attributes == {class: "btn"}
+	a(class!=attributes.class, href=href, target="_blank")=name
+
+//- 读取剩余的参数
+mixin list(id, ...items)
+	ul(id=id)
+		each item in items
+			li= item
+
+//- sub的测试
+block sub1
+	h1 内容重写
+	p sub1的内容重写
+	+article("文章标题")
+		p 这是我的文章内容
+	//- 测试读取属性
+	+link("http://www.100bt.com/", "链接")(class=["link", "btn"])
+br/
+block sub2
+	p sub2的内容重写
+	//- 定义函数使用...
+	+list
+	+list
+	ul
+		+pet("cat")
+		+pet("dog")
+		+pet("pig")
+	//- 测试读取剩余参数
+	+list("listTest", "A", "B", "C")
+
+	
+
+//- 在footer底部插入
+block append footer
+	p 插入到footer的底部
+block prepend footer
+	p 插入到footer的顶部
+//- 下面的内容，只有第一个会生效
+block footer
+	p footer的内容1
+block footer
+	p footer的内容2
+	

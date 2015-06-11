@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>net Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/net.html">
+</head>
+<body class="alt apidoc" id="api-section-net">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="net.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#net_net_1839">net</a><ul>
+<li><a href="#net_net_createserver_options_connectionlistener_1839">net.createServer([options], [connectionListener])</a></li>
+<li><a href="#net_net_connect_options_connectionlistener_1839">net.connect(options, [connectionListener])</a></li>
+<li><a href="#net_net_createconnection_options_connectionlistener_1839">net.createConnection(options, [connectionListener])</a></li>
+<li><a href="#net_net_connect_port_host_connectlistener_1839">net.connect(port, [host], [connectListener])</a></li>
+<li><a href="#net_net_createconnection_port_host_connectlistener_1839">net.createConnection(port, [host], [connectListener])</a></li>
+<li><a href="#net_net_connect_path_connectlistener_1839">net.connect(path, [connectListener])</a></li>
+<li><a href="#net_net_createconnection_path_connectlistener_1839">net.createConnection(path, [connectListener])</a></li>
+<li><a href="#net_net_server_1839">类: net.Server</a><ul>
+<li><a href="#net_server_listen_port_host_backlog_callback_1839">server.listen(port, [host], [backlog], [callback])</a></li>
+<li><a href="#net_server_listen_path_callback_1839">server.listen(path, [callback])</a></li>
+<li><a href="#net_server_listen_handle_callback_1839">server.listen(handle, [callback])</a></li>
+<li><a href="#net_server_close_callback_1839">server.close([callback])</a></li>
+<li><a href="#net_server_address_1839">server.address()</a></li>
+<li><a href="#net_server_unref_1839">server.unref()</a></li>
+<li><a href="#net_server_ref_1839">server.ref()</a></li>
+<li><a href="#net_server_maxconnections_1839">server.maxConnections</a></li>
+<li><a href="#net_server_connections_1839">server.connections</a></li>
+<li><a href="#net_server_getconnections_callback_1839">server.getConnections(callback)</a></li>
+<li><a href="#net_listening_1839">事件: &apos;listening&apos;</a></li>
+<li><a href="#net_connection_1839">事件: &apos;connection&apos;</a></li>
+<li><a href="#net_close_3678">事件: &apos;close&apos;</a></li>
+<li><a href="#net_error_3678">事件: &apos;error&apos;</a></li>
+</ul>
+</li>
+<li><a href="#net_net_socket_1839">类: net.Socket</a><ul>
+<li><a href="#net_new_net_socket_options_1839">new net.Socket([options])</a></li>
+<li><a href="#net_socket_connect_port_host_connectlistener_1839">socket.connect(port, [host], [connectListener])</a></li>
+<li><a href="#net_socket_connect_path_connectlistener_1839">socket.connect(path, [connectListener])</a></li>
+<li><a href="#net_socket_buffersize_1839">socket.bufferSize</a></li>
+<li><a href="#net_socket_setencoding_encoding_1839">socket.setEncoding([encoding])</a></li>
+<li><a href="#net_socket_write_data_encoding_callback_1839">socket.write(data, [encoding], [callback])</a></li>
+<li><a href="#net_socket_end_data_encoding_1839">socket.end([data], [encoding])</a></li>
+<li><a href="#net_socket_destroy_1839">socket.destroy()</a></li>
+<li><a href="#net_socket_pause_1839">socket.pause()</a></li>
+<li><a href="#net_socket_resume_1839">socket.resume()</a></li>
+<li><a href="#net_socket_settimeout_timeout_callback_1839">socket.setTimeout(timeout, [callback])</a></li>
+<li><a href="#net_socket_setnodelay_nodelay_1839">socket.setNoDelay([noDelay])</a></li>
+<li><a href="#net_socket_setkeepalive_enable_initialdelay_1839">socket.setKeepAlive([enable], [initialDelay])</a></li>
+<li><a href="#net_socket_address_1839">socket.address()</a></li>
+<li><a href="#net_socket_unref_1839">socket.unref()</a></li>
+<li><a href="#net_socket_ref_1839">socket.ref()</a></li>
+<li><a href="#net_socket_remoteaddress_1839">socket.remoteAddress</a></li>
+<li><a href="#net_socket_remoteport_1839">socket.remotePort</a></li>
+<li><a href="#net_socket_localaddress_1839">socket.localAddress</a></li>
+<li><a href="#net_socket_localport_1839">socket.localPort</a></li>
+<li><a href="#net_socket_bytesread_1839">socket.bytesRead</a></li>
+<li><a href="#net_socket_byteswritten_1839">socket.bytesWritten</a></li>
+<li><a href="#net_lookup_1839">事件: &apos;lookup&apos;</a></li>
+<li><a href="#net_connect_1839">事件: &apos;connect&apos;</a></li>
+<li><a href="#net_data_1839">事件: &apos;data&apos;</a></li>
+<li><a href="#net_end_1839">事件: &apos;end&apos;</a></li>
+<li><a href="#net_timeout_1839">事件: &apos;timeout&apos;</a></li>
+<li><a href="#net_drain_1839">事件: &apos;drain&apos;</a></li>
+<li><a href="#net_error_3679">事件: &apos;error&apos;</a></li>
+<li><a href="#net_close_3679">事件: &apos;close&apos;</a></li>
+</ul>
+</li>
+<li><a href="#net_net_isip_input_1839">net.isIP(input)</a></li>
+<li><a href="#net_net_isipv4_input_1839">net.isIPv4(input)</a></li>
+<li><a href="#net_net_isipv6_input_1839">net.isIPv6(input)</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="7a00dac33e16b5d50eb0c5eaae7170e5">
+
+<h1>net<span><a href="#net_net_1839" id="net_net_1839">#</a></span></h1>
+</div>
+
+<div class="translate-section" data-hash="399d2125371b1bed03f110e3be489c63">
+
+<pre><code>稳定度: 3 - 稳定</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2146b4515b50f6aabc2d4de5d95a16d9">
+
+<p>The <code>net</code> module provides you with an asynchronous network wrapper. It contains
+methods for creating both servers and clients (called streams). You can include
+this module with <code>require(&apos;net&apos;);</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a5319b0bcc98e7e100e007e1a17d38f1">
+
+<h2>net.createServer([options], [connectionListener])<span><a href="#net_net_createserver_options_connectionlistener_1839" id="net_net_createserver_options_connectionlistener_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="c1d9d440401009e626ef2eabc5fd5bb8">
+
+<p>创建一个新的 TCP 服务器。参数 <code>connectionListener</code> 会被自动作为 <a href="#net_event_connection">&apos;connection&apos;</a> 事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="949235f6a1e907b55db2ca4fc86f993f">
+
+<p><code>options</code> 是一个包含下列缺省值的对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6ac9ebaa90e9a3d3bee4fc74e07e9795">
+
+<pre><code>{ allowHalfOpen: false
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="c8a487bcdec14d98f1c1e355a797cc93">
+
+<p>如果允许半开连接 <code>allowHalfOpen</code> 被设置为 <code>true</code>，则当另一端的套接字发送 FIN 报文时套接字并不会自动发送 FIN 报文。套接字会变为不可读，但仍然可写。您应当明确地调用 <code>end()</code> 方法。详见 <a href="#net_event_end">&apos;end&apos;</a> 事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="121b97c55405a492d16bd59a95cb6fa8">
+
+<p>下面是一个监听 8124 端口连接的应答服务器的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e205a03394d20d2808aa04763ec873ee">
+
+<pre><code>var net = require(&apos;net&apos;);
+var server = net.createServer(function(c) { // &apos;connection&apos; 监听器
+  console.log(&apos;服务器已连接&apos;);
+  c.on(&apos;end&apos;, function() {
+    console.log(&apos;服务器已断开&apos;);
+  });
+  c.write(&apos;hello\r\n&apos;);
+  c.pipe(c);
+});
+server.listen(8124, function() { // &apos;listening&apos; 监听器
+  console.log(&apos;服务器已绑定&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="42c50846605f66de004784e7b672d8d9">
+
+<p>使用 <code>telnet</code> 测试：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="54530fdc441b15a703ac83a66b4f3068">
+
+<pre><code>telnet localhost 8124</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f198dcefed4b7a230565215b79b9cb1b">
+
+<p>要监听套接字 <code>/tmp/echo.sock</code> 仅需更改倒数第三行代码：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="35953f26fb968b1033723c07a0da8057">
+
+<pre><code>server.listen(&apos;/tmp/echo.sock&apos;, function() { // &apos;listening&apos; 监听器</code></pre>
+</div>
+
+<div class="translate-section" data-hash="8ab57e372b3d7b99164bcb61476fc196">
+
+<p>使用 <code>nc</code> 连接到一个 UNIX domain 套接字服务器：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="df1d3bb538dd0022dfb3bb6fd9ec4c95">
+
+<pre><code>nc -U /tmp/echo.sock</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f5ef859be70ca15c0737a7b2292c10d5">
+
+<h2>net.connect(options, [connectionListener])<span><a href="#net_net_connect_options_connectionlistener_1839" id="net_net_connect_options_connectionlistener_1839">#</a></span></h2>
+<h2>net.createConnection(options, [connectionListener])<span><a href="#net_net_createconnection_options_connectionlistener_1839" id="net_net_createconnection_options_connectionlistener_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="76341fdf64f394d9c79851bfb9015e3f">
+
+<p>构建一个新的套接字对象并打开所给位置的套接字。当套接字就绪时会触发 <a href="#net_event_connect">&apos;connect&apos;</a> 事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7c7506420221c6e306d80ab253079471">
+
+<p>对于 TCP 套接字，选项 <code>options</code> 参数应为一个指定下列参数的对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="49ec96ea21e673d45ca1239560e5eee9">
+
+<ul>
+<li><code>port</code>：客户端连接到的端口（必须）</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="7db961144b4fdfbf56067bc402a63887">
+
+<ul>
+<li><code>host</code>：客户端连接到的主机，缺省为 <code>&apos;localhost&apos;</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="f6f82bb16c9a53d4b19068d81d345384">
+
+<ul>
+<li><code>localAddress</code>：网络连接绑定的本地接口</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="916e9486bac576f09c4ae24734018d68">
+
+<ul>
+<li><code>family</code>：IP 栈版本，缺省为 <code>4</code></li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="4a7043aef17be8a24f053c5627adbdaf">
+
+<p>对于 UNIX domain 套接字，选项 <code>options</code> 参数应当为一个指定下列参数的对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bf50561ae5f562a6b7e9c57a635e47a0">
+
+<ul>
+<li><code>path</code>：客户端连接到的路径（必须）</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="7b98c68b42a7040780d152f4f50e0e63">
+
+<p>通用选项：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="42112f5246ba3c1264c46de308a25f1a">
+
+<ul>
+<li><code>allowHalfOpen</code>：允许半开连接，如果被设置为 <code>true</code>，则当另一端的套接字发送 FIN 报文时套接字并不会自动发送 FIN 报文。缺省为 <code>false</code>。详见 <a href="#net_event_end">&apos;end&apos;</a> 事件。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="b795f7662b35ba54af936f037171fc71">
+
+<p> <code>connectListener</code> 用于 <a href="#net_event_connect">&apos;connect&apos;</a> 事件的监听器
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="75d03e8caa718d3ba0ed7357f93fb3d3">
+
+<p>下面是一个上述应答服务器的客户端的例子：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dd97df27d7170e5ddb7f3222ff110a9a">
+
+<pre><code>var net = require(&apos;net&apos;);
+var client = net.connect({port: 8124},
+    function() { //&apos;connect&apos; 监听器
+  console.log(&apos;client connected&apos;);
+  client.write(&apos;world!\r\n&apos;);
+});
+client.on(&apos;data&apos;, function(data) {
+  console.log(data.toString());
+  client.end();
+});
+client.on(&apos;end&apos;, function() {
+  console.log(&apos;客户端断开连接&apos;);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="451271b9f12588f4738afd8a8677b5f1">
+
+<p>要连接到套接字 <code>/tmp/echo.sock</code>，仅需将第二行改为
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="78bc78c4a6d89655786bba2b65a3445f">
+
+<pre><code>var client = net.connect({path: &apos;/tmp/echo.sock&apos;},</code></pre>
+</div>
+
+<div class="translate-section" data-hash="93e24816f7be478b2905e58b1e6c2498">
+
+<h2>net.connect(port, [host], [connectListener])<span><a href="#net_net_connect_port_host_connectlistener_1839" id="net_net_connect_port_host_connectlistener_1839">#</a></span></h2>
+<h2>net.createConnection(port, [host], [connectListener])<span><a href="#net_net_createconnection_port_host_connectlistener_1839" id="net_net_createconnection_port_host_connectlistener_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="e33ba1a913d2eae1ebf187d32687ff9d">
+
+<p>创建一个 <code>host</code> 主机 <code>port</code> 端口的 TCP 连接。如果省略 <code>host</code> 则假定为 <code>&apos;localhost&apos;</code>。<code>connectListener</code> 参数会被用作 <a href="#net_event_connect">&apos;connect&apos;</a> 事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="08b57c5bb469e567f544cb0d4968a61b">
+
+<h2>net.connect(path, [connectListener])<span><a href="#net_net_connect_path_connectlistener_1839" id="net_net_connect_path_connectlistener_1839">#</a></span></h2>
+<h2>net.createConnection(path, [connectListener])<span><a href="#net_net_createconnection_path_connectlistener_1839" id="net_net_createconnection_path_connectlistener_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="f08cd23a1dc041282baa274534a5504e">
+
+<p>创建一个到路径 <code>path</code> 的 UNIX 套接字连接。<code>connectListener</code> 参数会被用作 <a href="#net_event_connect">&apos;connect&apos;</a> 事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e9de0b0e617535aefeca97161b198394">
+
+<h2>类: net.Server<span><a href="#net_net_server_1839" id="net_net_server_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="3047c9abd019bd60320dffa2beb0575f">
+
+<p>该类用于创建一个 TCP 或 UNIX 服务器。服务器本质上是一个可监听传入连接的 <code>net.Socket</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="72d2be493160e3f795fefde4579eb6d8">
+
+<h3>server.listen(port, [host], [backlog], [callback])<span><a href="#net_server_listen_port_host_backlog_callback_1839" id="net_server_listen_port_host_backlog_callback_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="caf2269f9377db2563f4a84e7c82def8">
+
+<p>在指定端口 <code>port</code> 和主机 <code>host</code> 上开始接受连接。如果省略 <code>host</code> 则服务器会接受来自所有 IPv4 地址（<code>INADDR_ANY</code>）的连接；端口为 0 则会使用分随机分配的端口。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bed0b4a9d97d9c397f601f6d6aa0fe48">
+
+<p>积压量 <code>backlog</code> 为连接等待队列的最大长度。实际长度由您的操作系统通过 sysctl 设置决定，比如 Linux 上的 <code>tcp_max_syn_backlog</code> 和 <code>somaxconn</code>。该参数缺省值为 511（不是 512）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c97627cf6e66ffb09461eb9a1fe3ce90">
+
+<p>这是一个异步函数。当服务器已被绑定时会触发 <a href="#net_event_listening">&apos;listening&apos;</a> 事件。最后一个参数 <code>callback</code> 会被用作 <a href="#net_event_listening">&apos;listening&apos;</a> 事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="72de287b1b407aef3074f1d150143b5a">
+
+<p>有些用户会遇到的情况是遇到 &apos;EADDINUSE&apos; 错误。这表示另一个服务器已经运行在所请求的端口上。一个处理这种情况的方法是等待一段时间再重试
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2dba15a04cd690ab4f9457824b9f56d3">
+
+<pre><code>server.on(&apos;error&apos;, function (e) {
+  if (e.code == &apos;EADDRINUSE&apos;) {
+    console.log(&apos;地址被占用，重试中...&apos;);
+    setTimeout(function () {
+      server.close();
+      server.listen(PORT, HOST);
+    }, 1000);
+  }
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="f9604840df95ac404bcc3aee5f674764">
+
+<p>（注意：Node 中的所有套接字已设置了 <code>SO_REUSEADDR</code>）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ea96ac8cfe7103bc7860faeff6c13809">
+
+<h3>server.listen(path, [callback])<span><a href="#net_server_listen_path_callback_1839" id="net_server_listen_path_callback_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="0e97c81434ca640c24289a87e35fa4ad">
+
+<p>启动一个 UNIX 套接字服务器在所给路径 <code>path</code> 上监听连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c97627cf6e66ffb09461eb9a1fe3ce90">
+
+<p>这是一个异步函数。当服务器已被绑定时会触发 <a href="#net_event_listening">&apos;listening&apos;</a> 事件。最后一个参数 <code>callback</code> 会被用作 <a href="#net_event_listening">&apos;listening&apos;</a> 事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="38791e5df388e8941cc5952b18405806">
+
+<h3>server.listen(handle, [callback])<span><a href="#net_server_listen_handle_callback_1839" id="net_server_listen_handle_callback_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="77243d535077126c3d70fb90b3f59de4">
+
+<ul>
+<li><code>handle</code>处理器 {Object}</li>
+<li><code>callback</code>回调函数 {Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="c2a75ad83b4c9c7db282f7ef55a7a7d7">
+
+<p><code>handle</code> 变量可以被设置为server 或者 socket(任一以下划线开头的成员 <code>_handle</code>), 或者一个 <code>{fd: &lt;n&gt;}</code> 对象
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7aee7b7633990f2c8b6a0a271e8b226">
+
+<p>这将使服务器用指定的句柄接受连接，但它假设文件描述符或者句柄已经被绑定在特定的端口或者域名套接字。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ac30103f7bf2cc030495bb3d55e50465">
+
+<p>Windows 不支持监听一个文件描述符。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2e70cead120b4500bbf07d2734f7dd46">
+
+<p>这是一个异步函数。当服务器已被绑定时会触发 <a href="#event_listening_">&apos;listening&apos;</a> 事件。最后一个参数 <code>callback</code> 会被用作 <a href="#event_listening_">&apos;listening&apos;</a> 事件的监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f7907ff9a0ecbf199c48b188bc048cb4">
+
+<h3>server.close([callback])<span><a href="#net_server_close_callback_1839" id="net_server_close_callback_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d3eb248066be4ce18df4b9fa5f3b3e13">
+
+<p>用于停止服务器接受新连接，但保持已存在的连接。这是一个异步函数，
+服务器将在所有的连接都结束后关闭，并且服务器发送 <code>&apos;close&apos;</code>事件
+你可以有选择的传入回调函数来监听 <code>&apos;close&apos;</code>事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="384a0012bb072a9b692a19e31455fc8f">
+
+<h3>server.address()<span><a href="#net_server_address_1839" id="net_server_address_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="64483b692256015e812c052480896f33">
+
+<p>返回操作系统报告的绑定的地址，协议族和端口。
+对查找操作系统分配的地址哪个端口已被分配非常有用， 如.
+<code>{ port: 12346, family: &apos;IPv4&apos;, address: &apos;127.0.0.1&apos; }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81eeab9506186e2dca8faefa78d54067">
+
+<p>实例：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="802c9f194abb6ce2876c6e51b73023a7">
+
+<pre><code>// 获得随机端口
+server.listen(function() {
+  address = server.address();
+  console.log(&quot;opened server on %j&quot;, address);
+});</code></pre>
+</div>
+
+<div class="translate-section" data-hash="4ebeffd5e25f3675c16b8789e8191466">
+
+<p>在 <code>&apos;listening&apos;</code> 事件发生前请勿调用 <code>server.address()</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c65f92bd5dde832382c586a89de6e926">
+
+<h3>server.unref()<span><a href="#net_server_unref_1839" id="net_server_unref_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ed31395b96825d0e6640a6be8b989dc6">
+
+<p>如果这是事件系统中唯一一个活动的服务器，调用 <code>unref</code> 将允许程序退出。如果服务器已被 <code>unref</code>，则再次调用 <code>unref</code> 并不会产生影响。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="aa7d65bee278e99af3f47a987f50b29b">
+
+<h3>server.ref()<span><a href="#net_server_ref_1839" id="net_server_ref_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="66092bb7334e7052e18b5ca9bfdffc49">
+
+<p>与 <code>unref</code> 相反，如果这是仅剩的服务器，在一个之前被 <code>unref</code> 了的服务器上调用 <code>ref</code> 将不会让程序退出（缺省行为）。如果服务器已经被 <code>ref</code>，则再次调用 <code>ref</code> 并不会产生影响。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a1729ebb5af5ad68678ff775c92a05de">
+
+<h3>server.maxConnections<span><a href="#net_server_maxconnections_1839" id="net_server_maxconnections_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="222d03c61c54cc63fcc23397847ef925">
+
+<p>设置这个选项能在当服务器连接数超过数量时拒绝连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7ff0bc148f6bcd5ef9dab3a6bd0bfcf">
+
+<p>这个选项不推荐使用在套接字已经用 <code>child_process.fork()</code>发送给子进程。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="49db72aa1abba4986962d84adecdf2e4">
+
+<h3>server.connections<span><a href="#net_server_connections_1839" id="net_server_connections_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="2bcbaee3631f855008295f31e4c168a4">
+
+<p>这个函数已被 <strong>废弃</strong>; 请用 [server.getConnections()][] 代替.
+服务器的当前活动连接的数量。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b2b7f8d4512ae8c60af9f0457bc434d2">
+
+<p>当用<code>child_process.fork()</code>发送一个套接字给子进程时，它将是 <code>null</code> 。
+要轮询子进程来获取当前活动的连接请用 <code>server.getConnections</code> 代替.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3bc7e5df028087f5df731fa2fe85af78">
+
+<p><code>net.Server</code> 是一个包含下列事件的 <a href="events.html#events_class_events_eventemitter">EventEmitter</a> :
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="184f11efcd6285001ae5a36b76851b0c">
+
+<h3>server.getConnections(callback)<span><a href="#net_server_getconnections_callback_1839" id="net_server_getconnections_callback_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="90d54a808579094f30a0abc2cbc863d9">
+
+<p>异步获取服务器当前活跃的连接数. 
+用于套接字呗发送给子进程。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ff50cc3324e74d9d6ec867fe98493e8f">
+
+<p>回调函数需要两个参数 <code>err</code> 和 <code>count</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b7a4250e71d753dcfb6d653622e1d8c3">
+
+<h3>事件: &apos;listening&apos;<span><a href="#net_listening_1839" id="net_listening_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="0fb825da121e5a33fdd03b306665bdac">
+
+<p>在服务器调用 <code>server.listen</code>绑定后触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6f49e683b9234449060f0beee3592dc2">
+
+<h3>事件: &apos;connection&apos;<span><a href="#net_connection_1839" id="net_connection_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="db7ad6a0fb95416c37255616d57eef23">
+
+<ul>
+<li>{Socket object} 连接对象</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="da2616371a9065147105b4c620fd2964">
+
+<p>在一个新连接被创建时触发。 <code>socket</code> 是一个<code>net.Socket</code>的实例。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2b8af4d8afc211663a4341cca53b503">
+
+<h3>事件: &apos;close&apos;<span><a href="#net_close_3678" id="net_close_3678">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d19b132c91967bce63048e15ff118496">
+
+<p>当服务被关闭时触发. 注意：如果当前仍有活动连接，他个事件将等到所有连接都结束后才触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="64e904775a6e7456b0a8274a22954209">
+
+<h3>事件: &apos;error&apos;<span><a href="#net_error_3678" id="net_error_3678">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d2ccdaeacf430a4faf720ded972dc739">
+
+<ul>
+<li>{Error Object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="62942044cd45c7ab73c7b59883b2438a">
+
+<p>当一个错误发生时触发。  <code>&apos;close&apos;</code> 事件将直接被下列时间调用。
+请查看讨论 <code>server.listen</code>的例子。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9647d35f9acaeecd200f70fea86ad3c3">
+
+<h2>类: net.Socket<span><a href="#net_net_socket_1839" id="net_net_socket_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="b0ac7c7961cf90148ead9db10b3799f0">
+
+<p>这个对象是一个TCP或UNIX套接字的抽象。  <code>net.Socket</code>
+实例实现了一个双工流接口。 他们可以被用户使用在客户端(使用 <code>connect()</code>) 
+或者它们可以由 Node创建，并通过 <code>&apos;connection&apos;</code>服务器事件传递给用户。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1bf35c6b41551a70954c3edfb53c2ce5">
+
+<h3>new net.Socket([options])<span><a href="#net_new_net_socket_options_1839" id="net_new_net_socket_options_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="41edcef6d6f9c38fd0beea92c5c06bf3">
+
+<p>构造一个新的套接字对象。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="949235f6a1e907b55db2ca4fc86f993f">
+
+<p><code>options</code> 是一个包含下列缺省值的对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1d2eeadc7d261a3830b0d83f268a2c87">
+
+<pre><code>{ fd: null
+  type: null
+  allowHalfOpen: false
+}</code></pre>
+</div>
+
+<div class="translate-section" data-hash="a968e163e673a9b0684a5b9b121bb5f7">
+
+<p><code>fd</code> 允许你指定一个存在的文件描述符和套接字。
+ <code>type</code> 指定一个优先的协议。 他可以是 <code>&apos;tcp4&apos;</code>, <code>&apos;tcp6&apos;</code>, 或 <code>&apos;unix&apos;</code>.
+关于 <code>allowHalfOpen</code>, 参见 <code>createServer()</code> 和 <code>&apos;end&apos;</code> 事件。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2f3253549bf031b9814681abf008ddae">
+
+<h3>socket.connect(port, [host], [connectListener])<span><a href="#net_socket_connect_port_host_connectlistener_1839" id="net_socket_connect_port_host_connectlistener_1839">#</a></span></h3>
+<h3>socket.connect(path, [connectListener])<span><a href="#net_socket_connect_path_connectlistener_1839" id="net_socket_connect_path_connectlistener_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="5dc78dce7c96c28668a22ed82ac6b804">
+
+<p>使用传入的套接字打开一个连接 如果 <code>port</code> 和 <code>host</code> 都被传入，
+那么套接字将会被已TCP套接字打开，如果 <code>host</code> 被省略,
+默认为<code>localhost</code> . 如果 <code>path</code> 被传入,
+套接字将会被已指定路径UNIX套接字打开。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="e011cb5ccbb3073742048c463b02edcf">
+
+<p>一般情况下这个函数是不需要使用, 比如用 <code>net.createConnection</code> 打开套接字.
+只有在您实现了自定义套接字时候才需要。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3f4a831412af1b278011776adf7cb49b">
+
+<p>这是一个异步函数。 当 <a href="#net_event_connect">&apos;connect&apos;</a> 触发了的套接字是established状态
+.或者在连接的时候出现了一个问题, <code>&apos;connect&apos;</code> 事件不会被触发，
+而 <code>&apos;error&apos;</code> 事件会触发并发送异常信息。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b795f7662b35ba54af936f037171fc71">
+
+<p> <code>connectListener</code> 用于 <a href="#net_event_connect">&apos;connect&apos;</a> 事件的监听器
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1bd2b64d3ddc61815f4dbf22ad9f5a4f">
+
+<h3>socket.bufferSize<span><a href="#net_socket_buffersize_1839" id="net_socket_buffersize_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="4f97d047484177ed35ec655a1e3c005e">
+
+<p>是一个<code>net.Socket</code> 的属性，用于 <code>socket.write()</code> . 
+用于帮助用户获取更快的运行速度。 计算机不能一直处于大量数据被写入状态 ——
+网络链接可能会变得过慢。 Node 在内部会排队等候数据被写入套接字并确保传输连接上的数据完好。
+(内部实现为：轮询套接字的文件描述符等待它为可写).
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4014a77b4500dbaccac02cbd12b71884">
+
+<p>内部缓冲的可能后果是内存使用会增加。这个属性表示了现在处于缓冲区等待被写入的字符数。（字符的数目约等于要被写入的字节数，但是缓冲区可能包含字符串，而字符串是惰性编码的，所以确切的字节数是未知的。）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3336e399ff664bc0292f775be9239c09">
+
+<p>遇到数值很大或者增长很快的<code>bufferSize</code>的时候，用户应该尝试用<code>pause()</code>和<code>resume()</code>来控制数据流。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="434a80f5976a82bf9de029af11c102b5">
+
+<h3>socket.setEncoding([encoding])<span><a href="#net_socket_setencoding_encoding_1839" id="net_socket_setencoding_encoding_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1b81b4a9dd008088cba2534f57d0cfba">
+
+<p>设置套接字的编码为一个可读流. 
+更多信息请查看 <a href="stream.html#stream_stream_setencoding_encoding">stream.setEncoding()</a> 
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b2c44f30146f839c89a3567c8c18217a">
+
+<h3>socket.write(data, [encoding], [callback])<span><a href="#net_socket_write_data_encoding_callback_1839" id="net_socket_write_data_encoding_callback_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="dc6c6c5c2f1e699049b06ab1f615db78">
+
+<p>在套接字上发送数据。第二参数指明了使用字符串时的编码方式-默认为UTF8编码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="662e9ecf9ba2783888e8cd306c0b1a4a">
+
+<p>如果所有数据被成功刷新到内核缓冲区，则返回<code>true</code>。如果所有或部分数据在用户内存里还处于队列中，则返回<code>false</code>。当缓冲区再次被释放时，<code>&apos;drain&apos;</code>事件会被分发。
+
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="565de442678ab32ed84ea26de81069f9">
+
+<p>当数据最终被完整写入时，可选的<code>callback</code>参数会被执行 - 但不一定是马上执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="07639ae3df64699d52bc33643b284226">
+
+<h3>socket.end([data], [encoding])<span><a href="#net_socket_end_data_encoding_1839" id="net_socket_end_data_encoding_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="692bac3530141c927fa85a7f080e8011">
+
+<p>半关闭套接字 如., 它发送一个 FIN 包 .可能服务器仍在发送数据。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="df4db0a645429fe3280f24cabe8d56b5">
+
+<p>如果 <code>data</code>被传入, 等同于调用
+<code>socket.write(data, encoding)</code> 然后调用 <code>socket.end()</code>.
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1f792e5f7cc8fbf7c0343015e3a69316">
+
+<h3>socket.destroy()<span><a href="#net_socket_destroy_1839" id="net_socket_destroy_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f0dfc3acf8bd3c794844b0190143ff70">
+
+<p>确保没有I/O活动在这个套接字。
+只有在错误发生情况下才需要（处理错误等等）。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="81096a96961152340520adf61c52fa38">
+
+<h3>socket.pause()<span><a href="#net_socket_pause_1839" id="net_socket_pause_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3d9049b7b2cc62002ee8c5b34da230b1">
+
+<p>暂停读取数据。 <code>&apos;data&apos;</code> 事件不会被触发。
+对于控制上传非常有用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="72e80ad39be4c84a7ea6744dd0f2e9cd">
+
+<h3>socket.resume()<span><a href="#net_socket_resume_1839" id="net_socket_resume_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c2211b0545f065cd9e0eec471078c4ba">
+
+<p>在调用 <code>pause()</code>后恢复读操作。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7e2ab4448357a3d37db562766d263df6">
+
+<h3>socket.setTimeout(timeout, [callback])<span><a href="#net_socket_settimeout_timeout_callback_1839" id="net_socket_settimeout_timeout_callback_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="4b1fb9c4e672bae2d6479bd7907487ea">
+
+<p>如果套接字超过<code>timeout</code>毫秒处于闲置状态，则将套接字设为超时。默认情况下<code>net.Socket</code>不存在超时。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bb5a2a0bb0597e59ba1b1d7b677cfaab">
+
+<p>当一个闲置超时被触发时，套接字会接收到一个<code>&apos;timeout&apos;</code>事件，但是连接将不会被断开。用户必须手动<code>end()</code>或<code>destroy()</code>这个套接字。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c6339b14a41777b71b3d3ce068bed766">
+
+<p>如果<code>timeout</code>为0，那么现有的闲置超时会被禁用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6b8be77074f346907ad2baa98dfa59aa">
+
+<p>可选的<code>callback</code>参数将会被添加成为<code>&apos;timeout&apos;</code>事件的一次性监听器。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="07a0f6be0670190a991542f9c7a339be">
+
+<h3>socket.setNoDelay([noDelay])<span><a href="#net_socket_setnodelay_nodelay_1839" id="net_socket_setnodelay_nodelay_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f6e50e777a8005772ed5c01202764441">
+
+<p>禁用纳格（Nagle）算法。默认情况下TCP连接使用纳格算法，这些连接在发送数据之前对数据进行缓冲处理。 将<code>noDelay</code>设成<code>true</code>会在每次<code>socket.write()</code>被调用时立刻发送数据。<code>noDelay</code>默认为<code>true</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="4b4a41779c897f7b0a30a45149165ce9">
+
+<h3>socket.setKeepAlive([enable], [initialDelay])<span><a href="#net_socket_setkeepalive_enable_initialdelay_1839" id="net_socket_setkeepalive_enable_initialdelay_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="902a9b7b83139655e63424c7b7673955">
+
+<p>禁用/启用长连接功能，并在第一个在闲置套接字上的长连接probe被发送之前，可选地设定初始延时。<code>enable</code>默认为<code>false</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dbf30f8a1d615d1b5e421dcecf4a4691">
+
+<p>设定<code>initialDelay</code> (毫秒)，来设定在收到的最后一个数据包和第一个长连接probe之间的延时。将initialDelay设成0会让值保持不变(默认值或之前所设的值)。默认为<code>0</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="14cbd9b3098686d28261c10238ff6ad0">
+
+<h3>socket.address()<span><a href="#net_socket_address_1839" id="net_socket_address_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="ecfee842e55575beb7b7a779512fba77">
+
+<p>返回 socket 绑定的IP地址, 协议类型 (family name) 以及 端口号 (port). 具体是一个包含三个属性的对象, 形如 <code>{ port: 12346, family: &apos;IPv4&apos;, address: &apos;127.0.0.1&apos; }</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b6f418bf829edeb8395c45df3cca6208">
+
+<h3>socket.unref()<span><a href="#net_socket_unref_1839" id="net_socket_unref_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="6ecc35ad7499415dc9b05d0d391e3777">
+
+<p>如果这是事件系统中唯一一个活动的套接字，调用 <code>unref</code> 将允许程序退出。如果套接字已被 <code>unref</code>，则再次调用 <code>unref</code> 并不会产生影响。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="bac28d98f9e58b0d01dde6f57b0e6e86">
+
+<h3>socket.ref()<span><a href="#net_socket_ref_1839" id="net_socket_ref_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3c231fc5bfbbe5f21b484fb9391db9af">
+
+<p>与 <code>unref</code> 相反，如果这是仅剩的套接字，在一个之前被 <code>unref</code> 了的套接字上调用 <code>ref</code> 将<em>不会</em>让程序退出（缺省行为）。如果一个套接字已经被 <code>ref</code>，则再次调用 <code>ref</code> 并不会产生影响。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7c97c90ca53d6fb9f9013f1ca3c2ce0e">
+
+<h3>socket.remoteAddress<span><a href="#net_socket_remoteaddress_1839" id="net_socket_remoteaddress_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="3875d73c871ccf8b6152db536146f839">
+
+<p>远程IP地址的字符串表示。例如，<code>&apos;74.125.127.100&apos;</code>或 <code>&apos;2001:4860:a005::68&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="33ac11c486186499587e232042e6db3c">
+
+<h3>socket.remotePort<span><a href="#net_socket_remoteport_1839" id="net_socket_remoteport_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="976968962027461c6731d8ebb1faedfd">
+
+<p>远程端口的数值表示。例如，<code>80</code> 或 <code>21</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6255100b0444c5ec5f8be39f57356bc9">
+
+<h3>socket.localAddress<span><a href="#net_socket_localaddress_1839" id="net_socket_localaddress_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="abff3f8a2f59f6b1b85a46a8c825c9a1">
+
+<p>远程客户端正在连接的本地IP地址的字符串表示。例如，如果你在监听<code>&apos;0.0.0.0&apos;</code>而客户端连接在<code>&apos;192.168.1.1&apos;</code>，这个值就会是 <code>&apos;192.168.1.1&apos;</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b177b870655122249db58d4540b0b629">
+
+<h3>socket.localPort<span><a href="#net_socket_localport_1839" id="net_socket_localport_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a079615a06a5175268878db61e5b7216">
+
+<p>本地端口的数值表示。比如<code>80</code> 或 <code>21</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fd7774413e93f3afd77c890b71bfec8a">
+
+<h3>socket.bytesRead<span><a href="#net_socket_bytesread_1839" id="net_socket_bytesread_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="265180e5157775eb209d9419996d1ecb">
+
+<p>所接收的字节数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="2d673df97ecccb74018009cd7118085e">
+
+<h3>socket.bytesWritten<span><a href="#net_socket_byteswritten_1839" id="net_socket_byteswritten_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="51e74069ec11bb5abeaa5d07e7564e64">
+
+<p>所发送的字节数。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d01c1c788d695ea8a11bfc81e85647f5">
+
+<p><code>net.Socket</code>实例是带有以下事件的<a href="events.html#events_class_events_eventemitter">EventEmitter</a>对象：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ffb96f7871c95ba58881d938fa4ae8a0">
+
+<h3>事件: &apos;lookup&apos;<span><a href="#net_lookup_1839" id="net_lookup_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="8860d3bb83edd49916d9285a51185d28">
+
+<p>这个事件在解析主机名之后，连接主机之前被分发。对UNIX套接字不适用。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f86664f2a7f396cf1ac84b8af801bc21">
+
+<ul>
+<li><code>err</code> {Error | Null} 错误对象。见[dns.lookup()][]。</li>
+<li><code>address</code> {String} IP地址。</li>
+<li><code>family</code> {String | Null} 得知类型。见[dns.lookup()][]。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="a385d91c55ee447e6f8bfe2c4698eb4d">
+
+<h3>事件: &apos;connect&apos;<span><a href="#net_connect_1839" id="net_connect_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="7cdf7282b1b380cec45a5bc332772d3b">
+
+<p>该事件在一个套接字连接成功建立后被分发。见<code>connect()</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="7eaccedec2e07e15926b9d3bedc571f5">
+
+<h3>事件: &apos;data&apos;<span><a href="#net_data_1839" id="net_data_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="361e8d24ff97bb482e25572b792a383b">
+
+<ul>
+<li>{Buffer object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="90e55fbbd5c70796220888b8333b083d">
+
+<p>当收到数据时被分发。<code>data</code>参数会是一个<code>Buffer</code>或<code>String</code>对象。数据的编码方式由<code>socket.setEncoding()</code>设定。
+（详见 [可读流][] 章节）
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3ae76c60e74a50c2f606a251752759e9">
+
+<p>请注意，如果一个<code>Socket</code>对象分发一个<code>&apos;data&apos;</code>事件时没有任何监听器存在，则 <strong>数据会丢失</strong>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="492626ec80519b3adc5a7e73c5cbb314">
+
+<h3>事件: &apos;end&apos;<span><a href="#net_end_1839" id="net_end_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="1bdeedeaf87dfd96da0604923cf5f2ea">
+
+<p>当套接字的另一端发送FIN包时，该事件被分发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="3ea22deb05c7ffe34eb2781376166bde">
+
+<p>默认情况下 （<code>allowHalfOpen == false</code>），当套接字完成待写入队列中的任务时，它会destroy文件描述符。然而，如果把<code>allowHalfOpen</code>设成<code>true</code>，那么套接字将不会从它这边自动调用<code>end()</code>，使得用户可以随意写入数据，但同时使得用户自己需要调用<code>end()</code>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="9ea4447c51533949395d9149831c6c43">
+
+<h3>事件: &apos;timeout&apos;<span><a href="#net_timeout_1839" id="net_timeout_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="c871ea61225110849f33a5e4a873e5f0">
+
+<p>当套接字因为非活动状态而超时时该事件被分发。这只是用来表明套接字处于空闲状态。用户必须手动关闭这个连接。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="12c5d8d0a6b726d16d845cb8776f1e39">
+
+<p>参阅：<code>socket.setTimeout()</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6b3bfbd46663a233236ad6e0c5c88f46">
+
+<h3>事件: &apos;drain&apos;<span><a href="#net_drain_1839" id="net_drain_1839">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="341ed7b44a8e5aaf90581dd84414a2fd">
+
+<p>当写入缓冲被清空时产生。可被用于控制上传流量。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="a8a0d3064bbcdc0df62785acc7197f5e">
+
+<p>参阅：<code>socket.write()</code> 的返回值
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="64e904775a6e7456b0a8274a22954209">
+
+<h3>事件: &apos;error&apos;<span><a href="#net_error_3679" id="net_error_3679">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="a0014001615e217bd63525e6a176248e">
+
+<ul>
+<li>{Error object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="1bc57b8fde4fdf8f85ba7ca27200fba7">
+
+<p>当一个错误发生时产生。<code>&apos;close&apos;</code> 事件会紧接着该事件被触发。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d2b8af4d8afc211663a4341cca53b503">
+
+<h3>事件: &apos;close&apos;<span><a href="#net_close_3679" id="net_close_3679">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f701d38ce2fce0019f2da848be6272ad">
+
+<ul>
+<li><code>had_error</code> {Boolean} 如果套接字发生了传输错误则此字段为true</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="d35fe25b2cf6d0228d8b34708f0a3c36">
+
+<p>当套接字完全关闭时该事件被分发。参数<code>had_error</code>是一个布尔值，表示了套接字是否因为一个传输错误而被关闭。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="12a94c752135a779c771779aa1ab91b9">
+
+<h2>net.isIP(input)<span><a href="#net_net_isip_input_1839" id="net_net_isip_input_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="5992716e0967dfce4e67634312422de0">
+
+<p>测试 input 是否 IP 地址。无效字符串返回 0；IP 版本 4 地址返回 4；IP 版本 6 地址返回 6。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="99a0c12773072279a6ceaa784b05f844">
+
+<h2>net.isIPv4(input)<span><a href="#net_net_isipv4_input_1839" id="net_net_isipv4_input_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7efeb5eb551a85bf24bac17541480193">
+
+<p>如果 input 为版本 4 地址则返回 true，否则返回 false。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="ec17dce719970c14c45a98f32725f011">
+
+<h2>net.isIPv6(input)<span><a href="#net_net_isipv6_input_1839" id="net_net_isipv6_input_1839">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="38c7a97e90d39738d2e5643a5c7168f3">
+
+<p>如果 input 为版本 6 地址则返回 true，否则返回 false。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="19906b0b363bedecc396236ba1e3dad5">
+
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

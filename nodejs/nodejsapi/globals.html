@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>全局对象 Node.js v0.10.18 文档 中文版</title>
+  <link rel="stylesheet" href="/public/api_assets/style.css">
+  <link rel="stylesheet" href="/public/api_assets/sh.css">
+  <link rel="canonical" href="http://nodejs.org/api/globals.html">
+</head>
+<body class="alt apidoc" id="api-section-globals">
+
+    <div id="intro" class="interior">
+        <a href="/api/" title="返回首页">
+            <img id="logo" src="http://nodejs.org/images/logo-light.png" alt="node.js">
+        </a>
+    </div>
+    <div id="content" class="clearfix">
+        <div id="column2" class="interior">
+            <ul>
+                <li><a href="/api/" class="docs current">文档首页</a></li>
+                <li><a href="http://nodejs.org/api/">英文版文档</a></li>
+            </ul>
+            <div style="margin-top:44px; font-size:12px;">
+              <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.zh">知识共享署名-非商业性使用 3.0 未本地化版本许可协议</a>进行许可。
+            </div>
+        </div>
+
+        <div id="column1" class="interior">
+          <header>
+            <h1>Node.js v0.10.18 手册 &amp; 文档</h1>
+            <div id="gtoc">
+              <p>
+                <a href="index.html" name="toc">索引</a> |
+                <a href="all.html">在单一页面中浏览</a> |
+                <a href="globals.json">JSON格式</a>
+              </p>
+            </div>
+            <hr>
+          </header>
+
+          <div id="toc">
+            <h2>目录</h2>
+            <ul>
+<li><a href="#globals_890">全局对象</a><ul>
+<li><a href="#globals_global_890">global</a></li>
+<li><a href="#globals_process_890">process</a></li>
+<li><a href="#globals_console_890">console</a></li>
+<li><a href="#globals_buffer_890">类: Buffer</a></li>
+<li><a href="#globals_require_890">require()</a><ul>
+<li><a href="#globals_require_resolve_890">require.resolve()</a></li>
+<li><a href="#globals_require_cache_890">require.cache</a></li>
+<li><a href="#globals_require_extensions_890">require.extensions</a></li>
+</ul>
+</li>
+<li><a href="#globals_filename_890">__filename</a></li>
+<li><a href="#globals_dirname_890">__dirname</a></li>
+<li><a href="#globals_module_890">module</a></li>
+<li><a href="#globals_exports_890">exports</a></li>
+<li><a href="#globals_settimeout_cb_ms_890">setTimeout(cb, ms)</a></li>
+<li><a href="#globals_cleartimeout_t_890">clearTimeout(t)</a></li>
+<li><a href="#globals_setinterval_cb_ms_890">setInterval(cb, ms)</a></li>
+<li><a href="#globals_clearinterval_t_890">clearInterval(t)</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+
+          <div id="apicontent">
+            <div class="translate-section" data-hash="89f29742c02d0fa625efdb2925fb15e6">
+
+<h1>全局对象<span><a href="#globals_890" id="globals_890">#</a></span></h1>
+</div>
+
+<!-- type=misc -->
+
+<div class="translate-section" data-hash="7aab1e777cfc8b3ff838a279a1bb9512">
+
+<p>这些对象在所有模块中都是可用的。有些对象实际上并非在全局作用域内而是在模块作用域内——这种情况在以下文档中会特别指出。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6696fcac4f46156f570aeffd06803da8">
+
+<h2>global<span><a href="#globals_global_890" id="globals_global_890">#</a></span></h2>
+</div>
+
+<!-- type=global -->
+
+<div class="translate-section" data-hash="40d7f4b975e3ec7f225fb45dfc883cc3">
+
+<ul>
+<li>{Object} 全局命名空间对象。</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="1f824a168130eb8ed018fc4b377856a2">
+
+<p>在浏览器中，顶级作用域就是全局作用域。这就是说，在浏览器中，如果当前是在全局作用域内，<code>var something</code>将会声明一个全局变量。在Node中则不同。顶级作用域并非全局作用域，在Node模块里的<code>var something</code>只属于那个模块。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="102af7b0b1d036243443642f81625831">
+
+<h2>process<span><a href="#globals_process_890" id="globals_process_890">#</a></span></h2>
+</div>
+
+<!-- type=global -->
+
+<div class="translate-section" data-hash="851aa722fb53608947b18811e82db1f4">
+
+<ul>
+<li>{Object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="b9d0d806ae7dc673c33787be680c6e9b">
+
+<p>进程对象。见 <a href="process.html#process_process">进程对象</a>章节。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f7a829f04f8a11aaa6aca6a8852b1770">
+
+<h2>console<span><a href="#globals_console_890" id="globals_console_890">#</a></span></h2>
+</div>
+
+<!-- type=global -->
+
+<div class="translate-section" data-hash="851aa722fb53608947b18811e82db1f4">
+
+<ul>
+<li>{Object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="5441bc45d3d500441cd1b4acaaf6e2c6">
+
+<p>用于打印标准输出和标准错误。见<a href="console.html">控制台</a>章节。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="035108074901bbc3add526701a3de715">
+
+<h2>类: Buffer<span><a href="#globals_buffer_890" id="globals_buffer_890">#</a></span></h2>
+</div>
+
+<!-- type=global -->
+
+<div class="translate-section" data-hash="2e7e2bc23cfa8b5114d33e138ef083ad">
+
+<ul>
+<li>{Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="17383b58c051c7322ceb885b356183b7">
+
+<p>用于处理二进制数据。见<a href="buffer.html">Buffer</a>章节。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="80433692e34f55d707581ebbdd0875e5">
+
+<h2>require()<span><a href="#globals_require_890" id="globals_require_890">#</a></span></h2>
+</div>
+
+<!-- type=var -->
+
+<div class="translate-section" data-hash="2e7e2bc23cfa8b5114d33e138ef083ad">
+
+<ul>
+<li>{Function}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="75a9bcd4c1f3c0895fc3de614806c88b">
+
+<p>引入模块。见<a href="modules.html#modules_modules">Modules</a>章节。<code>require</code>实际上并非全局的而是各个模块本地的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b935e121aab2912440080a4b9dc22c81">
+
+<h3>require.resolve()<span><a href="#globals_require_resolve_890" id="globals_require_resolve_890">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="d5b4bbd589fde8d0eeee18b063fa7e17">
+
+<p>使用内部的<code>require()</code>机制查找模块的位置，但不加载模块，只返回解析过的模块文件路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="b629e53ddd5f06d774758bc88642006e">
+
+<h3>require.cache<span><a href="#globals_require_cache_890" id="globals_require_cache_890">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="851aa722fb53608947b18811e82db1f4">
+
+<ul>
+<li>{Object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="00c7f62c76c96a54cf715710f052c5ea">
+
+<p>模块在引入时会缓存到该对象。通过删除该对象的键值，下次调用<code>require</code>时会重新加载相应模块。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8c7779cb53dbf597e62f974b63432066">
+
+<h3>require.extensions<span><a href="#globals_require_extensions_890" id="globals_require_extensions_890">#</a></span></h3>
+</div>
+
+<div class="translate-section" data-hash="f4f7e8273ccedeba8f724a80abc4b08c">
+
+<pre><code>稳定度：0 - 已废弃</code></pre>
+</div>
+
+<div class="translate-section" data-hash="851aa722fb53608947b18811e82db1f4">
+
+<ul>
+<li>{Object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="198f87c46476cd6d695aee4ae10c3342">
+
+<p>指导<code>require</code>方法如何处理特定的文件扩展名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="31d00e89473aac7ac2f0ae4b4681126f">
+
+<p>将<code>.sjs</code>文件作为<code>.js</code>文件处理：
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="24d6245e60857e32813e57e100020e3f">
+
+<pre><code>require.extensions[&apos;.sjs&apos;] = require.extensions[&apos;.js&apos;];</code></pre>
+</div>
+
+<div class="translate-section" data-hash="2ee3faa86b24941ba045d2f3a3d89c7b">
+
+<p><strong>已废弃</strong> 之前，该列表用于按需编译非JavaScript模块并加载进Node。然而，实践中有更好的方式实现该功能，如通过其他Node程序加载模块，或提前将他们编译成JavaScript代码。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="20cc6b058a2dc4bb6b83e4770a177ebf">
+
+<p>由于模块系统的API已锁定，该功能可能永远不会去掉。改动它可能会产生细微的错误和复杂性，所以最好保持不变。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cc7d75deb74692e24e3d876980a98d48">
+
+<h2>__filename<span><a href="#globals_filename_890" id="globals_filename_890">#</a></span></h2>
+</div>
+
+<!-- type=var -->
+
+<div class="translate-section" data-hash="7e4b7de3e723b5f21c45cf0326e20ed3">
+
+<ul>
+<li>{String}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="38e38bdba3debf6303339031785450fe">
+
+<p>当前所执行代码文件的文件路径。这是该代码文件经过解析后的绝对路径。对于主程序来说，这和命令行中使用的文件路径未必是相同的。在模块中此变量值是该模块文件的路径。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f21b74eb9322eae18e1c5da5ea8b1719">
+
+<p>例子：在<code>/Users/mjr</code>下运行<code>node example.js</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="01248d96f426c2644a08aa0cd5504c2f">
+
+<pre><code>console.log(__filename);
+// /Users/mjr/example.js</code></pre>
+</div>
+
+<div class="translate-section" data-hash="6adde8c60f492421c2bcc022dbc22e22">
+
+<p><code>__filename</code>实际上并非全局的而是各个模块本地的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="555c399c34f70743befb90979b745551">
+
+<h2>__dirname<span><a href="#globals_dirname_890" id="globals_dirname_890">#</a></span></h2>
+</div>
+
+<!-- type=var -->
+
+<div class="translate-section" data-hash="7e4b7de3e723b5f21c45cf0326e20ed3">
+
+<ul>
+<li>{String}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="2fac4ed16a0939933ab7ec8f5b3807c5">
+
+<p>当前执行脚本所在目录的目录名。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="f21b74eb9322eae18e1c5da5ea8b1719">
+
+<p>例子：在<code>/Users/mjr</code>下运行<code>node example.js</code>
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="8e94e81297719f5519edef8f451d6f4e">
+
+<pre><code>console.log(__dirname);
+// /Users/mjr</code></pre>
+</div>
+
+<div class="translate-section" data-hash="9d3298feacade0f1e8505651a864bbe9">
+
+<p><code>__dirname</code>实际上并非全局的而是各个模块本地的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="c1307e89f961d42416dc298eee966000">
+
+<h2>module<span><a href="#globals_module_890" id="globals_module_890">#</a></span></h2>
+</div>
+
+<!-- type=var -->
+
+<div class="translate-section" data-hash="851aa722fb53608947b18811e82db1f4">
+
+<ul>
+<li>{Object}</li>
+</ul>
+</div>
+
+<div class="translate-section" data-hash="0b77eceab09cb2306de1ca3aa83ec213">
+
+<p>当前模块的引用。特别地，<code>module.exports</code>和<code>exports</code>指向同一个对象。<code>module</code>实际上并非全局的而是各个模块本地的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dabd312ed8c076e27f38c979227c48f6">
+
+<p>详情可见<a href="modules.html">模块系统文档</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="d6870c2593fa08576c8cf3a5886e7b0f">
+
+<h2>exports<span><a href="#globals_exports_890" id="globals_exports_890">#</a></span></h2>
+</div>
+
+<!-- type=var -->
+
+<div class="translate-section" data-hash="2d6947e45de7ea0768835bd88aba471e">
+
+<p><code>module.exports</code>对象的引用，该对象被当前模块的所有实例所共享，通过<code>require()</code>可访问该对象。
+何时使用<code>exports</code>以及何时使用<code>module.exports</code>的详情可参见<a href="modules.html">模块系统文档</a>。
+<code>exports</code>实际上并非全局的而是各个模块本地的。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="dabd312ed8c076e27f38c979227c48f6">
+
+<p>详情可见<a href="modules.html">模块系统文档</a>。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="48234f7309936bfc41ff85e3302b51b4">
+
+<p>关于模块系统的更多信息可参见<a href="modules.html">模块</a> 。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6075914eb9f317d8d32b3179513137d7">
+
+<h2>setTimeout(cb, ms)<span><a href="#globals_settimeout_cb_ms_890" id="globals_settimeout_cb_ms_890">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="a602cd9cb944b42449ca48aab41d4d14">
+
+<p>在<em>至少</em><code>ms</code>毫秒后调用回调<code>cb</code>。实际延迟取决于外部因素，如操作系统定时器粒度及系统负载。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="db169e344c67ce53b4a1ce8d977b0383">
+
+<p>超时值必须在1-2147483647的范围内（包含1和2147483647）。如果该值超出范围，则该值被当作1毫秒处理。一般来说，一个定时器不能超过24.8天。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6226510e9063f56f4e06eb2a8fbb5637">
+
+<p>返回一个代表该定时器的句柄值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="817f22ffc09c9dbf825c79ea83034c43">
+
+<h2>clearTimeout(t)<span><a href="#globals_cleartimeout_t_890" id="globals_cleartimeout_t_890">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="7bea44d191c5ea8f45048836968e11d0">
+
+<p>停止一个之前通过<code>setTimeout()</code>创建的定时器。回调不会再被执行。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="221e457c1ee333ffab574536f4f030e0">
+
+<h2>setInterval(cb, ms)<span><a href="#globals_setinterval_cb_ms_890" id="globals_setinterval_cb_ms_890">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="52999ed9dd01765b8fe159cca68919b7">
+
+<p>每隔<code>ms</code>毫秒重复调用回调<code>cb</code>。注意，取决于外部因素，如操作系统定时器粒度及系统负载，实际间隔可能会改变。它不会少于<code>ms</code>但可能比<code>ms</code>长。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="cc03ac20140b22a704bd9a4d8f615d19">
+
+<p>间隔值必须在1-2147483647的范围内（包含1和2147483647）。如果该值超出范围，则该值被当作1毫秒处理。一般来说，一个定时器不能超过24.8天。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="6226510e9063f56f4e06eb2a8fbb5637">
+
+<p>返回一个代表该定时器的句柄值。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="fcac72f4f30655b026a210810af32f51">
+
+<h2>clearInterval(t)<span><a href="#globals_clearinterval_t_890" id="globals_clearinterval_t_890">#</a></span></h2>
+</div>
+
+<div class="translate-section" data-hash="656160b538cdbcb9ce5eab27aab00c21">
+
+<p>停止一个之前通过<code>setInterval()</code>创建的定时器。回调不会再被执行。
+
+</p>
+</div>
+
+<!--type=global-->
+
+<div class="translate-section" data-hash="32d747d968396b8c4aa6a86e06e387e2">
+
+<p>定制器函数是全局变量。见<a href="timers.html">定时器</a>章节。
+
+</p>
+</div>
+
+<div class="translate-section" data-hash="1010d85384a07c1e344e855cc5c5e334">
+
+</div>
+          </div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://joyent.com" class="joyent-logo">Joyent</a>
+        <ul class="clearfix">
+            <li><a href="http://nodejs.org/">Node.js</a></li>
+            <li><a href="http://nodejs.org/download/">Download</a></li>
+            <li><a href="http://nodejs.org/about/">About</a></li>
+            <li><a href="http://npmjs.org/">npm Registry</a></li>
+            <li><a href="http://nodejs.org/api/">Docs</a></li>
+            <li><a href="http://blog.nodejs.org">Blog</a></li>
+            <li><a href="http://nodejs.org/community/">Community</a></li>
+            <li><a href="http://nodejs.org/logos/">Logos</a></li>
+            <li><a href="http://jobs.nodejs.org/">Jobs</a></li>
+            <li><a href="http://twitter.com/nodejs" class="twitter">@nodejs</a></li>
+        </ul>
+
+        <p>Copyright <a href="http://joyent.com/">Joyent, Inc</a>, Node.js is a <a href="/trademark-policy.pdf">trademark</a> of Joyent, Inc. View <a href="https://raw.github.com/joyent/node/v0.10.18/LICENSE">license</a>.</p>
+    </div>
+
+  <script src="/public/api_assets/sh_main.js"></script>
+  <script src="/public/api_assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26599868-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script src="/public/js/jquery.js"></script>
+<script>
+$('.translate-section').each(function () {
+  var html = '<div class="op">' +
+               '<button class="show-origin">显示原文</button>' +
+               '<button class="btn btn-xs btn-info">其他翻译</button>' +
+               '<button class="btn btn-xs btn-info">纠错</button>' +
+              '</div>';
+  $(this).prepend(html);
+});
+
+// 显示原文
+$('.translate-section').delegate('.show-origin', 'click', function () {
+  var $section = $(this).closest('.translate-section');
+  var hash = $section.data('hash');
+  $.get('/translate/get/origin', {hash: hash}, function (d) {
+    if (d.error) return alert(d.error);
+
+    $section.find('.origin').remove();
+    $section.append('<div class="origin">' + d.html + '</div>');
+    highlight(undefined, undefined, 'code');
+  });
+});
+</script>

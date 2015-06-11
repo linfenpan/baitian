@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="keywords" content="豆豆游戏,手机小游戏,在线小游戏,微信小游戏">
+<meta name="description" content="最流行的在线手机小游戏尽在豆豆游戏，吃饭、睡觉、打豆豆！玩html5小游戏，微信游戏，不用下载，直接玩！">
+<title>豆豆游戏_在线手机小游戏_微信游戏_不用下载直接玩</title>
+<link rel="stylesheet" href="/style/common.css">
+<link rel="stylesheet" href="/style/game-list.css">
+
+</head>
+
+<body>
+
+<header id="header"></header>
+
+<!-- 游戏主体内容 -->
+<div id="gameList" class="gameList">
+	<ul class="list">
+		<li active>
+			<img class="icon" src="http://www.doudou.in/play/22-bear/icon.png" alt="图片" />
+			<span class="name">游戏名字</span>
+		</li>
+		<li>
+			<img class="icon" src="http://www.doudou.in/play/22-bear/icon.png" alt="图片" />
+			<span class="name">游戏名字</span>
+		</li>
+		<li>
+			<img class="icon" src="http://www.doudou.in/play/22-bear/icon.png" alt="图片" />
+			<span class="name">游戏名字</span>
+		</li>
+		<li>
+			<img class="icon" src="http://www.doudou.in/play/22-bear/icon.png" alt="图片" />
+			<span class="name">游戏名字</span>
+		</li>
+		<li>
+			<img class="icon" src="http://www.doudou.in/play/22-bear/icon.png" alt="图片" />
+			<span class="name">游戏名字</span>
+		</li>
+		<li>
+			<img class="icon" src="http://www.doudou.in/play/22-bear/icon.png" alt="图片" />
+			<span class="name">游戏名字</span>
+		</li>
+	</ul>
+	<div class="clear"></div>
+	
+	<div class="tC"><div class="loading">点击加载更多</div></div>
+	<div class="pager hide"></div>
+</div>
+<!-- END 游戏主体内容 -->
+
+
+
+<div id="footer">
+</div>
+
+
+
+</body>
+<script type="text/javascript">	
+	// 首页导航
+	NavCF = {
+		left: ["return"]
+		,center: ["title#标题"]
+		,right: ["refresh"]
+	};
+</script>
+<script id="seajsnode" src="http://resource.a0bi.com/resource/js/lib/sea.js"></script>
+<script src="/script/common.js"></script>
+<script>
+	seajs.use(["./script/game-list"], function(controller){
+		var ctr = new controller({type: 1, needDesc: false});
+	});
+</script>
+
+
+
+
+<script type="text/javascript" src="http://dc.100bt.com/js/dc.js"></script>
+
+</html>
+

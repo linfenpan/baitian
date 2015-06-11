@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui">
+<title>Butterfly Chocolate Cake</title>
+<script src="src/easeljs-0.8.0.min.js"></script>
+<script src="src/tweenjs-0.5.1.min.js"></script>
+<script src="src/movieclip-0.7.1.min.js"></script>
+<script src="src/preloadjs-0.4.1.min.js"></script>
+<script src="src/soundjs-0.5.2.min.js"></script>
+<script src="./webfont.js"></script>
+<link type="text/css" rel="stylesheet" href="./css?family=Ubuntu:400,500,700&subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,cyrillic"></link>
+
+<script>
+    var canvas, stage, exportRoot;
+    var cislo = 1;
+    var somVmenu =1;
+    var por;
+    var chosenL = 0;
+    var  initR=0;
+    var resizepoc=0;
+    var t_lang;
+
+    // Package-ID
+    window.famobi_gameID = "butterfly-chocolate-cake";
+    window.famobi_gameJS = [function(){
+
+        WebFont.load({
+            google: {
+                families: [ 'Ubuntu']
+            }
+        });
+
+        t_lang = [
+          	[
+				[window.famobi.__("put 450g flour into the bowl"),window.famobi.__("put 450g flour into the bowl font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add 300g sugar"),window.famobi.__("add 300g sugar font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add 1 pouch vanilla sugar"),window.famobi.__("add 1 pouch vanilla sugar font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("open the cabinet1"),window.famobi.__("open the cabinet1 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add 6tbsp cocoa powder"),window.famobi.__("add 6tbsp cocoa powder font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add 1 pouch baking powder"),window.famobi.__("add 1 pouch baking powder font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("mix together1"),window.famobi.__("mix together1 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("open the cabinet2"),window.famobi.__("open the cabinet2 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add 150 ml oil (neutral flavour)"),window.famobi.__("add 150 ml oil (neutral flavour) font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add 200ml soy or rice milk"),window.famobi.__("add 200ml soy or rice milk font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("mix together2"),window.famobi.__("mix together2 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add water (optional)"),window.famobi.__("add water (optional) font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("mix together3"),window.famobi.__("mix together3 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("put 200g dark chocolate on the cutting board"),window.famobi.__("put 200g dark chocolate on the cutting board font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("cut the chocolate in cubes"),window.famobi.__("cut the chocolate in cubes font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add them into the batter"),window.famobi.__("add them into the batter font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("mix the batter"),window.famobi.__("mix the batter font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("move the baking pan"),window.famobi.__("move the baking pan font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("open the cabinet3"),window.famobi.__("open the cabinet3 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("put some oil into the baking pan"),window.famobi.__("put some oil into the baking pan font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("grease a round baking pan"),window.famobi.__("grease a round baking pan font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("put the batter into the baking pan"),window.famobi.__("put the batter into the baking pan font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("bake the about 60 minutes to 175°C"),window.famobi.__("bake the about 60 minutes to 175°C font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("open the oven"),window.famobi.__("open the oven font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("Butterfly Chocolate Cake"),window.famobi.__("Butterfly Chocolate Cake font"),"#FFFFFF",null,null,null,"center",null,null,null,null],
+				[window.famobi.__("vegan"),window.famobi.__("vegan font"),"#352D04",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("score"),window.famobi.__("score font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("Butterfly Chocolate Cake (vegan)"),window.famobi.__("Butterfly Chocolate Cake (vegan) font"),"#352D04",null,null,null,"center",null,null,null,null],
+				[window.famobi.__("Batter:"),window.famobi.__("Batter: font"),"#352D04",null,240,null,"left",null,null,null,null],
+				[window.famobi.__("300 g sugar\n450 g flour\n6 tbsp cocoa powder\n1 pouch vanilla sugar\n1 pouch baking powder\n150 ml oil, neutral flavour"),window.famobi.__("300 g sugar\n450 g flour\n6 tbsp cocoa powder\n1 pouch vanilla sugar\n1 pouch baking powder\n150 ml oil, neutral flavour font"),"#352D04",null,240,null,"left",null,null,null,null],
+				[window.famobi.__("space1"),window.famobi.__("space1 font"),"#352D04",null,240,null,"left",null,null,null,null],
+				[window.famobi.__("200 ml soy or rice milk\nwater (optional)\n100 g dark chocolate\n200 g dark couverture chocolate\nAssorted candies for decoration"),window.famobi.__("200 ml soy or rice milk\nwater (optional)\n100 g dark chocolate\n200 g dark couverture chocolate\nAssorted candies for decoration font"),"#352D04",null,240,null,"left",null,null,null,null],
+				[window.famobi.__("recipe"),window.famobi.__("recipe font"),"#352D04",30,565,null,"left",null,null,null,null],
+				[window.famobi.__("loading"),window.famobi.__("loading font"),"#352D04",null,null,null,"center",null,null,null,null],
+				[window.famobi.__("get out the cake from the pan"),window.famobi.__("get out the cake from the pan font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("cake cut in half"),window.famobi.__("cake cut in half font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("cut out a little triangle out of each straight edge"),window.famobi.__("cut out a little triangle out of each straight edge font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("form the body of a butterfly"),window.famobi.__("form the body of a butterfly font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("choose vegan topping and click next"),window.famobi.__("choose vegan topping and click next font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("choose rice color on the body of butterfly and click next"),window.famobi.__("choose rice color on the body of butterfly and click next font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("chose eyes to butterfly and click next"),window.famobi.__("chose eyes to butterfly and click next font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("choose decoration to wings of butterfly and click next"),window.famobi.__("choose decoration to wings of butterfly and click next font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("choose vegan coconut cream and finish cake or clear all decorations"),window.famobi.__("choose vegan coconut cream and finish cake or clear all decorations font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("place 1 zucchini on the board"),window.famobi.__("place 1 zucchini on the board font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("cut of ends of the zucchini"),window.famobi.__("cut of ends of the zucchini font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("use a spiral slicer to cut the zucchini into spaghetti (repeat it with 5 zucchinis)"),window.famobi.__("use a spiral slicer to cut the zucchini into spaghetti (repeat it with 5 zucchinis) font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("space2"),window.famobi.__("space2 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("space3"),window.famobi.__("space3 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("space4"),window.famobi.__("space4 font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("bring some vegetable broth to boil"),window.famobi.__("bring some vegetable broth to boil font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("pour it into the bowl (marinate 3 min.)"),window.famobi.__("pour it into the bowl (marinate 3 min.) font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("open closet"),window.famobi.__("open closet font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("take the plate"),window.famobi.__("take the plate font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("arrange zucchini spaghetti on the plate"),window.famobi.__("arrange zucchini spaghetti on the plate font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add Bolognese sauce"),window.famobi.__("add Bolognese sauce font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("add salt to the roasted almonds"),window.famobi.__("add salt to the roasted almonds font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("grate them on the spaghetti"),window.famobi.__("grate them on the spaghetti font"),"#000000",null,240,null,"center",null,null,null,null],
+				[window.famobi.__("space5"),window.famobi.__("space5 font"),"#000000",null,240,null,"left",null,null,null,null],
+				[window.famobi.__("space6"),window.famobi.__("space6 font"),"#000000",null,240,null,"left",null,null,null,null],
+				[window.famobi.__("space7"),window.famobi.__("space7 font"),"#000000",null,340,null,"left",null,null,null,null]
+			]
+   		];
+
+    }, "chocolate_butterfly_cake.min.js", "bcc.min.js", function(){
+      init();
+    }];
+
+    (function (document, url, fgJS, firstJS) {
+            fgJS = document.createElement('script');
+            firstJS = document.getElementsByTagName('script')[0];
+            fgJS.src = url + encodeURIComponent(document.location.href);
+            firstJS.parentNode.insertBefore(fgJS, firstJS);
+    })(document, './gameapi/v1.js?e=');
+</script>
+
+<style type="text/css">
+body { margin: 0 auto; padding: 0; background-color: #ffffff;}
+
+#canvas
+{
+
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    z-index:-1;
+    background-color:#000;
+    position: absolute; left: 0; right: 0; margin: 0 auto; top: 0;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+
+.white {background-color: #ffffff;}
+.black {background-color: #000000;}
+.original {background-color: #640065;}
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- placeholder for the Spil Games Splash Screen -->
+  <canvas id="canvas" width="1136" height="1136"></canvas>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'supervisor' ]
+2 info using npm@1.3.11
+3 info using node@v0.10.21
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose cache add [ 'supervisor', null ]
+6 verbose cache add name=undefined spec="supervisor" args=["supervisor",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'supervisor',
+7 verbose parsed url   path: 'supervisor',
+7 verbose parsed url   href: 'supervisor' }
+8 silly lockFile 0f4d09e4-supervisor supervisor
+9 verbose lock supervisor C:\Documents and Settings\linfenpan\Application Data\npm-cache\0f4d09e4-supervisor.lock
+10 verbose chmod C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\tmp.tgz 644
+11 verbose tar unpack C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\tmp.tgz
+12 silly lockFile 00c56999-84969-0-9797355721239001-package tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\package
+13 verbose lock tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\package C:\Documents and Settings\linfenpan\Application Data\npm-cache\00c56999-84969-0-9797355721239001-package.lock
+14 silly lockFile 9836ca6a-84969-0-9797355721239001-tmp-tgz tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\tmp.tgz
+15 verbose lock tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\tmp.tgz C:\Documents and Settings\linfenpan\Application Data\npm-cache\9836ca6a-84969-0-9797355721239001-tmp-tgz.lock
+16 silly gunzTarPerm modes [ '755', '644' ]
+17 error not a package C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\tmp.tgz
+18 silly lockFile 00c56999-84969-0-9797355721239001-package tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\package
+19 silly lockFile 00c56999-84969-0-9797355721239001-package tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\package
+20 silly lockFile 9836ca6a-84969-0-9797355721239001-tmp-tgz tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\tmp.tgz
+21 silly lockFile 9836ca6a-84969-0-9797355721239001-tmp-tgz tar://C:\DOCUME~1\LINFEN~1\LOCALS~1\Temp\npm-3912-oBUvc5Me\1382176084969-0.9797355721239001\tmp.tgz
+22 silly lockFile 0f4d09e4-supervisor supervisor
+23 silly lockFile 0f4d09e4-supervisor supervisor
+24 verbose addNamed [ 'supervisor', '' ]
+25 verbose addNamed [ null, '*' ]
+26 silly lockFile b28163ae-supervisor supervisor@
+27 verbose lock supervisor@ C:\Documents and Settings\linfenpan\Application Data\npm-cache\b28163ae-supervisor.lock
+28 silly addNameRange { name: 'supervisor', range: '*', hasData: false }
+29 verbose url raw supervisor
+30 verbose url resolving [ 'http://node.100bt.com/', './supervisor' ]
+31 verbose url resolved http://node.100bt.com/supervisor
+32 info trying registry request attempt 1 at 17:48:05
+33 http GET http://node.100bt.com/supervisor
+34 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+35 info trying registry request attempt 2 at 17:48:17
+36 http GET http://node.100bt.com/supervisor
+37 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+38 info trying registry request attempt 3 at 17:49:19
+39 http GET http://node.100bt.com/supervisor
+40 silly lockFile b28163ae-supervisor supervisor@
+41 silly lockFile b28163ae-supervisor supervisor@
+42 error network getaddrinfo ENOTFOUND
+42 error network This is most likely not a problem with npm itself
+42 error network and is related to network connectivity.
+42 error network In most cases you are behind a proxy or have bad network settings.
+42 error network
+42 error network If you are behind a proxy, please make sure that the
+42 error network 'proxy' config is set properly.  See: 'npm help config'
+43 error System Windows_NT 5.2.3790
+44 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "-g" "supervisor"
+45 error cwd G:\nodeJS
+46 error node -v v0.10.21
+47 error npm -v 1.3.11
+48 error syscall getaddrinfo
+49 error code ENOTFOUND
+50 error errno ENOTFOUND
+51 verbose exit [ 1, true ]
